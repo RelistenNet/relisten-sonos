@@ -1,11 +1,6 @@
 const mysql = require('mysql');
 
-var connection = mysql.createConnection({
-  host     : process.env.RELISTEN_DB_HOST || '127.0.0.1',
-  user     : process.env.RELISTEN_DB_USER || 'root',
-  database : process.env.RELISTEN_DB_NAME || 'relisten',
-  password : process.env.RELISTEN_DB_PASS || ''
-});
+var connection = mysql.createConnection(process.env.MYSQL_URL_INT || 'mysql://root@127.0.0.1/relisten');
 
 connection.connect(function(err) {
   if (err) {
