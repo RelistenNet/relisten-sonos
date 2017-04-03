@@ -10,7 +10,11 @@ getMediaMetadata = (id, callback) => {
     JOIN   Artists a ON a.id = s.ArtistId
     WHERE s.id = ?
   `, [trackId], (err, results) => {
+    if (err) console.log(err);
+
     const track = results[0];
+
+    if (!track) return callback({ getMediaMetadataResult: {} });
 
     callback({
       name: 'root',

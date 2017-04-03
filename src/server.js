@@ -19,9 +19,9 @@ app.listen(PORT, '0.0.0.0', function(err) {
 
   const listener = soap.listen(app, '/wsdl', service, wsdl);
 
-  listener.log = function(type, data) {
-    console.log(type, data);
-  };
+  // listener.log = function(type, data) {
+  //   console.log(type, data);
+  // };
 
   console.info('==> 🌎 Listening on PORT %s. Open up http://0.0.0.0:%s/ in your browser.', PORT, PORT);
 });

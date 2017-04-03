@@ -30,7 +30,7 @@ const getRoot = (callback) => {
   });
 }
 
-getYears = (id, callback) => {
+const getYears = (id, callback) => {
   const slug = id.replace('Artist:', '');
 
   db.query(`
@@ -69,7 +69,7 @@ getShows = (id, callback) => {
   const [regex, slug, year] = id.match(/Year\:(.*)\:(.*)/);
 
   db.query(`
-    SELECT *, a.slug as ArtistSlug, v.name as VenueName, v.city as VenueCity
+    SELECT *, a.slug as ArtistSlug, v.name as VenueName, v.city as VenueCity, count(display_date) as count
     FROM   Shows s
     JOIN   Artists a ON a.id = s.ArtistId
     JOIN   Venues v ON v.id = s.VenueId
@@ -86,7 +86,7 @@ getShows = (id, callback) => {
         displayType: 'list',
         title: `${artist.display_date} ${artist.VenueName} ${artist.VenueCity}`,
         summary: artist.display_date,
-        canPlay: false,
+        canPlay: artist.count === 1,
         albumArtURI: ''
       };
     });
@@ -103,7 +103,7 @@ getShows = (id, callback) => {
   });
 }
 
-getShow = (id, callback) => {
+const getShow = (id, callback) => {
   const [regex, slug, date] = id.match(/Shows\:(.*)\:(.*)/);
 
   db.query(`
@@ -140,7 +140,7 @@ getShow = (id, callback) => {
   });
 }
 
-getTracks = (id, callback) => {
+const getTracks = (id, callback) => {
   const [regex, showId] = id.match(/Show\:(.*)/);
 
   db.query(`
