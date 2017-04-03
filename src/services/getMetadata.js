@@ -69,9 +69,10 @@ getShows = (id, callback) => {
   const [regex, slug, year] = id.match(/Year\:(.*)\:(.*)/);
 
   db.query(`
-    SELECT *
+    SELECT *, a.slug as ArtistSlug, v.name as VenueName, v.city as VenueCity
     FROM   Shows s
     JOIN   Artists a ON a.id = s.ArtistId
+    JOIN   Venues v ON v.id = s.VenueId
     WHERE a.slug = ?
     AND   s.year = ?
     GROUP BY display_date
@@ -80,10 +81,10 @@ getShows = (id, callback) => {
 
     const shows = results.map(artist => {
       return {
-        id: `Shows:${artist.slug}:${artist.display_date}`,
+        id: `Shows:${artist.ArtistSlug}:${artist.display_date}`,
         itemType: 'show',
         displayType: 'list',
-        title: artist.display_date,
+        title: `${artist.display_date} ${artist.VenueName} ${artist.VenueCity}`,
         summary: artist.display_date,
         canPlay: false,
         albumArtURI: ''
@@ -102,7 +103,7 @@ getShows = (id, callback) => {
   });
 }
 
-getTapes = (id, callback) => {
+getShow = (id, callback) => {
   const [regex, slug, date] = id.match(/Shows\:(.*)\:(.*)/);
 
   db.query(`
@@ -113,13 +114,15 @@ getTapes = (id, callback) => {
     AND a.slug = ?
   `, [date, slug], (err, results) => {
 
-    const tapes = results.map(tape => {
+    if (results.length === 1) return getTracks(`Show:${results[0].ShowId}`, callback);
+
+    const shows = results.map(show => {
       return {
-        id: `Tape:${tape.ShowId}`,
+        id: `Show:${show.ShowId}`,
         itemType: 'show',
         displayType: 'list',
-        title: tape.lineage,
-        summary: tape.title,
+        title: show.lineage || show.taper || show.display_date,
+        summary: show.title,
         canPlay: true,
         albumArtURI: ''
       };
@@ -129,16 +132,16 @@ getTapes = (id, callback) => {
       name: 'root',
       getMetadataResult: {
         index: 0,
-        count: tapes.length,
-        total: tapes.length,
-        mediaCollection: tapes
+        count: shows.length,
+        total: shows.length,
+        mediaCollection: shows
       }
     });
   });
 }
 
 getTracks = (id, callback) => {
-  const [regex, tapeId] = id.match(/Tape\:(.*)/);
+  const [regex, showId] = id.match(/Show\:(.*)/);
 
   db.query(`
     SELECT *, t.id as TrackId, t.title as TrackTitle, s.title as ShowTitle, a.name as ArtistName
@@ -146,7 +149,7 @@ getTracks = (id, callback) => {
     JOIN   Shows s ON s.id = t.ShowId
     JOIN   Artists a ON a.id = s.ArtistId
     WHERE s.id = ?
-  `, [tapeId], (err, results) => {
+  `, [showId], (err, results) => {
 
     const tracks = results.map(track => {
       return {
@@ -192,9 +195,9 @@ module.exports = (args, callback) => {
     return getShows(id, callback);
   }
   else if (/Shows\:/.test(id)) {
-    return getTapes(id, callback);
+    return getShow(id, callback);
   }
-  else if (/Tape\:/.test(id)) {
+  else if (/Show\:/.test(id)) {
     return getTracks(id, callback);
   }
 };

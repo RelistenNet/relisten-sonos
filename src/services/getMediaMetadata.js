@@ -4,11 +4,11 @@ getMediaMetadata = (id, callback) => {
   const [regex, trackId] = id.match(/Track\:(.*)/);
 
   db.query(`
-    SELECT *, t.id as TrackId, t.title as TrackTitle
+    SELECT *, t.id as TrackId, t.title as TrackTitle, s.title as ShowTitle, a.name as ArtistName, s.id as ShowId
     FROM   Tracks t
     JOIN   Shows s ON s.id = t.ShowId
-    WHERE t.id = ?
-    LIMIT 1
+    JOIN   Artists a ON a.id = s.ArtistId
+    WHERE s.id = ?
   `, [trackId], (err, results) => {
     const track = results[0];
 
@@ -21,11 +21,11 @@ getMediaMetadata = (id, callback) => {
         genre: '',
         mimeType: 'audio/mp3',
         trackMetadata: {
-          albumId: 'foo',
+          albumId: track.ShowId,
           duration: track.length,
-          artistId: 'Artist:phish',
-          artist: 'Phish',
-          album: 'phish',
+          artistId: `Artist:${track.slug}`,
+          artist: track.ArtistName,
+          album: track.ShowTitle,
           albumArtURI: '',
           canPlay: true,
           canSkip: true,
