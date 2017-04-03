@@ -9,8 +9,8 @@ const getRoot = (callback) => {
     const artists = results.map(artist => {
       return {
         id: `Artist:${artist.slug}`,
-        itemType: 'artist',
-        displayType: 'artist',
+        itemType: 'other',
+        displayType: 'list',
         title: artist.name,
         summary: artist.name,
         canPlay: false,
@@ -30,8 +30,8 @@ const getRoot = (callback) => {
   });
 }
 
-getArtistYears = (id, callback) => {
-  const slug = id.replace('ArtistYears:', '');
+getYears = (id, callback) => {
+  const slug = id.replace('Artist:', '');
 
   db.query(`
     SELECT *
@@ -44,8 +44,8 @@ getArtistYears = (id, callback) => {
     const years = results.map(artist => {
       return {
         id: `Year:${artist.slug}:${artist.year}`,
-        itemType: 'year',
-        displayType: 'year',
+        itemType: 'other',
+        displayType: 'list',
         title: artist.year,
         summary: artist.year,
         canPlay: false,
@@ -65,8 +65,8 @@ getArtistYears = (id, callback) => {
   });
 }
 
-getArtistShowsForYear = (id, callback) => {
-  const [regex, slug, year] = id.match(/ArtistShows\:(.*)\:(.*)/);
+getShows = (id, callback) => {
+  const [regex, slug, year] = id.match(/Year\:(.*)\:(.*)/);
 
   db.query(`
     SELECT *
@@ -80,9 +80,9 @@ getArtistShowsForYear = (id, callback) => {
 
     const shows = results.map(artist => {
       return {
-        id: `Show:${artist.slug}:${artist.display_date}`,
+        id: `Shows:${artist.slug}:${artist.display_date}`,
         itemType: 'show',
-        displayType: 'show',
+        displayType: 'list',
         title: artist.display_date,
         summary: artist.display_date,
         canPlay: false,
@@ -102,19 +102,99 @@ getArtistShowsForYear = (id, callback) => {
   });
 }
 
+getTapes = (id, callback) => {
+  const [regex, slug, date] = id.match(/Shows\:(.*)\:(.*)/);
+
+  db.query(`
+    SELECT *, s.id as ShowId
+    FROM   Shows s
+    JOIN   Artists a ON a.id = s.ArtistId
+    WHERE s.display_date = ?
+    AND a.slug = ?
+  `, [date, slug], (err, results) => {
+
+    const tapes = results.map(tape => {
+      return {
+        id: `Tape:${tape.ShowId}`,
+        itemType: 'show',
+        displayType: 'list',
+        title: tape.lineage,
+        summary: tape.title,
+        canPlay: true,
+        albumArtURI: ''
+      };
+    });
+
+    callback({
+      name: 'root',
+      getMetadataResult: {
+        index: 0,
+        count: tapes.length,
+        total: tapes.length,
+        mediaCollection: tapes
+      }
+    });
+  });
+}
+
+getTracks = (id, callback) => {
+  const [regex, tapeId] = id.match(/Tape\:(.*)/);
+
+  db.query(`
+    SELECT *, t.id as TrackId, t.title as TrackTitle, s.title as ShowTitle, a.name as ArtistName
+    FROM   Tracks t
+    JOIN   Shows s ON s.id = t.ShowId
+    JOIN   Artists a ON a.id = s.ArtistId
+    WHERE s.id = ?
+  `, [tapeId], (err, results) => {
+
+    const tracks = results.map(track => {
+      return {
+        id: `Track:${track.TrackId}`,
+        itemType: 'track',
+        mimeType: 'audio/mp3',
+        title: track.TrackTitle,
+        trackMetadata: {
+          albumId: id,
+          duration: track.length,
+          artistId: `Artist:${track.slug}`,
+          artist: track.ArtistName,
+          album: track.ShowTitle,
+          albumArtURI: ''
+        }
+      };
+    });
+
+    callback({
+      name: 'root',
+      getMetadataResult: {
+        index: 0,
+        count: tracks.length,
+        total: tracks.length,
+        mediaMetadata: tracks
+      }
+    });
+  });
+}
+
 module.exports = (args, callback) => {
   const id = args.id;
 
+  console.log("getMetadata", id);
+
   if (id === 'root') {
-    getRoot(callback);
+    return getRoot(callback);
   }
-  else if (/ArtistYears\:/.test(id)) {
-    getArtistYears(id, callback);
+  else if (/Artist\:/.test(id)) {
+    return getYears(id, callback);
   }
-  else if (/ArtistShows\:/.test(id)) {
-    getArtistShowsForYear(id, callback);
+  else if (/Year\:/.test(id)) {
+    return getShows(id, callback);
   }
-  else if (/ArtistShow\:/.test(id)) {
-    getArtistYears(id, callback);
+  else if (/Shows\:/.test(id)) {
+    return getTapes(id, callback);
+  }
+  else if (/Tape\:/.test(id)) {
+    return getTracks(id, callback);
   }
 };

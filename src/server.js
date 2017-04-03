@@ -14,7 +14,7 @@ const wsdl = fs.readFileSync(__dirname + '/../Sonos.wsdl', 'utf8');
 
 app.use(require('./controllers'));
 
-app.listen(PORT, '127.0.0.1', function(err) {
+app.listen(PORT, '0.0.0.0', function(err) {
   if (err) console.log(err);
 
   const listener = soap.listen(app, '/wsdl', service, wsdl);
@@ -23,6 +23,6 @@ app.listen(PORT, '127.0.0.1', function(err) {
     console.log(type, data);
   };
 
-  console.info('==> 🌎 Listening on PORT %s. Open up http://127.0.0.1:%s/ in your browser.', PORT, PORT);
+  console.info('==> 🌎 Listening on PORT %s. Open up http://0.0.0.0:%s/ in your browser.', PORT, PORT);
 });
 
