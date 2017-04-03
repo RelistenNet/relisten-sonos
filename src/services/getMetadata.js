@@ -4,7 +4,11 @@ const getRoot = (callback) => {
   db.query(`
     SELECT * FROM artists
     ORDER BY name
-  `, (err, results) => {
+  `, (err, results = []) => {
+    if (err) {
+      console.log(err);
+      return callback({})
+    }
 
     const artists = results.map(artist => {
       return {
@@ -39,7 +43,11 @@ const getYears = (id, callback) => {
     JOIN   Artists a ON a.id = y.ArtistId
     WHERE a.slug = ?
     ORDER BY year DESC
-  `, [slug], (err, results) => {
+  `, [slug], (err, results = []) => {
+    if (err) {
+      console.log(err);
+      return callback({})
+    }
 
     const years = results.map(artist => {
       return {
@@ -116,7 +124,11 @@ const getShow = (id, callback) => {
     JOIN   Artists a ON a.id = s.ArtistId
     WHERE s.display_date = ?
     AND a.slug = ?
-  `, [date, slug], (err, results) => {
+  `, [date, slug], (err, results = []) => {
+    if (err) {
+      console.log(err);
+      return callback({})
+    }
 
     if (results.length === 1) return getTracks(`Show:${results[0].ShowId}`, callback);
 
@@ -153,7 +165,11 @@ const getTracks = (id, callback) => {
     JOIN   Shows s ON s.id = t.ShowId
     JOIN   Artists a ON a.id = s.ArtistId
     WHERE s.id = ?
-  `, [showId], (err, results) => {
+  `, [showId], (err, results = []) => {
+    if (err) {
+      console.log(err);
+      return callback({})
+    }
 
     const tracks = results.map(track => {
       return {
