@@ -77,7 +77,11 @@ getShows = (id, callback) => {
     AND   s.year = ?
     GROUP BY display_date
     ORDER BY date
-  `, [slug, year], (err, results) => {
+  `, [slug, year], (err, results = []) => {
+    if (err) {
+      console.log(err);
+      return callback({})
+    }
 
     const shows = results.map(artist => {
       return {
