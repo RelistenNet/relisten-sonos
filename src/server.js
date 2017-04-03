@@ -13,6 +13,7 @@ const service = require('./service');
 const wsdl = fs.readFileSync(__dirname + '/../Sonos.wsdl', 'utf8');
 
 app.use(require('./controllers'));
+app.use('/static', express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, '0.0.0.0', function(err) {
   if (err) console.log(err);
