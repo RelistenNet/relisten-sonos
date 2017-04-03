@@ -2,7 +2,7 @@ const db = require('../db');
 
 const getRoot = (callback) => {
   db.query(`
-    SELECT * FROM artists
+    SELECT * FROM Artists
     ORDER BY name
   `, (err, results = []) => {
     if (err) {
