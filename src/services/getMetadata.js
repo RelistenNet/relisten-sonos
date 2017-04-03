@@ -4,6 +4,7 @@ const getRoot = (callback) => {
   db.query(`
     SELECT * FROM Artists
     ORDER BY name
+    LIMIT 99
   `, (err, results = []) => {
     if (err) {
       console.log(err);
@@ -43,6 +44,7 @@ const getYears = (id, callback) => {
     JOIN   Artists a ON a.id = y.ArtistId
     WHERE a.slug = ?
     ORDER BY year DESC
+    LIMIT 99
   `, [slug], (err, results = []) => {
     if (err) {
       console.log(err);
@@ -85,6 +87,7 @@ getShows = (id, callback) => {
     AND   s.year = ?
     GROUP BY display_date
     ORDER BY date
+    LIMIT 99
   `, [slug, year], (err, results = []) => {
     if (err) {
       console.log(err);
@@ -124,6 +127,7 @@ const getShow = (id, callback) => {
     JOIN   Artists a ON a.id = s.ArtistId
     WHERE s.display_date = ?
     AND a.slug = ?
+    LIMIT 99
   `, [date, slug], (err, results = []) => {
     if (err) {
       console.log(err);
