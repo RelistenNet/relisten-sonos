@@ -6,7 +6,7 @@ const soap = require('soap');
 require('./db');
 
 const isProduction = process.env.NODE_ENV !== 'production';
-const PORT = isProduction ? 3000 : process.env.PORT;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 const service = require('./service');
