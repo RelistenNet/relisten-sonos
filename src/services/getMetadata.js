@@ -13,7 +13,7 @@ const getRoot = (callback) => {
     const artists = results.map(artist => {
       return {
         id: `Artist:${artist.slug}`,
-        itemType: 'other',
+        itemType: 'artist',
         displayType: 'list',
         title: artist.name,
         summary: artist.name,
@@ -52,7 +52,7 @@ const getYears = (id, callback) => {
     const years = results.map(artist => {
       return {
         id: `Year:${artist.slug}:${artist.year}`,
-        itemType: 'other',
+        itemType: 'container',
         displayType: 'list',
         title: artist.year,
         summary: artist.year,
@@ -94,7 +94,7 @@ getShows = (id, callback) => {
     const shows = results.map(artist => {
       return {
         id: `Shows:${artist.ArtistSlug}:${artist.display_date}`,
-        itemType: 'show',
+        itemType: 'container',
         displayType: 'list',
         title: `${artist.display_date} ${artist.VenueName} ${artist.VenueCity}`,
         summary: artist.display_date,
@@ -135,7 +135,7 @@ const getShow = (id, callback) => {
     const shows = results.map(show => {
       return {
         id: `Show:${show.ShowId}`,
-        itemType: 'show',
+        itemType: 'album',
         displayType: 'list',
         title: show.lineage || show.taper || show.display_date,
         summary: show.title,
