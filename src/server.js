@@ -9,7 +9,7 @@ const isProduction = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-const service = require('./service');
+const services = require('./services');
 const wsdl = fs.readFileSync(__dirname + '/../Sonos.wsdl', 'utf8');
 
 app.use(require('./controllers'));
@@ -18,7 +18,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 app.listen(PORT, '0.0.0.0', function(err) {
   if (err) console.log(err);
 
-  const listener = soap.listen(app, '/wsdl', service, wsdl);
+  const listener = soap.listen(app, '/wsdl', services, wsdl);
 
   // listener.log = function(type, data) {
   //   console.log(type, data);
