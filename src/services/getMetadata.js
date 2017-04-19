@@ -138,7 +138,7 @@ const getShow = (id, callback) => {
         id: `Show:${show.ShowId}`,
         itemType: 'album',
         displayType: 'list',
-        title: show.lineage || show.taper || show.display_date,
+        title: show.source || show.lineage || show.taper || show.display_date,
         summary: show.title,
         canPlay: true,
         albumArtURI: ''
