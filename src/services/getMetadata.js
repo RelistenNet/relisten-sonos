@@ -7,7 +7,7 @@ const getRoot = (callback) => {
     ORDER BY name
   `, (err, results = []) => {
     if (err) {
-      winston.log(err);
+      winston.info(err);
       return callback({})
     }
 
@@ -46,7 +46,7 @@ const getYears = (id, callback) => {
     ORDER BY year DESC
   `, [slug], (err, results = []) => {
     if (err) {
-      winston.log(err);
+      winston.info(err);
       return callback({})
     }
 
@@ -88,7 +88,7 @@ getShows = (id, callback) => {
     ORDER BY date
   `, [slug, year], (err, results = []) => {
     if (err) {
-      winston.log(err);
+      winston.info(err);
       return callback({})
     }
 
@@ -127,7 +127,7 @@ const getShow = (id, callback) => {
     AND a.slug = ?
   `, [date, slug], (err, results = []) => {
     if (err) {
-      winston.log(err);
+      winston.info(err);
       return callback({})
     }
 
@@ -168,7 +168,7 @@ const getTracks = (id, callback) => {
     WHERE s.id = ?
   `, [showId], (err, results = []) => {
     if (err) {
-      winston.log(err);
+      winston.info(err);
       return callback({})
     }
 
@@ -204,7 +204,7 @@ const getTracks = (id, callback) => {
 module.exports = (args, callback) => {
   const id = args.id;
 
-  winston.log("getMetadata", id);
+  winston.info("getMetadata", id);
 
   if (id === 'root') {
     return getRoot(callback);

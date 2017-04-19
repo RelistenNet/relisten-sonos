@@ -23,6 +23,6 @@ getMediaURI = (id, callback) => {
 module.exports = (args, callback) => {
   const id = args.id;
 
-  winston.log("getMediaURI", id);
+  winston.info("getMediaURI", id);
   return getMediaURI(id, callback);
 };

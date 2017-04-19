@@ -44,6 +44,6 @@ getMediaMetadata = (id, callback) => {
 module.exports = (args, callback) => {
   const id = args.id;
 
-  winston.log("getMediaMetadata", id);
+  winston.info("getMediaMetadata", id);
   return getMediaMetadata(id, callback);
 };
