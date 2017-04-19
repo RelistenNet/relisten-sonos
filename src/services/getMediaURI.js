@@ -1,4 +1,5 @@
 const db = require('../db');
+const winston = require('../logger');
 
 getMediaURI = (id, callback) => {
   const [regex, trackId] = id.match(/Track\:(.*)/);
@@ -22,6 +23,6 @@ getMediaURI = (id, callback) => {
 module.exports = (args, callback) => {
   const id = args.id;
 
-  console.log("getMediaURI", id);
+  winston.log("getMediaURI", id);
   return getMediaURI(id, callback);
 };

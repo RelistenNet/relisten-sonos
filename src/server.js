@@ -3,6 +3,8 @@ const fs = require('fs');
 const express = require('express');
 const soap = require('soap');
 
+const winston = require('./logger');
+
 require('./db');
 
 const isProduction = process.env.NODE_ENV !== 'production';
@@ -16,14 +18,14 @@ app.use(require('./controllers'));
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, '0.0.0.0', function(err) {
-  if (err) console.log(err);
+  if (err) winston.log(err);
 
   const listener = soap.listen(app, '/wsdl', services, wsdl);
 
   // listener.log = function(type, data) {
-  //   console.log(type, data);
+  //   winston.log(type, data);
   // };
 
-  console.info('==> 🌎 Listening on PORT %s. Open up http://0.0.0.0:%s/ in your browser.', PORT, PORT);
+  winston.info('==> 🌎 Listening on PORT %s. Open up http://0.0.0.0:%s/ in your browser.', PORT, PORT);
 });
 

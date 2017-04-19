@@ -1,4 +1,5 @@
 const db = require('../db');
+const winston = require('../logger');
 
 getMediaMetadata = (id, callback) => {
   const [regex, trackId] = id.match(/Track\:(.*)/);
@@ -10,7 +11,7 @@ getMediaMetadata = (id, callback) => {
     JOIN   Artists a ON a.id = s.ArtistId
     WHERE s.id = ?
   `, [trackId], (err, results) => {
-    if (err) console.log(err);
+    if (err) winston.error(err);
 
     const track = results[0];
 
@@ -43,6 +44,6 @@ getMediaMetadata = (id, callback) => {
 module.exports = (args, callback) => {
   const id = args.id;
 
-  console.log("getMediaMetadata", id);
+  winston.log("getMediaMetadata", id);
   return getMediaMetadata(id, callback);
 };
