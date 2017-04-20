@@ -22,9 +22,9 @@ app.listen(PORT, '0.0.0.0', function(err) {
 
   const listener = soap.listen(app, '/wsdl', services, wsdl);
 
-  // listener.log = function(type, data) {
-  //   winston.info(type, data);
-  // };
+  listener.log = function(type, data) {
+    if (type === 'error') winston.error('soap error', data);
+  };
 
   winston.info('==> 🌎 Listening on PORT %s. Open up http://0.0.0.0:%s/ in your browser.', PORT, PORT);
 });
