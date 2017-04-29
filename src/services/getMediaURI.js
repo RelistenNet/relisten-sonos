@@ -1,5 +1,6 @@
 const db = require('../db');
 const winston = require('../logger');
+require('isomorphic-fetch');
 
 getMediaURI = (id, callback) => {
   const [regex, trackId] = id.match(/Track\:(.*)/);
@@ -13,10 +14,26 @@ getMediaURI = (id, callback) => {
   `, [trackId], (err, results) => {
     const track = results[0];
 
-    callback({
-      name: 'root',
-      getMediaURIResult: track.file
-    });
+    if (!track) return callback({ getMediaURIResult: '' });
+
+    let trackUrl = track.file;
+
+    const options = {
+      method: 'HEAD'
+    };
+
+    fetch(trackUrl, options)
+      .then(res => {
+        if (res.url) {
+          trackUrl = res.url;
+        }
+
+        callback({
+          name: 'root',
+          getMediaURIResult: trackUrl
+        });
+      })
+
   });
 }
 
