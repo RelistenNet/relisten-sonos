@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment { 
         FLYNN_APP = 'relisten-sonos'
-        AG_SUBDOMAIN = 'relistensonos'
+        AG_SUBDOMAIN = 'relisten-sonos'
     }
     stages {
         stage('Build') {
