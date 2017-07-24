@@ -56,4 +56,4 @@ WARNING: You can only have one custom music service on Sonos at a time.
 
 ## License
 
-MIT - have fun
+MIT
