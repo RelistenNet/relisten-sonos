@@ -34,12 +34,12 @@ WARNING: You can only have one custom music service on Sonos at a time.
       -
          - SID: 255
          - Service Name: Relisten
-         - Endpoint URL: http://relisten-sonos.alecgorge.com/wsdl (use http://[router IP]:3000 if testing locally)
-         - Secure Endpoint URL: https://relisten-sonos.alecgorge.com/wsdl
+         - Endpoint URL: http://sonos.relisten.live/wsdl (use http://[router IP]:3000 if testing locally)
+         - Secure Endpoint URL: https://sonos.relisten.live/wsdl
          - Polling Interval: 60
          - Authentication SOAP header policy: Anonymous
          - Strings table: (leave blank)
-         - Presentation Map: Version: 1, Uri: https://relisten-sonos.alecgorge.com/static/presentationmap.xml
+         - Presentation Map: Version: 1, Uri: https://sonos.relisten.live/static/presentationmap.xml
          - Container Type: Music Service
          - Capabilities: None
       6. Upon success you should see the text "success!" displayed
