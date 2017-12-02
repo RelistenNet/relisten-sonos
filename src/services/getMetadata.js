@@ -93,9 +93,10 @@ getShows = (id, callback) => {
             show.venue && show.venue.name,
             show.venue && show.venue.location,
             `[${show.source_count}]`,
+            show.has_soundboard_source && '[SBD]'
           ].filter(x => x).join(' '),
           summary: show.display_date,
-          canPlay: show.count === 1,
+          canPlay: show.source_count === 1,
           albumArtURI: ''
         };
       });
@@ -129,14 +130,14 @@ const getShow = (type, id, callback) => {
 
       if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
 
-      const sources = json.sources.filter(source => source.flac_type !== 'Flac24Bit').map(source => {
+      const sources = json.sources.filter(source => type === 'flac' ? source.flac_type !== 'Flac24Bit' : true).map(source => {
         return {
           id: `Show:${slug}:${year}:${date}:${source.id}`,
           itemType: 'album',
           displayType: 'list',
           title: [
             source.source || source.lineage || source.taper || source.display_date,
-            source.is_soundboard && '[SBD]',
+            source.is_soundboard ? '[SBD]' : '[AUD]',
             type === 'flac' && source.flac_type === 'Flac16Bit' && json.has_streamable_flac_source && '[FLAC]',
           ].filter(x => x).join(' '),
           summary: source.description,
@@ -151,7 +152,8 @@ const getShow = (type, id, callback) => {
           index: 0,
           count: sources.length,
           total: sources.length,
-          mediaCollection: sources
+          mediaCollection: sources,
+          canPlay: true,
         }
       });
     })
@@ -197,7 +199,11 @@ const getTracks = (type, id, callback) => {
                 duration: track.duration,
                 artistId: `Artist:${slug}`,
                 artist: artistName,
-                album: `${artistName} at ${json.venue ? json.venue.name : '?'} on ${json.display_date}`,
+                album: [
+                  artistName,
+                  json.venue ? `at ${json.venue.name}` : '',
+                  `on ${json.display_date}`,
+                ].filter(x => x).join(' '),
                 albumArtURI: ''
               }
             };
