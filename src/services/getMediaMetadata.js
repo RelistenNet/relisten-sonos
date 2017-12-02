@@ -1,4 +1,3 @@
-const db = require('../db');
 const winston = require('../logger');
 
 const artistsCache = require('./artistsCache');

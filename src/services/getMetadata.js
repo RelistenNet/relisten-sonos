@@ -1,4 +1,3 @@
-const db = require('../db');
 const winston = require('../logger');
 
 const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
