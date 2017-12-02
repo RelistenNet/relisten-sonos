@@ -50,9 +50,8 @@ const getMediaMetadata = (type, id, callback) => {
             artistId: `Artist:${slug}`,
             artist: artistName,
             album: [
-              artistName,
-              json.venue ? `at ${json.venue.name}` : '',
-              `on ${json.display_date}`,
+              `${json.display_date}`,
+              json.venue ? json.venue.name : '',
             ].filter(x => x).join(' '),
             albumArtURI: '',
             canPlay: true,

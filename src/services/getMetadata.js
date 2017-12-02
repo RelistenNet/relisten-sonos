@@ -91,9 +91,13 @@ getShows = (id, callback) => {
             show.display_date,
             show.venue && show.venue.name,
             show.venue && show.venue.location,
+          ].filter(x => x)
+           .join(' – ')
+           + ' ' +
+           [
             `[${show.source_count}]`,
-            show.has_soundboard_source && '[SBD]'
-          ].filter(x => x).join(' '),
+            show.has_soundboard_source && '[SBD]',
+           ].filter(x => x).join(' '),
           summary: show.display_date,
           canPlay: show.source_count === 1,
           albumArtURI: ''
@@ -188,6 +192,8 @@ const getTracks = (type, id, callback) => {
       source.sets.map(set => {
         tracks = tracks.concat(
           set.tracks.map(track => {
+            const [year, month, day] = date.split('-');
+
             return {
               id: `Track:${slug}:${year}:${date}:${source.id}:${track.id}`,
               itemType: 'track',
@@ -199,10 +205,10 @@ const getTracks = (type, id, callback) => {
                 artistId: `Artist:${slug}`,
                 artist: artistName,
                 album: [
-                  artistName,
-                  json.venue ? `at ${json.venue.name}` : '',
-                  `on ${json.display_date}`,
-                ].filter(x => x).join(' '),
+                  `${Number(month)}/${Number(day)}/${year.slice(2)}`,
+                  json.venue ? json.venue.name : '',
+                  json.venue ? json.venue.location : '',
+                ].filter(x => x).join(' – '),
                 albumArtURI: ''
               }
             };
