@@ -1,207 +1,227 @@
 const db = require('../db');
 const winston = require('../logger');
 
+const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
+
+const artistsCache = require('./artistsCache');
+
 const getRoot = (callback) => {
-  db.query(`
-    SELECT * FROM Artists
-    ORDER BY name
-  `, (err, results = []) => {
-    if (err) {
-      winston.info(err);
-      return callback({})
-    }
+  fetch(`${API_ROOT}/artists`)
+    .then(res => res.json())
+    .then(json => {
+      const artists = json.map(artist => {
+        artistsCache[artist.slug] = artist;
+        return {
+          id: `Artist:${artist.slug}`,
+          itemType: 'artist',
+          displayType: 'list',
+          title: artist.name,
+          summary: artist.name,
+          canPlay: false,
+          albumArtURI: ''
+        };
+      });
 
-    const artists = results.map(artist => {
-      return {
-        id: `Artist:${artist.slug}`,
-        itemType: 'artist',
-        displayType: 'list',
-        title: artist.name,
-        summary: artist.name,
-        canPlay: false,
-        albumArtURI: ''
-      };
+      callback({
+        name: 'root',
+        getMetadataResult: {
+          index: 0,
+          count: artists.length,
+          total: artists.length,
+          mediaCollection: artists
+        }
+      });
+    })
+    .catch(err => {
+      winston.error(err);
+      return callback({});
     });
-
-    callback({
-      name: 'root',
-      getMetadataResult: {
-        index: 0,
-        count: artists.length,
-        total: artists.length,
-        mediaCollection: artists
-      }
-    });
-  });
 }
 
 const getYears = (id, callback) => {
   const slug = id.replace('Artist:', '');
 
-  db.query(`
-    SELECT *
-    FROM   Years y
-    JOIN   Artists a ON a.id = y.ArtistId
-    WHERE a.slug = ?
-    ORDER BY year DESC
-  `, [slug], (err, results = []) => {
-    if (err) {
-      winston.info(err);
-      return callback({})
-    }
+  fetch(`${API_ROOT}/artists/${slug}/years`)
+    .then(res => res.json())
+    .then(json => {
+      const years = json.map(item => {
+        return {
+          id: `Year:${slug}:${item.year}`,
+          itemType: 'container',
+          displayType: 'list',
+          title: item.year,
+          summary: item.year,
+          canPlay: false,
+          albumArtURI: ''
+        };
+      });
 
-    const years = results.map(artist => {
-      return {
-        id: `Year:${artist.slug}:${artist.year}`,
-        itemType: 'container',
-        displayType: 'list',
-        title: artist.year,
-        summary: artist.year,
-        canPlay: false,
-        albumArtURI: ''
-      };
+      callback({
+        name: 'root',
+        getMetadataResult: {
+          index: 0,
+          count: years.length,
+          total: years.length,
+          mediaCollection: years
+        }
+      });
+    })
+    .catch(err => {
+      winston.error(err);
+      return callback({});
     });
-
-    callback({
-      name: 'root',
-      getMetadataResult: {
-        index: 0,
-        count: years.length,
-        total: years.length,
-        mediaCollection: years
-      }
-    });
-  });
 }
 
 getShows = (id, callback) => {
   const [regex, slug, year] = id.match(/Year\:(.*)\:(.*)/);
 
-  db.query(`
-    SELECT *, a.slug as ArtistSlug, v.name as VenueName, v.city as VenueCity, count(display_date) as count
-    FROM   Shows s
-    JOIN   Artists a ON a.id = s.ArtistId
-    JOIN   Venues v ON v.id = s.VenueId
-    WHERE a.slug = ?
-    AND   s.year = ?
-    GROUP BY display_date
-    ORDER BY date
-  `, [slug, year], (err, results = []) => {
-    if (err) {
-      winston.info(err);
-      return callback({})
-    }
-
-    const shows = results.map(artist => {
-      return {
-        id: `Shows:${artist.ArtistSlug}:${artist.display_date}`,
-        itemType: 'container',
-        displayType: 'list',
-        title: `${artist.display_date} ${artist.VenueName} ${artist.VenueCity}`,
-        summary: artist.display_date,
-        canPlay: artist.count === 1,
-        albumArtURI: ''
-      };
-    });
-
-    callback({
-      name: 'root',
-      getMetadataResult: {
-        index: 0,
-        count: shows.length,
-        total: shows.length,
-        mediaCollection: shows
+  fetch(`${API_ROOT}/artists/${slug}/years/${year}`)
+    .then(res => res.json())
+    .then(json => {
+      if (!json || !json.shows) {
+        winston.error('error', regex);
+        return callback({});
       }
-    });
-  });
-}
 
-const getShow = (id, callback) => {
-  const [regex, slug, date] = id.match(/Shows\:(.*)\:(.*)/);
-
-  db.query(`
-    SELECT *, s.id as ShowId
-    FROM   Shows s
-    JOIN   Artists a ON a.id = s.ArtistId
-    WHERE s.display_date = ?
-    AND a.slug = ?
-  `, [date, slug], (err, results = []) => {
-    if (err) {
-      winston.info(err);
-      return callback({})
-    }
-
-    if (results.length === 1) return getTracks(`Show:${results[0].ShowId}`, callback);
-
-    const shows = results.map(show => {
-      return {
-        id: `Show:${show.ShowId}`,
-        itemType: 'album',
-        displayType: 'list',
-        title: show.source || show.lineage || show.taper || show.display_date,
-        summary: show.title,
-        canPlay: true,
-        albumArtURI: ''
-      };
-    });
-
-    callback({
-      name: 'root',
-      getMetadataResult: {
-        index: 0,
-        count: shows.length,
-        total: shows.length,
-        mediaCollection: shows
-      }
-    });
-  });
-}
-
-const getTracks = (id, callback) => {
-  const [regex, showId] = id.match(/Show\:(.*)/);
-
-  db.query(`
-    SELECT *, t.id as TrackId, t.title as TrackTitle, s.title as ShowTitle, a.name as ArtistName
-    FROM   Tracks t
-    JOIN   Shows s ON s.id = t.ShowId
-    JOIN   Artists a ON a.id = s.ArtistId
-    WHERE s.id = ?
-  `, [showId], (err, results = []) => {
-    if (err) {
-      winston.info(err);
-      return callback({})
-    }
-
-    const tracks = results.map(track => {
-      return {
-        id: `Track:${track.TrackId}`,
-        itemType: 'track',
-        mimeType: 'audio/mp3',
-        title: track.TrackTitle,
-        trackMetadata: {
-          albumId: id,
-          duration: track.length,
-          artistId: `Artist:${track.slug}`,
-          artist: track.ArtistName,
-          album: track.ShowTitle,
+      const shows = json.shows.map(show => {
+        return {
+          id: `Shows:${slug}:${year}:${show.display_date}`,
+          itemType: 'container',
+          displayType: 'list',
+          title: [
+            show.display_date,
+            show.venue && show.venue.name,
+            show.venue && show.venue.location,
+            `[${show.source_count}]`,
+          ].filter(x => x).join(' '),
+          summary: show.display_date,
+          canPlay: show.count === 1,
           albumArtURI: ''
-        }
-      };
-    });
+        };
+      });
 
-    callback({
-      name: 'root',
-      getMetadataResult: {
-        index: 0,
-        count: tracks.length,
-        total: tracks.length,
-        mediaMetadata: tracks
-      }
+      callback({
+        name: 'root',
+        getMetadataResult: {
+          index: 0,
+          count: shows.length,
+          total: shows.length,
+          mediaCollection: shows
+        }
+      });
+    })
+    .catch(err => {
+      winston.error(err);
+      return callback({});
     });
-  });
 }
 
-module.exports = (args, callback) => {
+const getShow = (type, id, callback) => {
+  const [regex, slug, year, date] = id.match(/Shows\:(.*)\:(.*)\:(.*)/);
+
+  fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
+    .then(res => res.json())
+    .then(json => {
+      if (!json || !json.sources) {
+        winston.error('error', regex);
+        return callback({})
+      }
+
+      if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
+
+      const sources = json.sources.filter(source => source.flac_type !== 'Flac24Bit').map(source => {
+        return {
+          id: `Show:${slug}:${year}:${date}:${source.id}`,
+          itemType: 'album',
+          displayType: 'list',
+          title: [
+            source.source || source.lineage || source.taper || source.display_date,
+            source.is_soundboard && '[SBD]',
+            type === 'flac' && source.flac_type === 'Flac16Bit' && json.has_streamable_flac_source && '[FLAC]',
+          ].filter(x => x).join(' '),
+          summary: source.description,
+          canPlay: true,
+          albumArtURI: ''
+        };
+      });
+
+      callback({
+        name: 'root',
+        getMetadataResult: {
+          index: 0,
+          count: sources.length,
+          total: sources.length,
+          mediaCollection: sources
+        }
+      });
+    })
+    .catch(err => {
+      winston.error(err);
+      return callback({});
+    });
+}
+
+const getTracks = (type, id, callback) => {
+  const [regex, slug, year, date, sourceId] = id.match(/Show\:(.*)\:(.*)\:(.*)\:(.*)/);
+
+  const artist = artistsCache[slug];
+  const artistName = artist ? artist.name : '';
+
+  fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
+    .then(res => res.json())
+    .then(json => {
+      if (!json || !json.sources) {
+        winston.error('no json tracks found', slug, year, date, sourceId);
+        return callback({})
+      }
+
+      const source = json.sources.find(source => `${source.id}` === sourceId);
+
+      if (!source || !source.sets) {
+        winston.error('no source found', slug, year, date, sourceId);
+        return callback({})
+      }
+
+      let tracks = [];
+
+      source.sets.map(set => {
+        tracks = tracks.concat(
+          set.tracks.map(track => {
+            return {
+              id: `Track:${slug}:${year}:${date}:${source.id}:${track.id}`,
+              itemType: 'track',
+              mimeType: type === 'flac' && track.flac_url ? 'audio/flac' : 'audio/mp3',
+              title: track.title,
+              trackMetadata: {
+                albumId: id,
+                duration: track.duration,
+                artistId: `Artist:${slug}`,
+                artist: artistName,
+                album: `${artistName} at ${json.venue ? json.venue.name : '?'} on ${json.display_date}`,
+                albumArtURI: ''
+              }
+            };
+          })
+        );
+      });
+
+      callback({
+        name: 'root',
+        getMetadataResult: {
+          index: 0,
+          count: tracks.length,
+          total: tracks.length,
+          mediaMetadata: tracks
+        }
+      });
+    })
+    .catch(err => {
+      winston.error(err);
+      return callback({});
+    });
+}
+
+module.exports = (type) => (args, callback) => {
   const id = args.id;
 
   winston.info("getMetadata", id);
@@ -216,9 +236,9 @@ module.exports = (args, callback) => {
     return getShows(id, callback);
   }
   else if (/Shows\:/.test(id)) {
-    return getShow(id, callback);
+    return getShow(type, id, callback);
   }
   else if (/Show\:/.test(id)) {
-    return getTracks(id, callback);
+    return getTracks(type, id, callback);
   }
 };

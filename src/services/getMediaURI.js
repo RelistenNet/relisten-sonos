@@ -1,45 +1,63 @@
 const db = require('../db');
 const winston = require('../logger');
-require('isomorphic-fetch');
 
-getMediaURI = (id, callback) => {
-  const [regex, trackId] = id.match(/Track\:(.*)/);
+const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
 
-  db.query(`
-    SELECT *, t.id as TrackId, t.title as TrackTitle
-    FROM   Tracks t
-    JOIN   Shows s ON s.id = t.ShowId
-    WHERE t.id = ?
-    LIMIT 1
-  `, [trackId], (err, results) => {
-    const track = results[0];
+const getMediaURI = (type, id, callback) => {
+  const [regex, slug, year, date, sourceId, trackId] = id.match(/Track\:(.*)\:(.*)\:(.*)\:(.*)\:(.*)/);
 
-    if (!track) return callback({ getMediaURIResult: '' });
+  fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
+    .then(res => res.json())
+    .then(json => {
+      if (!json || !json.sources) {
+        winston.error('no SONG json tracks found', slug, year, date, sourceId);
+        return callback({ getMediaURIResult: '' });
+      }
 
-    let trackUrl = track.file;
+      const source = json.sources.find(source => `${source.id}` === sourceId);
 
-    const options = {
-      method: 'HEAD'
-    };
+      if (!source || !source.sets) {
+        winston.error('no SONG source found', slug, year, date, sourceId);
+        return callback({ getMediaURIResult: '' });
+      }
 
-    fetch(trackUrl, options)
-      .then(res => {
-        if (res.url) {
-          trackUrl = res.url;
-        }
+      let track;
 
-        callback({
-          name: 'root',
-          getMediaURIResult: trackUrl
-        });
-      })
+      source.sets.map(set => {
+        const nextTrack = set.tracks.find(internalTrack => `${internalTrack.id}` === trackId)
 
-  });
+        if (nextTrack) track = nextTrack;
+      });
+
+      if (!track) return callback({ getMediaURIResult: '' });
+
+      let trackUrl = track[`${type}_url`] || track.mp3_url;
+
+      const options = {
+        method: 'HEAD'
+      };
+
+      fetch(trackUrl, options)
+        .then(res => {
+          if (res.url) {
+            trackUrl = res.url;
+          }
+
+          callback({
+            name: 'root',
+            getMediaURIResult: trackUrl
+          });
+        })
+    })
+    .catch(err => {
+      winston.error(err);
+      callback({});
+    });
 }
 
-module.exports = (args, callback) => {
+module.exports = (type) => (args, callback) => {
   const id = args.id;
 
-  winston.info("getMediaURI", id);
-  return getMediaURI(id, callback);
+  winston.info("getMediaURI", type, id);
+  return getMediaURI(type, id, callback);
 };
