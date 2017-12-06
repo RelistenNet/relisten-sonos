@@ -9,8 +9,8 @@ Please contact admin@relisten.net with your feedback. Thank you!
 ## Development
 
 ```
-$ npm i
-// run mysql server with iguana schema (https://github.com/alecgorge/iguana)
+# install yarn (mac: brew install yarn)
+$ yarn
 $ node server.js
 ```
 
