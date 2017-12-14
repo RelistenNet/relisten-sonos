@@ -14,7 +14,7 @@
         </mask>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <use id="Rectangle" stroke="#979797" mask="url(#mask-3)" stroke-width="2" fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+        <use id="Rectangle" mask="url(#mask-3)" fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
         <text id="Re" font-family="SFUIDisplay-Bold, SF UI Display" font-size="24.1413994" font-weight="bold" fill="#FFFFFF">
             <tspan x="5" y="29">Re</tspan>
         </text>
