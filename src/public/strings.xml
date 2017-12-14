@@ -1,5 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <stringtables xmlns="http://sonos.com/sonosapi">
-  <stringtable rev="1" xml:lang="en-US">
-  </stringtable>
+    <stringtable rev="1" xml:lang="en-US">
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands live catalogs totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+    </stringtable>
+    <stringtable rev="1" xml:lang="da-DK">
+        <string stringId="ServicePromo">Promo text</string>
+    </stringtable>
+    <stringtable rev="1" xml:lang="de-DE">
+        <string stringId="ServicePromo">Promo text</string>
+    </stringtable>
+    <stringtable rev="1" xml:lang="es-ES">
+        <string stringId="ServicePromo">Promo text</string>
+    </stringtable>
+    <stringtable rev="1" xml:lang="fr-FR">
+        <string stringId="ServicePromo">Promo text</string>
+    </stringtable>
+    <stringtable rev="1" xml:lang="it-IT">
+        <string stringId="ServicePromo">Promo text</string>
+    </stringtable>
+    <stringtable rev="1" xml:lang="ja-JP">
+        <string stringId="ServicePromo">Promo text</string>
+    </stringtable>
+    <stringtable rev="1" xml:lang="nb-NO">
+        <string stringId="ServicePromo">Promo text</string>
+    </stringtable>
+    <stringtable rev="1" xml:lang="nl-NL">
+        <string stringId="ServicePromo">Promo text</string>
+    </stringtable>
+    <stringtable rev="1" xml:lang="pt-BR">
+        <string stringId="ServicePromo">Promo text</string>
+    </stringtable>
+    <stringtable rev="1" xml:lang="sv-SE">
+        <string stringId="ServicePromo">Relisten tillhandahåller gratis streaming av över 100 bands livekataloger, med totalt över 60,000 inspelningar och 1,000,000 låtar.</string>
+    </stringtable>
+    <stringtable rev="1" xml:lang="zh-CN">
+        <string stringId="ServicePromo">Promo text</string>
+    </stringtable>
 </stringtables>
