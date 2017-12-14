@@ -1,3 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="40" height="40" viewBox="0 0 40 40">
-  <image xlink:href="data:img/png;base64,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" width="40" height="40"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>square-40</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#00C8FF" offset="0%"></stop>
+            <stop stop-color="#00ACDC" offset="45.1583862%"></stop>
+            <stop stop-color="#008AB0" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-2" x="0" y="0" width="40" height="40"></rect>
+        <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="40" height="40" fill="white">
+            <use xlink:href="#path-2"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <use id="Rectangle" stroke="#979797" mask="url(#mask-3)" stroke-width="2" fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+        <text id="Re" font-family="SFUIDisplay-Bold, SF UI Display" font-size="24.1413994" font-weight="bold" fill="#FFFFFF">
+            <tspan x="5" y="29">Re</tspan>
+        </text>
+    </g>
 </svg>
