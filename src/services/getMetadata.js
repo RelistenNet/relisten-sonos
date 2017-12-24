@@ -1,8 +1,7 @@
 const winston = require('../logger');
+const artistsCache = require('../lib/artistsCache');
 
 const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
-
-const artistsCache = require('../lib/artistsCache');
 
 const getRoot = (callback) => {
   fetch(`${API_ROOT}/artists`)
@@ -235,7 +234,7 @@ const getTracks = (type, id, callback) => {
 module.exports = (type) => (args, callback) => {
   const id = args.id;
 
-  winston.info("getMetadata", id);
+  winston.info("getMetadata", id, args);
 
   if (id === 'root') {
     return getRoot(callback);

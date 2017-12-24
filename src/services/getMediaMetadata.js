@@ -1,5 +1,4 @@
 const winston = require('../logger');
-
 const artistsCache = require('../lib/artistsCache');
 
 const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';

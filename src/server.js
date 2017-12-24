@@ -18,19 +18,17 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 app.listen(PORT, '0.0.0.0', function(err) {
   if (err) winston.info(err);
 
-  const listener = soap.listen(app, '/wsdl', services('mp3'), wsdl);
+  const listener = soap.listen(app, '/wsdl', services('mp3'), wsdl); // only here for posterity
+  const mp3Listener = soap.listen(app, '/mp3', services('mp3'), wsdl);
+  const flacListener = soap.listen(app, '/flac', services('flac'), wsdl);
 
   listener.log = function(type, data) {
     if (type === 'error') winston.error('soap error', data);
   };
 
-  const mp3Listener = soap.listen(app, '/mp3', services('mp3'), wsdl);
-
   mp3Listener.log = function(type, data) {
     if (type === 'error') winston.error('soap error', data);
   };
-
-  const flacListener = soap.listen(app, '/flac', services('flac'), wsdl);
 
   flacListener.log = function(type, data) {
     if (type === 'error') winston.error('soap error', data);

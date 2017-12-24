@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <stringtables xmlns="http://sonos.com/sonosapi">
     <stringtable rev="1" xml:lang="en-US">
-        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands live catalogs totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live catalogs totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="da-DK">
         <string stringId="ServicePromo">Promo text</string>
