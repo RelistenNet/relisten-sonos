@@ -1,6 +1,5 @@
-const services = (type = 'mp3') =>{
-
-  return {
+const services = (type = 'mp3') => (
+  {
     Sonos: {
       SonosSoap: {
         getMetadata: require('./getMetadata')(type),
@@ -12,7 +11,7 @@ const services = (type = 'mp3') =>{
         search: require('./search')
       }
     }
-  };
-};
+  }
+);
 
 module.exports = services;

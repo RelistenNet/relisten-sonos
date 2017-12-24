@@ -2,7 +2,7 @@ const winston = require('../logger');
 
 const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
 
-const artistsCache = require('./artistsCache');
+const artistsCache = require('../lib/artistsCache');
 
 const getRoot = (callback) => {
   fetch(`${API_ROOT}/artists`)

@@ -1,6 +1,6 @@
 const winston = require('../logger');
 
-module.exports = () => {
+module.exports = (type) => () => {
   winston.info("getLastUpdate");
 
   return {

@@ -1,6 +1,6 @@
 const winston = require('../logger');
 
-module.exports = (args) => {
+module.exports = (type) => (args) => {
   winston.info("getExtendedMetadata", args.id);
 
   return {
