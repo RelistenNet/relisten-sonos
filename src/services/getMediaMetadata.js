@@ -52,7 +52,7 @@ const getMediaMetadata = (type, id, callback) => {
               `${json.display_date}`,
               json.venue ? json.venue.name : '',
             ].filter(x => x).join(' '),
-            albumArtURI: '',
+            // albumArtURI: '',
             canPlay: true,
             canSkip: true,
             canAddToFavorites: false

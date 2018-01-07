@@ -17,7 +17,7 @@ const getRoot = (callback) => {
           title: artist.name,
           summary: artist.name,
           canPlay: false,
-          albumArtURI: ''
+          // albumArtURI: ''
         };
       });
 
@@ -51,7 +51,7 @@ const getYears = (id, callback) => {
           title: item.year,
           summary: item.year,
           canPlay: false,
-          albumArtURI: ''
+          // albumArtURI: ''
         };
       });
 
@@ -100,7 +100,7 @@ getShows = (id, callback) => {
            ].filter(x => x).join(' '),
           summary: show.display_date,
           canPlay: show.source_count === 1,
-          albumArtURI: ''
+          // albumArtURI: ''
         };
       });
 
@@ -145,7 +145,7 @@ const getShow = (type, id, callback) => {
           ].filter(x => x).join(' '),
           summary: source.description,
           canPlay: true,
-          albumArtURI: ''
+          // albumArtURI: ''
         };
       });
 
@@ -209,7 +209,7 @@ const getTracks = (type, id, callback) => {
                   json.venue ? json.venue.name : '',
                   json.venue ? json.venue.location : '',
                 ].filter(x => x).join(' – '),
-                albumArtURI: ''
+                // albumArtURI: ''
               }
             };
           })
