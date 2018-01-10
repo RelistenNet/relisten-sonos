@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <stringtables xmlns="http://sonos.com/sonosapi">
     <stringtable rev="1" xml:lang="en-US">
-        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live catalogs totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
         <string stringId="Concerts">Concerts</string>
         <string stringId="ABOUT_ARTIST">About the Artist</string>
     </stringtable>
     <stringtable rev="1" xml:lang="da-DK">
         <string stringId="ServicePromo">Promo text</string>
     </stringtable>
-    <stringtable rev="1" xml:lang="de-DE">
-        <string stringId="ServicePromo">Promo text</string>
+    <stringtable rev="1" xml:lang="de-DE"><!--irc: fbm/anzu-->
+        <string stringId="ServicePromo">Relisten bietet kostenloses Streamen von Live Konzerten mit insgesamt 60.000+ Aufnahmen und 1.000.000+ Songs von mehr als 100 Bands an.</string>
     </stringtable>
     <stringtable rev="1" xml:lang="es-ES"><!--@GuelahPapyruslu-->
         <string stringId="ServicePromo">Con Relisten, puedes transmitir gratis conciertos de más de 100 grupos, más de 60.000 grabaciónes y más de 1.000.000 de canciones.</string>
