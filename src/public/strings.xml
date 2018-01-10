@@ -15,7 +15,7 @@
         <string stringId="ServicePromo">Con Relisten, puedes transmitir gratis conciertos de más de 100 grupos, más de 60.000 grabaciónes y más de 1.000.000 de canciones.</string>
     </stringtable>
     <stringtable rev="1" xml:lang="fr-FR">
-        <string stringId="ServicePromo">Promo text</string>
+        <string stringId="ServicePromo">Relisten fournit la diffusion directe des concertes de plus de 100 groupes, avec plus que 60.000 enregistrements et 1.000.000 chansons.</string>
     </stringtable>
     <stringtable rev="1" xml:lang="it-IT">
         <string stringId="ServicePromo">Promo text</string>
