@@ -35,7 +35,7 @@ const reportPlayStatus = (type, id, seconds, status, callback) => {
       if (!track) return callback({ reportPlayStatusResult: '' });
 
       // submit play POST
-      fetch(`${API_ROOT}/live/play?track_id=${track.id}`, {
+      fetch(`${API_ROOT}/live/play?track_id=${track.id}&app_type=sonos`, {
         method: 'POST',
       }).then(() => null);
 
