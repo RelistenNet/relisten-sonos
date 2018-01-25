@@ -2,8 +2,13 @@ const winston = require('../logger');
 
 const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
 
-const reportPlaySeconds = (type, id, callback) => {
+const reportPlaySeconds = (type, id, seconds, callback) => {
   const [regex, slug, year, date, sourceId, trackId] = id.match(/Track\:(.*)\:(.*)\:(.*)\:(.*)\:(.*)/);
+
+  // only report initial play
+  if (seconds > 25) {
+    return callback({ reportPlaySecondsResult: '' });
+  }
 
   fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
     .then(res => res.json())
@@ -30,7 +35,11 @@ const reportPlaySeconds = (type, id, callback) => {
 
       if (!track) return callback({ reportPlaySecondsResult: '' });
 
-      console.log()
+      // submit play POST
+      fetch(`${API_ROOT}/live/play?track_id=${track.id}&app_type=sonos`, {
+        method: 'POST',
+      }).then(() => null);
+
       callback({
         name: 'root',
         reportPlaySecondsResult: ''
@@ -43,8 +52,8 @@ const reportPlaySeconds = (type, id, callback) => {
 }
 
 module.exports = (type) => (args, callback) => {
-  const { id, status, offsetMillis, seconds } = args;
+  const { id, seconds } = args;
 
-  winston.info("reportPlaySeconds", type, id, status, offsetMillis, seconds, args);
-  return reportPlaySeconds(type, id, callback);
+  winston.info("reportPlaySeconds", type, id, seconds, args);
+  return reportPlaySeconds(type, id, seconds, callback);
 };
