@@ -3,39 +3,49 @@
     <stringtable rev="1" xml:lang="en-US">
         <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
         <string stringId="Concerts">Concerts</string>
-        <string stringId="ABOUT_ARTIST">About the Artist</string>
     </stringtable>
     <stringtable rev="1" xml:lang="da-DK">
-        <string stringId="ServicePromo">Promo text</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="de-DE"><!--irc: fbm/anzu-->
         <string stringId="ServicePromo">Relisten bietet kostenloses Streamen von Live Konzerten mit insgesamt 60.000+ Aufnahmen und 1.000.000+ Songs von mehr als 100 Bands an.</string>
+        <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="es-ES"><!--@GuelahPapyruslu-->
         <string stringId="ServicePromo">Con Relisten, puedes transmitir gratis conciertos de más de 100 grupos, más de 60.000 grabaciónes y más de 1.000.000 de canciones.</string>
+        <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="fr-FR"><!--irc: albii-->
         <string stringId="ServicePromo">Relisten fournit la transmission directe des concertes de plus de 100 groupes, avec plus que 60.000 enregistrements et 1.000.000 chansons.</string>
+        <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="it-IT">
-        <string stringId="ServicePromo">Promo text</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="ja-JP">
-        <string stringId="ServicePromo">Promo text</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="nb-NO">
-        <string stringId="ServicePromo">Promo text</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="nl-NL">
-        <string stringId="ServicePromo">Promo text</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="pt-BR"><!--@sallesjuIiana-->
         <string stringId="ServicePromo">Relisten oferece streaming gratuito de catálogos ao vivo de mais de 100 bandas totalizando mais de 60.000 gravações e mais de 1.000.000 de músicas.</string>
+        <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="sv-SE">
         <string stringId="ServicePromo">Relisten tillhandahåller gratis streaming av över 100 bands livekataloger, med totalt över 60,000 inspelningar och 1,000,000 låtar.</string>
+        <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="zh-CN">
-        <string stringId="ServicePromo">Promo text</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="Concerts">Concerts</string>
     </stringtable>
 </stringtables>
