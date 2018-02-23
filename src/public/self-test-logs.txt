@@ -1,0 +1,578 @@
+$ python suite_selftest.py
+SUITE Summary Report Files: log_files/smapiConfig/SummaryReport.html and log_files/smapiConfig/smapiConfig.txt
+SUITE Detailed Debug Log File: log_files/smapiConfig/smapiConfig-DEBUG.log
+INFO Service Name: Relisten
+SUITE Start *test suite* 'smapiConfig' at Friday, February 23, 2018 05:55 PM
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 1 GetUserInfoTest test_getUserInfo
+SKIP 1 GetUserInfoTest test_getUserInfo
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 4 SMAPIMethodValidation test_createitem
+SKIP 4 SMAPIMethodValidation test_createitem
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 5 SMAPIMethodValidation test_deleteitem
+SKIP 5 SMAPIMethodValidation test_deleteitem
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 6 SMAPIMethodValidation test_getlastupdate
+PASS 6 SMAPIMethodValidation test_getlastupdate
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 7 SMAPIMethodValidation test_getmediametadata
+SKIP 7 SMAPIMethodValidation test_getmediametadata
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 8 SMAPIMethodValidation test_getmetadata
+STOP mediaList instance has no attribute 'count'
+STOP 8 SMAPIMethodValidation test_getmetadata
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 9 SMAPIMethodValidation test_getsessionid
+SKIP 9 SMAPIMethodValidation test_getsessionid
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 10 SMAPIMethodValidation test_rateitem
+SKIP 10 SMAPIMethodValidation test_rateitem
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11 SMAPIMethodValidation test_search
+SKIP 11 SMAPIMethodValidation test_search
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 12 SMAPIMethodValidation test_setplayedseconds
+SKIP 12 SMAPIMethodValidation test_setplayedseconds
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 16 CreatePlaylist test_combinatorial_create_playlist_in_folder_with_seed_231875841406471188684628014653110133315 (u'self.smapiservice.get_test_track_id()', u'self.smapiservice.get_search_term_track()', u'track'))
+SKIP 16 CreatePlaylist test_combinatorial_create_playlist_in_folder_with_seed_231875841406471188684628014653110133315
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 17 CreatePlaylist test_combinatorial_create_playlist_in_folder_with_seed_74690823491100721475079917764657004479 (u'self.smapiservice.get_test_album_id()', u'self.smapiservice.get_search_term_album()', u'artist'))
+SKIP 17 CreatePlaylist test_combinatorial_create_playlist_in_folder_with_seed_74690823491100721475079917764657004479
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 19 CreatePlaylist test_combinatorial_create_playlist_with_seed_231875841406471188684628014653110133315 (u'self.smapiservice.get_test_track_id()', u'self.smapiservice.get_search_term_track()', u'track'))
+SKIP 19 CreatePlaylist test_combinatorial_create_playlist_with_seed_231875841406471188684628014653110133315
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 20 CreatePlaylist test_combinatorial_create_playlist_with_seed_74690823491100721475079917764657004479 (u'self.smapiservice.get_test_album_id()', u'self.smapiservice.get_search_term_album()', u'artist'))
+SKIP 20 CreatePlaylist test_combinatorial_create_playlist_with_seed_74690823491100721475079917764657004479
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 22 CreatePlaylist test_create_empty_playlist_in_folder
+SKIP 22 CreatePlaylist test_create_empty_playlist_in_folder
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 23 CreatePlaylist test_create_empty_playlist_in_nonexisting_folder
+SKIP 23 CreatePlaylist test_create_empty_playlist_in_nonexisting_folder
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 24 CreatePlaylist test_create_empty_playlist_with_invalid_name
+SKIP 24 CreatePlaylist test_create_empty_playlist_with_invalid_name
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 25 CreatePlaylist test_create_empty_root_playlist
+SKIP 25 CreatePlaylist test_create_empty_root_playlist
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 26 CreatePlaylist test_create_playlist_with_seed_playlist
+SKIP 26 CreatePlaylist test_create_playlist_with_seed_playlist
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 42 DeletePlaylist test_properties_for_not_deletable_playlist
+SKIP 42 DeletePlaylist test_properties_for_not_deletable_playlist
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 84 RenamePlaylist test_rename_non_editable_playlist
+SKIP 84 RenamePlaylist test_rename_non_editable_playlist
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 85 RenamePlaylist test_rename_playlist_to_invalidname
+SKIP 85 RenamePlaylist test_rename_playlist_to_invalidname
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 86 RenamePlaylist test_rename_playlist_to_validname
+SKIP 86 RenamePlaylist test_rename_playlist_to_validname
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 170 AddToPlaylist test_combinatorial_add_content_to_playlist_78803141948148221689497143233259330283 (u'self.smapiservice.get_test_track_id()', u'track'))
+SKIP 170 AddToPlaylist test_combinatorial_add_content_to_playlist_78803141948148221689497143233259330283
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 171 AddToPlaylist test_combinatorial_add_content_to_playlist_92681499919455952973129434357727117034 (u'self.smapiservice.get_test_album_id()', u'album'))
+SKIP 171 AddToPlaylist test_combinatorial_add_content_to_playlist_92681499919455952973129434357727117034
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 172 AddToPlaylist test_combinatorial_add_content_to_playlist_217199673987649500830907331948014778782 (u'playlist', u'playlist'))
+SKIP 172 AddToPlaylist test_combinatorial_add_content_to_playlist_217199673987649500830907331948014778782
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 174 AddToPlaylist test_combinatorial_cannot_add_content_to_noneditable_playlist_78803141948148221689497143233259330283 (u'self.smapiservice.get_test_track_id()', u'track'))
+SKIP 174 AddToPlaylist test_combinatorial_cannot_add_content_to_noneditable_playlist_78803141948148221689497143233259330283
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 175 AddToPlaylist test_combinatorial_cannot_add_content_to_noneditable_playlist_92681499919455952973129434357727117034 (u'self.smapiservice.get_test_album_id()', u'album'))
+SKIP 175 AddToPlaylist test_combinatorial_cannot_add_content_to_noneditable_playlist_92681499919455952973129434357727117034
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 176 AddToPlaylist test_combinatorial_cannot_add_content_to_noneditable_playlist_217199673987649500830907331948014778782 (u'playlist', u'playlist'))
+SKIP 176 AddToPlaylist test_combinatorial_cannot_add_content_to_noneditable_playlist_217199673987649500830907331948014778782
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 347 ReorderPlaylistContainer test_combinatorial_can_move_tracks_123815105787715806173406836448580219111 (u'0,1,2', u'END', u'UP', u'Can move contiguous tracks to the end of an existing playlist'))
+SKIP 347 ReorderPlaylistContainer test_combinatorial_can_move_tracks_123815105787715806173406836448580219111
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 348 ReorderPlaylistContainer test_combinatorial_can_move_tracks_257867091715467498001275013981620705500 (u'0,4', u'END', u'UP', u'Can move discontiguous tracks to the end of an existing playlist'))
+SKIP 348 ReorderPlaylistContainer test_combinatorial_can_move_tracks_257867091715467498001275013981620705500
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 349 ReorderPlaylistContainer test_combinatorial_can_move_tracks_217538751555170306116123116766739804815 (u'6,7,8', u'0', u'DOWN', u'Can move contiguous tracks to beginning of an existing playlist'))
+SKIP 349 ReorderPlaylistContainer test_combinatorial_can_move_tracks_217538751555170306116123116766739804815
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 350 ReorderPlaylistContainer test_combinatorial_can_move_tracks_301136521442178991188764502148437687674 (u'5,9', u'0', u'DOWN', u'Can move discontiguous tracks to the beginning of an existing playlist'))
+SKIP 350 ReorderPlaylistContainer test_combinatorial_can_move_tracks_301136521442178991188764502148437687674
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 351 ReorderPlaylistContainer test_combinatorial_can_move_tracks_166241789251193602764331413776439152740 (u'2,3', u'', u'DOWN', u'Can move tracks to the beginning of an existing playlist with an empty TO location'))
+SKIP 351 ReorderPlaylistContainer test_combinatorial_can_move_tracks_166241789251193602764331413776439152740
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 352 ReorderPlaylistContainer test_combinatorial_can_move_tracks_190327261525867372678990451106171322154 (u'5,6,7', 4, u'DOWN', u'Can move contiguous tracks to the middle of an existing playlist'))
+SKIP 352 ReorderPlaylistContainer test_combinatorial_can_move_tracks_190327261525867372678990451106171322154
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 353 ReorderPlaylistContainer test_combinatorial_can_move_tracks_92701258397780261026621721013681637114 (u'6,7', 8, u'UP', u'Can move contiguous tracks to the middle of an existing playlist'))
+SKIP 353 ReorderPlaylistContainer test_combinatorial_can_move_tracks_92701258397780261026621721013681637114
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 354 ReorderPlaylistContainer test_combinatorial_can_move_tracks_248728061713560243005958170034649575344 (u'5,7,9', 4, u'DOWN', u'Can move discontiguous tracks to the middle of an existing playlist'))
+SKIP 354 ReorderPlaylistContainer test_combinatorial_can_move_tracks_248728061713560243005958170034649575344
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 355 ReorderPlaylistContainer test_combinatorial_can_move_tracks_227314661117508811775164643929849416373 (u'5,7,9', 10, u'UP', u'Can move discontiguous tracks to the end of an existing playlist'))
+SKIP 355 ReorderPlaylistContainer test_combinatorial_can_move_tracks_227314661117508811775164643929849416373
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 356 ReorderPlaylistContainer test_combinatorial_can_move_tracks_178433578387948936236008591984179918727 (u'0-2,4', 6, u'UP', u'Can move combo of ranges and individual tracks to the middle of an existing playlist'))
+SKIP 356 ReorderPlaylistContainer test_combinatorial_can_move_tracks_178433578387948936236008591984179918727
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 357 ReorderPlaylistContainer test_combinatorial_can_move_tracks_52549789401627678575979862339835764472 (u'1,3-5', 6, u'UP', u'Can move combo of ranges and individual tracks to the middle of an existing playlist'))
+SKIP 357 ReorderPlaylistContainer test_combinatorial_can_move_tracks_52549789401627678575979862339835764472
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 358 ReorderPlaylistContainer test_combinatorial_can_move_tracks_7329268808020993467895662382473902579 (u'0-2,4-6', u'END', u'UP', u'Can move combo of ranges and individual tracks to the end of an existing playlist'))
+SKIP 358 ReorderPlaylistContainer test_combinatorial_can_move_tracks_7329268808020993467895662382473902579
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 359 ReorderPlaylistContainer test_combinatorial_can_move_tracks_174233127971397934326551509135062850406 (u'2-4,5-7', u'', u'DOWN', u'Can move combo of ranges and individual tracks to the beginning of an existing playlist'))
+SKIP 359 ReorderPlaylistContainer test_combinatorial_can_move_tracks_174233127971397934326551509135062850406
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 361 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_309398607997526809828234010384898174253 (u'0,1,2', u'PASTEND', u'Cannot move tracks past the end of an existing playlist'))
+SKIP 361 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_309398607997526809828234010384898174253
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 362 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_47731222299493752925301566217031627005 (u'6,7,8', u'BEFORESTART', u'Cannot move tracks before the beginning of an existing playlist'))
+SKIP 362 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_47731222299493752925301566217031627005
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 363 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_92286202966071461810354591258237179634 (u'', u'5', u'Cannot move tracks in an existing playlist with empty indices'))
+SKIP 363 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_92286202966071461810354591258237179634
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 364 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_140924730606268537765776842945276245251 (u'-3', u'6', u'Cannot move tracks in an existing playlist with invalid indices'))
+SKIP 364 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_140924730606268537765776842945276245251
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 365 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_301096672733174262710814826501671530713 (u'1,4-9,5-10', u'3', u'Cannot move tracks in an existing playlist with overlapping indices'))
+SKIP 365 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_301096672733174262710814826501671530713
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 366 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_146604112781483576722803204880526645386 (u'a,b-c', u'4', u'Cannot move tracks in an existing playlist with alpha indices'))
+SKIP 366 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_146604112781483576722803204880526645386
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 367 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_223407869629675306902358175214567897889 (u'4,5', u'NOTMINE', u'Cannot move tracks in a playlist that is not owned by user'))
+SKIP 367 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_223407869629675306902358175214567897889
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 368 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_105323776750449159915765541006635459884 (u'2,3', u'NOTPLAYLIST', u"Cannot move tracks in something that isn't a playlist"))
+SKIP 368 ReorderPlaylistContainer test_combinatorial_cannot_move_tracks_105323776750449159915765541006635459884
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 716 Albumart test_custom_browse_icon_configuration
+SKIP 716 Albumart test_custom_browse_icon_configuration
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 717 Albumart test_custom_browse_icon_schema
+WARN Cannot find node with XPath .//PresentationMap[@type='BrowseIconSizeMap'] in Presentation Map
+SKIP 717 Albumart test_custom_browse_icon_schema
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 718 Albumart test_hi_res_album_art_configuration
+SKIP 718 Albumart test_hi_res_album_art_configuration
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 719 Albumart test_token_inside_substitution
+WARN Image substitution rules for album art should be found in the presentation map file. (expression is False)
+SKIP 719 Albumart test_token_inside_substitution
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 1436 Ratings test_meta_data
+SKIP 1436 Ratings test_meta_data
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 1437 Ratings test_res_ratings_icons
+SKIP 1437 Ratings test_res_ratings_icons
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 2872 Favorites test_combinatorial_add_to_favorites_202912945011388656941625456444385316711 (u'self.smapiservice.get_support_favorites_track()', u'self.smapiservice.get_test_track_id()', u'self.smapiservice.get_favorite_tracks_container_id()'))
+self.smapiservice.get_support_favorites_track()
+SKIP 2872 Favorites test_combinatorial_add_to_favorites_202912945011388656941625456444385316711
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 2873 Favorites test_combinatorial_add_to_favorites_318262203569584814813756028558191412357 (u'self.smapiservice.get_support_favorites_album()', u'self.smapiservice.get_test_album_id()', u'self.smapiservice.get_favorite_albums_container_id()'))
+self.smapiservice.get_support_favorites_album()
+SKIP 2873 Favorites test_combinatorial_add_to_favorites_318262203569584814813756028558191412357
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 2875 Favorites test_combinatorial_remove_from_favorites_202912945011388656941625456444385316711 (u'self.smapiservice.get_support_favorites_track()', u'self.smapiservice.get_test_track_id()', u'self.smapiservice.get_favorite_tracks_container_id()'))
+SKIP 2875 Favorites test_combinatorial_remove_from_favorites_202912945011388656941625456444385316711
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 2876 Favorites test_combinatorial_remove_from_favorites_318262203569584814813756028558191412357 (u'self.smapiservice.get_support_favorites_album()', u'self.smapiservice.get_test_album_id()', u'self.smapiservice.get_favorite_albums_container_id()'))
+SKIP 2876 Favorites test_combinatorial_remove_from_favorites_318262203569584814813756028558191412357
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 2878 Favorites test_getlastupdate_with_change
+SKIP 2878 Favorites test_getlastupdate_with_change
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11504 HTTPBasedTests test_albumart_uri_valid
+SKIP 11504 HTTPBasedTests test_albumart_uri_valid
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11505 HTTPBasedTests test_artlogo_uri_valid
+SKIP 11505 HTTPBasedTests test_artlogo_uri_valid
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11506 HTTPBasedTests test_artprog_uri_valid
+SKIP 11506 HTTPBasedTests test_artprog_uri_valid
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11507 HTTPBasedTests test_byte_range_seeking_beginning_and_end_specified
+SKIP 11507 HTTPBasedTests test_byte_range_seeking_beginning_and_end_specified
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11508 HTTPBasedTests test_byte_range_seeking_no_end_specified
+SKIP 11508 HTTPBasedTests test_byte_range_seeking_no_end_specified
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11509 HTTPBasedTests test_implicit_explicit_actions
+SKIP 11509 HTTPBasedTests test_implicit_explicit_actions
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23013 Search test_combinatorial_item_types_129316834537479570751535345027097011000 itemType)
+SKIP 23013 Search test_combinatorial_item_types_129316834537479570751535345027097011000
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23014 Search test_combinatorial_item_types_244638787362077305305759689222081875087 id)
+SKIP 23014 Search test_combinatorial_item_types_244638787362077305305759689222081875087
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23016 Search test_combinatorial_search_all_incremental_search (u'', u''))
+SKIP 23016 Search test_combinatorial_search_all_incremental_search
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23017 Search test_combinatorial_search_all_incremental_search (u'', u''))
+SKIP 23017 Search test_combinatorial_search_all_incremental_search
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23018 Search test_combinatorial_search_all_incremental_search (u'', u''))
+SKIP 23018 Search test_combinatorial_search_all_incremental_search
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23019 Search test_combinatorial_search_all_incremental_search (u'', u''))
+SKIP 23019 Search test_combinatorial_search_all_incremental_search
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23020 Search test_combinatorial_search_all_incremental_search (u'', u''))
+SKIP 23020 Search test_combinatorial_search_all_incremental_search
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23021 Search test_combinatorial_search_all_incremental_search (u'', u''))
+SKIP 23021 Search test_combinatorial_search_all_incremental_search
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23022 Search test_combinatorial_search_all_incremental_search (u'', u''))
+SKIP 23022 Search test_combinatorial_search_all_incremental_search
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23024 Search test_combinatorial_search_all_inputs_237829601409385550092399224542814219566 1234567890abcdefINVALID987654321)
+SKIP 23024 Search test_combinatorial_search_all_inputs_237829601409385550092399224542814219566
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23025 Search test_combinatorial_search_all_inputs_241141155301681835121854327093132997124 911)
+SKIP 23025 Search test_combinatorial_search_all_inputs_241141155301681835121854327093132997124
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23026 Search test_combinatorial_search_all_inputs_311060053710252238656424708343354944443 ??)
+SKIP 23026 Search test_combinatorial_search_all_inputs_311060053710252238656424708343354944443
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23027 Search test_combinatorial_search_all_inputs_217492388849670131461884670065220263191 u'Los del R\xedo')
+SKIP 23027 Search test_combinatorial_search_all_inputs_217492388849670131461884670065220263191
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23029 Search test_combinatorial_search_invalid_range_pagination_264537653533266056221724839780338177925 (u'self.smapiservice.get_search_container_track()', (-1, 10)))
+SKIP 23029 Search test_combinatorial_search_invalid_range_pagination_264537653533266056221724839780338177925
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23030 Search test_combinatorial_search_invalid_range_pagination_83455970626036859195990579030458724143 (u'self.smapiservice.get_search_container_track()', (0, -1)))
+SKIP 23030 Search test_combinatorial_search_invalid_range_pagination_83455970626036859195990579030458724143
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23031 Search test_combinatorial_search_invalid_range_pagination_26786378141606074206642698726517444120 (u'self.smapiservice.get_search_container_track()', (999999, 5)))
+SKIP 23031 Search test_combinatorial_search_invalid_range_pagination_26786378141606074206642698726517444120
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23032 Search test_combinatorial_search_invalid_range_pagination_18272348131860973811126983983515949965 (u'self.smapiservice.get_search_container_track()', (0, 999999)))
+SKIP 23032 Search test_combinatorial_search_invalid_range_pagination_18272348131860973811126983983515949965
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23033 Search test_combinatorial_search_invalid_range_pagination_334530859731280597001672966304419155678 (u'self.smapiservice.get_search_container_artist()', (-1, 10)))
+SKIP 23033 Search test_combinatorial_search_invalid_range_pagination_334530859731280597001672966304419155678
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23034 Search test_combinatorial_search_invalid_range_pagination_266065354240924518505077155648932421758 (u'self.smapiservice.get_search_container_artist()', (0, -1)))
+SKIP 23034 Search test_combinatorial_search_invalid_range_pagination_266065354240924518505077155648932421758
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23035 Search test_combinatorial_search_invalid_range_pagination_319667186650017896502691563660555807863 (u'self.smapiservice.get_search_container_artist()', (999999, 5)))
+SKIP 23035 Search test_combinatorial_search_invalid_range_pagination_319667186650017896502691563660555807863
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23036 Search test_combinatorial_search_invalid_range_pagination_42763360555755396303487925759304198215 (u'self.smapiservice.get_search_container_artist()', (0, 999999)))
+SKIP 23036 Search test_combinatorial_search_invalid_range_pagination_42763360555755396303487925759304198215
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23037 Search test_combinatorial_search_invalid_range_pagination_160287185336267421688008603043458452645 (u'self.smapiservice.get_search_container_album()', (-1, 10)))
+SKIP 23037 Search test_combinatorial_search_invalid_range_pagination_160287185336267421688008603043458452645
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23038 Search test_combinatorial_search_invalid_range_pagination_158045885107802149641881153237242675952 (u'self.smapiservice.get_search_container_album()', (0, -1)))
+SKIP 23038 Search test_combinatorial_search_invalid_range_pagination_158045885107802149641881153237242675952
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23039 Search test_combinatorial_search_invalid_range_pagination_308567961945112421038348417893487973595 (u'self.smapiservice.get_search_container_album()', (999999, 5)))
+SKIP 23039 Search test_combinatorial_search_invalid_range_pagination_308567961945112421038348417893487973595
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23040 Search test_combinatorial_search_invalid_range_pagination_132753522923605847198530382715363134224 (u'self.smapiservice.get_search_container_album()', (0, 999999)))
+SKIP 23040 Search test_combinatorial_search_invalid_range_pagination_132753522923605847198530382715363134224
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23041 Search test_combinatorial_search_invalid_range_pagination_209462945204014936616538471218686826401 (u'self.smapiservice.get_search_container_program()', (-1, 10)))
+SKIP 23041 Search test_combinatorial_search_invalid_range_pagination_209462945204014936616538471218686826401
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23042 Search test_combinatorial_search_invalid_range_pagination_149987381252473566565581864027438564828 (u'self.smapiservice.get_search_container_program()', (0, -1)))
+SKIP 23042 Search test_combinatorial_search_invalid_range_pagination_149987381252473566565581864027438564828
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23043 Search test_combinatorial_search_invalid_range_pagination_89441038082718721493776877875400977190 (u'self.smapiservice.get_search_container_program()', (999999, 5)))
+SKIP 23043 Search test_combinatorial_search_invalid_range_pagination_89441038082718721493776877875400977190
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23044 Search test_combinatorial_search_invalid_range_pagination_138931247299842863487500287978439824215 (u'self.smapiservice.get_search_container_program()', (0, 999999)))
+SKIP 23044 Search test_combinatorial_search_invalid_range_pagination_138931247299842863487500287978439824215
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23045 Search test_combinatorial_search_invalid_range_pagination_17284607116011952056454911940739310590 (u'self.smapiservice.get_search_container_stream()', (-1, 10)))
+SKIP 23045 Search test_combinatorial_search_invalid_range_pagination_17284607116011952056454911940739310590
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23046 Search test_combinatorial_search_invalid_range_pagination_258895446293043835198947640211532784746 (u'self.smapiservice.get_search_container_stream()', (0, -1)))
+SKIP 23046 Search test_combinatorial_search_invalid_range_pagination_258895446293043835198947640211532784746
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23047 Search test_combinatorial_search_invalid_range_pagination_293424647822230681938585950082267237492 (u'self.smapiservice.get_search_container_stream()', (999999, 5)))
+SKIP 23047 Search test_combinatorial_search_invalid_range_pagination_293424647822230681938585950082267237492
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23048 Search test_combinatorial_search_invalid_range_pagination_218213401297178942473565770828915548795 (u'self.smapiservice.get_search_container_stream()', (0, 999999)))
+SKIP 23048 Search test_combinatorial_search_invalid_range_pagination_218213401297178942473565770828915548795
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23049 Search test_combinatorial_search_invalid_range_pagination_270132571344129075915129866460334239215 (u'self.smapiservice.get_search_container_playlist()', (-1, 10)))
+SKIP 23049 Search test_combinatorial_search_invalid_range_pagination_270132571344129075915129866460334239215
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23050 Search test_combinatorial_search_invalid_range_pagination_43154203856518217929907597780778799206 (u'self.smapiservice.get_search_container_playlist()', (0, -1)))
+SKIP 23050 Search test_combinatorial_search_invalid_range_pagination_43154203856518217929907597780778799206
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23051 Search test_combinatorial_search_invalid_range_pagination_164024917032993374870730317377722364757 (u'self.smapiservice.get_search_container_playlist()', (999999, 5)))
+SKIP 23051 Search test_combinatorial_search_invalid_range_pagination_164024917032993374870730317377722364757
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23052 Search test_combinatorial_search_invalid_range_pagination_201667911828600338241449220814772389443 (u'self.smapiservice.get_search_container_playlist()', (0, 999999)))
+SKIP 23052 Search test_combinatorial_search_invalid_range_pagination_201667911828600338241449220814772389443
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23053 Search test_combinatorial_search_invalid_range_pagination_272352713155291220962010082964586278599 (u'self.smapiservice.get_search_container_other()', (-1, 10)))
+SKIP 23053 Search test_combinatorial_search_invalid_range_pagination_272352713155291220962010082964586278599
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23054 Search test_combinatorial_search_invalid_range_pagination_167062887669263226594122632839589767337 (u'self.smapiservice.get_search_container_other()', (0, -1)))
+SKIP 23054 Search test_combinatorial_search_invalid_range_pagination_167062887669263226594122632839589767337
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23055 Search test_combinatorial_search_invalid_range_pagination_42036009394812135596434466236481905239 (u'self.smapiservice.get_search_container_other()', (999999, 5)))
+SKIP 23055 Search test_combinatorial_search_invalid_range_pagination_42036009394812135596434466236481905239
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23056 Search test_combinatorial_search_invalid_range_pagination_147247074643290735854476624404562638882 (u'self.smapiservice.get_search_container_other()', (0, 999999)))
+SKIP 23056 Search test_combinatorial_search_invalid_range_pagination_147247074643290735854476624404562638882
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23058 Search test_combinatorial_search_results_pagination_117401825799608550929175902867506475040 (u'self.smapiservice.get_search_container_track()', u'track'))
+SKIP 23058 Search test_combinatorial_search_results_pagination_117401825799608550929175902867506475040
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23059 Search test_combinatorial_search_results_pagination_72250471479804423971698754870633177409 (u'self.smapiservice.get_search_container_artist()', u'artist'))
+SKIP 23059 Search test_combinatorial_search_results_pagination_72250471479804423971698754870633177409
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23060 Search test_combinatorial_search_results_pagination_134550899865791776783178273087962518258 (u'self.smapiservice.get_search_container_album()', u'album'))
+SKIP 23060 Search test_combinatorial_search_results_pagination_134550899865791776783178273087962518258
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23061 Search test_combinatorial_search_results_pagination_10762275166207459049128714636068301087 (u'self.smapiservice.get_search_container_program()', u'program'))
+SKIP 23061 Search test_combinatorial_search_results_pagination_10762275166207459049128714636068301087
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23062 Search test_combinatorial_search_results_pagination_316177369974656976951021721751280697481 (u'self.smapiservice.get_search_container_stream()', u'stream'))
+SKIP 23062 Search test_combinatorial_search_results_pagination_316177369974656976951021721751280697481
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23063 Search test_combinatorial_search_results_pagination_44500065934814015221142863091387152338 (u'self.smapiservice.get_search_container_playlist()', u'playlist'))
+SKIP 23063 Search test_combinatorial_search_results_pagination_44500065934814015221142863091387152338
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23064 Search test_combinatorial_search_results_pagination_128579282379569079453933826811390174660 (u'self.smapiservice.get_search_container_other()', u'other'))
+SKIP 23064 Search test_combinatorial_search_results_pagination_128579282379569079453933826811390174660
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23066 Search test_combinatorial_search_verify_results_311625000606473378461707165079849691420 (u'self.smapiservice.get_search_container_track()', u'self.smapiservice.get_search_term_track()'))
+SKIP 23066 Search test_combinatorial_search_verify_results_311625000606473378461707165079849691420
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23067 Search test_combinatorial_search_verify_results_82562769879428199658291423279774422817 (u'self.smapiservice.get_search_container_artist()', u'self.smapiservice.get_search_term_artist()'))
+SKIP 23067 Search test_combinatorial_search_verify_results_82562769879428199658291423279774422817
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23068 Search test_combinatorial_search_verify_results_308421698798149044702311439500512778005 (u'self.smapiservice.get_search_container_album()', u'self.smapiservice.get_search_term_album() '))
+SKIP 23068 Search test_combinatorial_search_verify_results_308421698798149044702311439500512778005
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23069 Search test_combinatorial_search_verify_results_47690338398456615725864930136346371230 (u'self.smapiservice.get_search_container_program()', u'self.smapiservice.get_search_term_program()'))
+SKIP 23069 Search test_combinatorial_search_verify_results_47690338398456615725864930136346371230
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23070 Search test_combinatorial_search_verify_results_114494826903219142138604980466477410255 (u'self.smapiservice.get_search_container_stream()', u'self.smapiservice.get_search_term_stream()'))
+SKIP 23070 Search test_combinatorial_search_verify_results_114494826903219142138604980466477410255
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23071 Search test_combinatorial_search_verify_results_97241749001654301238293253235692771497 (u'self.smapiservice.get_search_container_playlist()', u'self.smapiservice.get_search_term_playlist()'))
+SKIP 23071 Search test_combinatorial_search_verify_results_97241749001654301238293253235692771497
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 23072 Search test_combinatorial_search_verify_results_58060706069951884597027011072858286571 (u'self.smapiservice.get_search_container_other()', u'self.smapiservice.get_search_term_other()'))
+SKIP 23072 Search test_combinatorial_search_verify_results_58060706069951884597027011072858286571
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 23074 Search test_train_ux_search_configuration
+SKIP 23074 Search test_train_ux_search_configuration
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 92176 StreamValidation test_validate_content_key
+SKIP 92176 StreamValidation test_validate_content_key
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 92177 StreamValidation test_validate_getStreamingMetadata
+SKIP 92177 StreamValidation test_validate_getStreamingMetadata
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 184352 Stringtable test_against_xsd
+PASS 184352 Stringtable test_against_xsd
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 184353 Stringtable test_combinatorial_all_languages_272332973971497266456332647529075436780 en-US)
+PASS 184353 Stringtable test_combinatorial_all_languages_272332973971497266456332647529075436780
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 184354 Stringtable test_combinatorial_all_languages_248343605611310727457301781344250627565 da-DK)
+PASS 184354 Stringtable test_combinatorial_all_languages_248343605611310727457301781344250627565
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 184355 Stringtable test_combinatorial_all_languages_23920949673594798714881610537253500994 de-DE)
+PASS 184355 Stringtable test_combinatorial_all_languages_23920949673594798714881610537253500994
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 184356 Stringtable test_combinatorial_all_languages_209558383677646239374853758766919986738 fr-FR)
+PASS 184356 Stringtable test_combinatorial_all_languages_209558383677646239374853758766919986738
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 184357 Stringtable test_combinatorial_all_languages_283763661698541572169492979238300563943 it-IT)
+PASS 184357 Stringtable test_combinatorial_all_languages_283763661698541572169492979238300563943
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 184358 Stringtable test_combinatorial_all_languages_262623965426578793023677270906490735673 es-ES)
+PASS 184358 Stringtable test_combinatorial_all_languages_262623965426578793023677270906490735673
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 184359 Stringtable test_combinatorial_all_languages_150311247032165249806672952164343491982 pt-BR)
+PASS 184359 Stringtable test_combinatorial_all_languages_150311247032165249806672952164343491982
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 184360 Stringtable test_combinatorial_all_languages_59569624563120496288969118986964151009 sv-SE)
+PASS 184360 Stringtable test_combinatorial_all_languages_59569624563120496288969118986964151009
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 184361 Stringtable test_combinatorial_all_languages_163849088889100427437282293375901048097 nl-NL)
+PASS 184361 Stringtable test_combinatorial_all_languages_163849088889100427437282293375901048097
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 184362 Stringtable test_combinatorial_all_languages_198827217835110272730223144502985916799 nb-NO)
+PASS 184362 Stringtable test_combinatorial_all_languages_198827217835110272730223144502985916799
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 184363 Stringtable test_combinatorial_all_languages_283743995608291858621092154611422837437 ja-JP)
+PASS 184363 Stringtable test_combinatorial_all_languages_283743995608291858621092154611422837437
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 184364 Stringtable test_combinatorial_all_languages_297248705437716225237911204102095587973 zh-CN)
+PASS 184364 Stringtable test_combinatorial_all_languages_297248705437716225237911204102095587973
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 184366 Stringtable test_equal_language_configuration
+PASS 184366 Stringtable test_equal_language_configuration
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 184367 Stringtable test_getmetadata_all_languages
+PASS 184367 Stringtable test_getmetadata_all_languages
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 184368 Stringtable test_minimum_config
+PASS 184368 Stringtable test_minimum_config
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 184369 Stringtable test_unsupported_languages
+PASS 184369 Stringtable test_unsupported_languages
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 368721 Presentationmap test_presentation_map
+PASS 368721 Presentationmap test_presentation_map
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 737442 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_79910549971598818613911631068757139742 (u'track', u'self.smapiservice.get_test_track_id()'))
+SKIP 737442 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_79910549971598818613911631068757139742
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 737443 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_202287592570443149333576301501150690606 (u'artist', u'self.smapiservice.get_test_artist_id()'))
+SKIP 737443 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_202287592570443149333576301501150690606
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 737444 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_226766092429267197794400786235382192888 (u'album', u'self.smapiservice.get_test_album_id()'))
+SKIP 737444 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_226766092429267197794400786235382192888
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 737445 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_303494449562366627567694895518968386839 (u'program', u'self.smapiservice.get_test_prog_id()'))
+SKIP 737445 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_303494449562366627567694895518968386839
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 737446 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_106231269325407458334543765211541715437 (u'stream', u'self.smapiservice.get_test_stream_id()'))
+SKIP 737446 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_106231269325407458334543765211541715437
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 737447 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_42611123999516502198009414353466294246 (u'playlist', u'self.smapiservice.get_test_playlist_id()'))
+SKIP 737447 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_42611123999516502198009414353466294246
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Test Case: 737448 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_286380630741177489163373456639541166848 (u'other', u'self.smapiservice.get_test_other_id()'))
+SKIP 737448 ExtendedMetadataValidations test_combinatorial_get_extendedmetadata_286380630741177489163373456639541166848
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 1474891 PollingIntervalTest test_getlastupdate_no_change
+PASS 1474891 PollingIntervalTest test_getlastupdate_no_change
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 2949782 Authentication test_expired_trial_account
+SKIP 2949782 Authentication test_expired_trial_account
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 2949783 Authentication test_invalid_credentials
+SKIP 2949783 Authentication test_invalid_credentials
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 2949784 Authentication test_migration_to_deviceLink
+SKIP 2949784 Authentication test_migration_to_deviceLink
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 2949785 Authentication test_refreshAuthToken
+SKIP 2949785 Authentication test_refreshAuthToken
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 2949786 Authentication test_supported_account
+SKIP 2949786 Authentication test_supported_account
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 2949787 Authentication test_unsupported_account
+SKIP 2949787 Authentication test_unsupported_account
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 2949788 Authentication test_unsupported_territory_account
+SKIP 2949788 Authentication test_unsupported_territory_account
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 5899570 SMAPIReporting test_report_account_action
+SKIP 5899570 SMAPIReporting test_report_account_action
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 5899571 SMAPIReporting test_report_play_seconds
+SKIP 5899571 SMAPIReporting test_report_play_seconds
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 5899572 SMAPIReporting test_report_play_status
+SKIP 5899572 SMAPIReporting test_report_play_status
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11799142 ssl_validation test_DNS_has_valid_x509_certificate
+
+
+
+ REGISTERING AVAILABLE PLUGINS
+ -----------------------------
+
+  PluginSessionResumption
+  PluginSessionRenegotiation
+  PluginCertInfo
+  PluginOpenSSLCipherSuites
+  PluginCompression
+
+
+
+ CHECKING HOST(S) AVAILABILITY
+ -----------------------------
+
+   relisten-sonos.alecgorge.com:443    => 2001:19f0:5c01:421:5400:ff:fe7a:dd50:443
+
+
+
+ SCAN RESULTS FOR RELISTEN-SONOS.ALECGORGE.COM:443 - 2001:19F0:5C01:421:5400:FF:FE7A:DD50:443
+ --------------------------------------------------------------------------------------------
+
+Unhandled exception when processing --certinfo:
+sslyze.utils.SSLyzeSSLConnection.SSLHandshakeRejected - TCP - Received RST
+
+Unhandled exception when processing --reneg:
+sslyze.utils.SSLyzeSSLConnection.SSLHandshakeRejected - TCP - Received RST
+
+  * TLSV1 Cipher Suites :
+
+      Rejected Cipher Suite(s): Hidden
+
+      Preferred Cipher Suite: None
+
+      Accepted Cipher Suite(s): None
+
+      Undefined - An unexpected error happened: None
+
+  * TLSV1_2 Cipher Suites :
+
+      Rejected Cipher Suite(s): Hidden
+
+      Preferred Cipher Suite:
+        ECDHE-RSA-AES128-GCM-SHA256   128 bits      HTTP 200 OK
+
+      Accepted Cipher Suite(s):
+        ECDHE-RSA-AES256-GCM-SHA384   256 bits      HTTP 200 OK
+        AES256-GCM-SHA384             256 bits      HTTP 200 OK
+        ECDHE-RSA-AES128-GCM-SHA256   128 bits      HTTP 200 OK
+        AES128-GCM-SHA256             128 bits      HTTP 200 OK
+
+      Undefined - An unexpected error happened: None
+
+
+
+ SCAN COMPLETED IN 0.66 S
+ ------------------------
+STOP A X.509_certificate element should be returned, indicating that relisten-sonos.alecgorge.com has a valid X.509 certificate for the DNS name (expression is False)
+STOP 11799142 ssl_validation test_DNS_has_valid_x509_certificate
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11799143 ssl_validation test_certificate_chain
+PASS 11799143 ssl_validation test_certificate_chain
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11799144 ssl_validation test_certificate_expiration
+FAIL A notBefore and notAfter element should be returned, indicating that relisten-sonos.alecgorge.com has a date range for validity.
+FAIL 11799144 ssl_validation test_certificate_expiration
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11799145 ssl_validation test_support_secure_renegotiation
+FAIL There was an exception while scanning the domain (relisten-sonos.alecgorge.com) for secure session renegotiation: sslyze.utils.SSLyzeSSLConnection.SSLHandshakeRejected - TCP - Received RST
+FAIL 11799145 ssl_validation test_support_secure_renegotiation
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11799146 ssl_validation test_support_tls_10
+FAIL The partner domain relisten-sonos.alecgorge.com must support at least one of the following TLS 1.0 cipher suites: AES128-SHA, AES256-SHA (expression is False)
+FAIL 11799146 ssl_validation test_support_tls_10
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11799147 ssl_validation test_support_tls_12
+PASS 11799147 ssl_validation test_support_tls_12
+INFO -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+INFO Start Test Case: 11799148 ssl_validation test_use_secure_endpoint
+PASS 11799148 ssl_validation test_use_secure_endpoint
+SUITE Summary: Failed. Passed: 23, Warnings: 0, Failed: 5.
