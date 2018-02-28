@@ -43,7 +43,6 @@ const getMediaURI = (type, id, callback) => {
           }
 
           callback({
-            name: 'root',
             getMediaURIResult: trackUrl
           });
         })

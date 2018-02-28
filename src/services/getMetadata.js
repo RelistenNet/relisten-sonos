@@ -22,7 +22,6 @@ const getRoot = (callback) => {
       });
 
       callback({
-        name: 'root',
         getMetadataResult: {
           index: 0,
           count: artists.length,
@@ -56,7 +55,6 @@ const getYears = (id, callback) => {
       });
 
       callback({
-        name: 'root',
         getMetadataResult: {
           index: 0,
           count: years.length,
@@ -105,7 +103,6 @@ getShows = (id, callback) => {
       });
 
       callback({
-        name: 'root',
         getMetadataResult: {
           index: 0,
           count: shows.length,
@@ -150,7 +147,6 @@ const getShow = (type, id, callback) => {
       });
 
       callback({
-        name: 'root',
         getMetadataResult: {
           index: 0,
           count: sources.length,
@@ -217,7 +213,6 @@ const getTracks = (type, id, callback) => {
       });
 
       callback({
-        name: 'root',
         getMetadataResult: {
           index: 0,
           count: tracks.length,

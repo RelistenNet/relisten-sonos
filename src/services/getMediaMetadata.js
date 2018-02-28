@@ -36,7 +36,6 @@ const getMediaMetadata = (type, id, callback) => {
       if (!track) return callback({ getMediaMetadataResult: {} });
 
       callback({
-        name: 'root',
         getMediaMetadataResult: {
           id: id,
           itemType: 'track',

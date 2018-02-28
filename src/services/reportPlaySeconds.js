@@ -41,7 +41,6 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
       }).then(() => null);
 
       callback({
-        name: 'root',
         reportPlaySecondsResult: ''
       });
     })
