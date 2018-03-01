@@ -152,7 +152,7 @@ const getShow = (type, id, callback) => {
           count: sources.length,
           total: sources.length,
           mediaCollection: sources,
-          canPlay: true,
+          // canPlay: true,
         }
       });
     })
