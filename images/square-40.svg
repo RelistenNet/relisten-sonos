@@ -19,4 +19,10 @@
             <tspan x="5" y="29">Re</tspan>
         </text>
     </g>
+    <style type="text/css">
+        @font-face {
+          font-family: 'SFUIDisplay-Bold';
+          src: url('https://cdn.rawgit.com/zezic/iamripfrontend/86bf0d3a/fonts/SFUIDisplay-Bold.woff');
+        }
+    </style>
 </svg>
