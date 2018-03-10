@@ -1,7 +1,7 @@
 const winston = require('../logger');
 const express = require('express');
 
-const fs = require('pn/fs');
+const fs = require('fs');
 const svg2png = require('svg2png');
 
 const router = express.Router();
@@ -26,6 +26,7 @@ router.get('/album-art', (req, res) => {
       console.log(e)
       return res.json({ error: true, e })
     });
+});
 
 router.get('/album-art/:artist/years/:year/:show_date/:source/:size.png', (req, res) => {
   let size = parseInt(req.params['size'], 10);
@@ -85,8 +86,6 @@ router.get('/album-art/:artist/years/:year/:show_date/:source/:size.png', (req, 
       // PNG Buffer, zlib compression level 3 (from 0-9): faster but bigger
       res.send(canvas.toBuffer(undefined, 3, canvas.PNG_FILTER_NONE));
     });
-
->>>>>>> node-canvas based album art
 });
 
 module.exports = router;
