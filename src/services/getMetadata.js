@@ -2,7 +2,7 @@ const winston = require('../logger');
 const artistsCache = require('../lib/artistsCache');
 const { durationToHHMMSS } = require('../lib/utils');
 
-const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
+const API_ROOT = 'https://api.relisten.live/api/v2';
 
 const getRoot = (callback) => {
   fetch(`${API_ROOT}/artists`)

@@ -1,8 +1,14 @@
+const winston = require('../logger');
 const express = require('express');
+
 const fs = require('pn/fs');
 const svg2png = require('svg2png');
 
 const router = express.Router();
+
+const artistsCache = require('../lib/artistsCache');
+const { createCanvas } = require('canvas');
+const { drawRelistenAlbumArt, makeRect } = require('../lib/albumArt');
 
 router.get('/', (req, res) => {
   return res.json({ hi: 'hi world' });
@@ -20,6 +26,67 @@ router.get('/album-art', (req, res) => {
       console.log(e)
       return res.json({ error: true, e })
     });
+
+router.get('/album-art/:artist/years/:year/:show_date/:source/:size.png', (req, res) => {
+  let size = parseInt(req.params['size'], 10);
+
+  if(!(size > 0 && size <= 1500)) {
+    res.send(400);
+    return;
+  }
+
+  let canvas = createCanvas(size, size);
+
+  let slug = req.params['artist'];
+
+  const artist = artistsCache[slug];
+  const artistName = artist ? artist.name : '';
+
+  let year = req.params['year'];
+  let date = req.params['show_date'];
+  let sourceId = req.params['source'];
+
+  fetch(`https://api.relisten.live/api/v2/artists/${slug}/years/${year}/${date}`)
+    .then(res => res.json())
+    .then(json => {
+      if (!json || !json.sources) {
+        winston.error('no json tracks found', slug, year, date, sourceId);
+        return callback({})
+      }
+
+      const source = json.sources.find(source => `${source.id}` === sourceId);
+
+      if (!source || !source.sets) {
+        winston.error('no source found', slug, year, date, sourceId);
+        return callback({})
+      }
+
+      var venue = {
+        name: "Unknown",
+        location: "Unknown"
+      };
+
+      if(!!json.venue) {
+        venue = json.venue;
+      }
+      else if(!!source.venue) {
+        venue = source.venue;
+      }
+
+      drawRelistenAlbumArt(canvas, {
+        artist: artistName,
+        showDate: json.display_date,
+        venue: venue.name,
+        location: venue.location
+      }, makeRect(0, 0, size, size), "aspectfill");
+
+      res.type('png');
+
+      // PNG Buffer, zlib compression level 3 (from 0-9): faster but bigger
+      res.send(canvas.toBuffer(undefined, 3, canvas.PNG_FILTER_NONE));
+    });
+
+>>>>>>> node-canvas based album art
 });
 
 module.exports = router;

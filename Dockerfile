@@ -5,6 +5,8 @@ WORKDIR /usr/src/app
 
 RUN yarn global add node-gyp
 
+RUN apt-get install -y libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev build-essential g++
+
 COPY package.json /usr/src/app
 COPY yarn.lock /usr/src/app
 

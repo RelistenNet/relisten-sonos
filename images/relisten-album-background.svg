@@ -15,24 +15,18 @@
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <use id="Rectangle" mask="url(#mask-3)" fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
-        <text id="Re" font-family="SFUIDisplay-Bold, SF UI Display" font-size="72" font-weight="bold" fill="#FFFFFF">
+        <text id="Re" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#FFFFFF">
             <tspan x="60" y="120">The Grateful Dead</tspan>
             <tspan x="1170" y="1440">Relisten</tspan>
         </text>
-        <text x="50%" y="42%" font-size="100" fill="white" text-anchor="middle" alignment-baseline="central" font-family="SFUIDisplay-Bold, SF UI Display">
+        <text x="50%" y="42%" font-size="100" fill="white" text-anchor="middle" alignment-baseline="central" font-family="Arial, sans-serif">
             <tspan>5/8/77</tspan>
         </text>
-        <text x="50%" y="50%" font-size="100" fill="white" text-anchor="middle" alignment-baseline="central" font-family="SFUIDisplay-Bold, SF UI Display">
+        <text x="50%" y="50%" font-size="100" fill="white" text-anchor="middle" alignment-baseline="central" font-family="Arial, sans-serif">
             <tspan>Barton Hall</tspan>
         </text>
-        <text x="50%" y="58%" font-size="100" fill="white" text-anchor="middle" alignment-baseline="central" font-family="SFUIDisplay-Bold, SF UI Display">
+        <text x="50%" y="58%" font-size="100" fill="white" text-anchor="middle" alignment-baseline="central" font-family="Arial, sans-serif">
             <tspan>Ithaca, NY</tspan>
         </text>
     </g>
-    <style type="text/css">
-        @font-face {
-          font-family: 'SFUIDisplay-Bold';
-          src: url('https://cdn.rawgit.com/zezic/iamripfrontend/86bf0d3a/fonts/SFUIDisplay-Bold.woff');
-        }
-    </style>
 </svg>
