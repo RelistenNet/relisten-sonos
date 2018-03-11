@@ -204,7 +204,7 @@ const getTracks = (type, id, callback) => {
                 duration: track.duration,
                 artistId: `Artist:${slug}`,
                 artist: artistName,
-                // albumArtURI: `https://sonos.relisten.net/album-art/${slug}/years/${year}/${date}/${sourceId}/600.png`,
+                albumArtURI: `https://sonos.relisten.net/album-art/${slug}/years/${year}/${date}/${sourceId}/600.png`,
                 trackNumber: ++trackIdx,
                 album: [
                   `${Number(month)}/${Number(day)}/${year.slice(2)}`,
