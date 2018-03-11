@@ -97,7 +97,7 @@ getShows = (id, callback) => {
             show.venue && show.venue.name,
             show.venue && show.venue.location,
           ].filter(x => x)
-           .join(' – ')
+           .join(' - ')
            + ' ' +
            [
             `[${show.source_count}]`,
@@ -213,7 +213,7 @@ const getTracks = (type, id, callback) => {
                   `${Number(month)}/${Number(day)}/${year.slice(2)}`,
                   json.venue ? json.venue.name : '',
                   json.venue ? json.venue.location : '',
-                ].filter(x => x).join(' – '),
+                ].filter(x => x).join(' - '),
               }
             };
           })
