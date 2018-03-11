@@ -30,7 +30,7 @@ router.get('/album-art', (req, res) => {
     });
 });
 
-router.get('/album-art/:artist/years/:year/:show_date/:source/:size.png', (req, res) => {
+router.get('/album-art/:artist/years/:year/:show_date/:source?/:size.png', (req, res) => {
   let size = parseInt(req.params['size'], 10);
 
   if(!(size > 0 && size <= 1500)) {
@@ -57,7 +57,7 @@ router.get('/album-art/:artist/years/:year/:show_date/:source/:size.png', (req, 
         return callback({})
       }
 
-      const source = json.sources.find(source => `${source.id}` === sourceId);
+      const source = json.sources.find(source => `${source.id}` === sourceId) || json.sources[0];
 
       if (!source || !source.sets) {
         winston.error('no source found', slug, year, date, sourceId);

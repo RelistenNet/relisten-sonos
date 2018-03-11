@@ -102,7 +102,7 @@ getShows = (id, callback) => {
            ].filter(x => x).join(' '),
           summary: show.display_date,
           canPlay: show.source_count === 1,
-          // albumArtURI: ''
+          albumArtURI: `https://sonos.relisten.net/album-art/${slug}/years/${year}/${show.display_date}/600.png`,
         };
       });
 
@@ -199,19 +199,18 @@ const getTracks = (type, id, callback) => {
               itemType: 'track',
               mimeType: type === 'flac' && track.flac_url ? 'audio/flac' : 'audio/mp3',
               title: track.title + ' ' + durationToHHMMSS(track.duration),
-              canPlay: true,
               trackMetadata: {
                 albumId: id,
                 duration: track.duration,
                 artistId: `Artist:${slug}`,
                 artist: artistName,
+                albumArtURI: `https://sonos.relisten.net/album-art/${slug}/years/${year}/${date}/${sourceId}/600.png`,
                 trackNumber: ++trackIdx,
                 album: [
                   `${Number(month)}/${Number(day)}/${year.slice(2)}`,
                   json.venue ? json.venue.name : '',
                   json.venue ? json.venue.location : '',
                 ].filter(x => x).join(' – '),
-                albumArtURI: `https://sonos.relisten.net/album-art/${slug}/years/${year}/${date}/${sourceId}/600.png`
               }
             };
           })
