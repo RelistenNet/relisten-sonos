@@ -11,7 +11,7 @@ const { createCanvas, registerFont } = require('canvas');
 const { drawRelistenAlbumArt, makeRect } = require('../lib/albumArt');
 
 // registerFont(__dirname + '/../../fonts/Roboto-Bold.ttf', { family: 'Roboto Bold' });
-registerFont(__dirname + '/../../fonts/Roboto-Black.ttf', { family: 'Roboto Black' });
+registerFont(__dirname + '/../../fonts/Roboto-Black.ttf', { family: 'RobotoBlack' });
 
 router.get('/', (req, res) => {
   return res.json({ hi: 'hi world' });
