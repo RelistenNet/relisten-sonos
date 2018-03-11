@@ -20,7 +20,7 @@ const getRoot = (callback) => {
         return {
           id: `Artist:${artist.slug}`,
           itemType: 'artist',
-          displayType: 'list',
+          displayType: 'list-sans-thumbs',
           title: artist.name,
           summary: artist.name,
           canPlay: false,
@@ -53,7 +53,7 @@ const getYears = (id, callback) => {
         return {
           id: `Year:${slug}:${item.year}`,
           itemType: 'container',
-          displayType: 'list',
+          displayType: 'list-sans-thumbs',
           title: item.year,
           summary: item.year,
           canPlay: false,

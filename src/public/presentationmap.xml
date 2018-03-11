@@ -5,6 +5,10 @@
 		<DisplayType id="list">
 			<DisplayMode>LIST</DisplayMode>
 		</DisplayType>
+		<DisplayType id="list-sans-thumbs">
+			<DisplayMode>LIST</DisplayMode>
+			<ItemThumbnails source="none"/>
+		</DisplayType>
 	</PresentationMap>
 	<PresentationMap type="Search">
 		<Match>
