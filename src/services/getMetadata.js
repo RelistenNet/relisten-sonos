@@ -101,7 +101,7 @@ getShows = (id, callback) => {
             show.has_soundboard_source && '[SBD]',
            ].filter(x => x).join(' '),
           summary: show.display_date,
-          canPlay: show.source_count === 1,
+          // canPlay: show.source_count === 1,
           albumArtURI: `https://sonos.relisten.net/album-art/${slug}/years/${year}/${show.display_date}/600.png`,
         };
       });
@@ -132,7 +132,7 @@ const getShow = (type, id, callback) => {
         return callback({})
       }
 
-      if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
+      // if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
 
       const sources = json.sources.filter(source => type === 'flac' ? source.flac_type !== 'Flac24Bit' : true).map(source => {
         return {
@@ -204,7 +204,7 @@ const getTracks = (type, id, callback) => {
                 duration: track.duration,
                 artistId: `Artist:${slug}`,
                 artist: artistName,
-                albumArtURI: `https://sonos.relisten.net/album-art/${slug}/years/${year}/${date}/${sourceId}/600.png`,
+                // albumArtURI: `https://sonos.relisten.net/album-art/${slug}/years/${year}/${date}/${sourceId}/600.png`,
                 trackNumber: ++trackIdx,
                 album: [
                   `${Number(month)}/${Number(day)}/${year.slice(2)}`,
