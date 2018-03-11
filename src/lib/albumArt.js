@@ -34,7 +34,7 @@ function drawRelistenAlbumArt(canvas, data, targetFrame, resizing) {
     //// Label Drawing
     var labelRect = makeRect(60, 55, 620.12, 81);
     context.fillStyle = textForeground;
-    context.font = 'bold 72px "Helvetica"';
+    context.font = 'normal normal 900 72px 1em "Roboto Black"';
     context.textAlign = 'left';
     context.fillText(data.artist, labelRect.x, labelRect.y + 65);
 
@@ -42,7 +42,7 @@ function drawRelistenAlbumArt(canvas, data, targetFrame, resizing) {
     //// Label 2 Drawing
     var label2Rect = makeRect(1170, 1375, 280.09, 81);
     context.fillStyle = textForeground;
-    context.font = 'bold 72px "Helvetica"';
+    context.font = 'normal normal 900 72px 1em "Roboto Black"';
     context.textAlign = 'left';
     context.fillText('Relisten', label2Rect.x, label2Rect.y + 65);
 
@@ -54,7 +54,7 @@ function drawRelistenAlbumArt(canvas, data, targetFrame, resizing) {
 
     var label3Rect = makeRect(-695, 0, 1390, 174.98);
     context.fillStyle = textForeground;
-    context.font = 'bold 190px "Helvetica"';
+    context.font = 'normal normal 900 190px 1em "Roboto Black"';
     context.textAlign = 'center';
     context.fillText(data.showDate, label3Rect.x + label3Rect.w / 2, label3Rect.y + 127);
 
@@ -67,7 +67,7 @@ function drawRelistenAlbumArt(canvas, data, targetFrame, resizing) {
 
     var label4Rect = makeRect(-695, 0, 1390, 132.7);
     context.fillStyle = textForeground;
-    context.font = 'bold 140px "Helvetica"';
+    context.font = 'normal normal 900 140px 1em "Roboto Black"';
     context.textAlign = 'center';
     context.fillText(data.venue, label4Rect.x + label4Rect.w / 2, label4Rect.y + 91);
 
@@ -80,7 +80,7 @@ function drawRelistenAlbumArt(canvas, data, targetFrame, resizing) {
 
     var label5Rect = makeRect(-695, 0, 1390, 132.7);
     context.fillStyle = textForeground;
-    context.font = 'bold 140px "Helvetica"';
+    context.font = 'normal normal 900 140px 1em "Roboto Black"';
     context.textAlign = 'center';
     context.fillText(data.location, label5Rect.x + label5Rect.w / 2, label5Rect.y + 91);
 
