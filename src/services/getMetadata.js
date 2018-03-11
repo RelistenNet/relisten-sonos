@@ -4,6 +4,9 @@ const { durationToHHMMSS } = require('../lib/utils');
 
 const API_ROOT = 'https://api.relisten.live/api/v2';
 
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+const SONOS_ROOT = IS_PRODUCTION ? 'https://sonos.relisten.net' : 'http://192.168.0.101:3000';
+
 const getRoot = (callback) => {
   fetch(`${API_ROOT}/artists`)
     .then(res => res.json())
@@ -102,7 +105,7 @@ getShows = (id, callback) => {
            ].filter(x => x).join(' '),
           summary: show.display_date,
           // canPlay: show.source_count === 1,
-          albumArtURI: `https://sonos.relisten.net/album-art/${slug}/years/${year}/${show.display_date}/600.png`,
+          albumArtURI: `${SONOS_ROOT}/album-art/${slug}/years/${year}/${show.display_date}/600.png`,
         };
       });
 
@@ -146,7 +149,7 @@ const getShow = (type, id, callback) => {
           ].filter(x => x).join(' '),
           summary: source.description,
           canPlay: true,
-          albumArtURI: `https://sonos.relisten.net/album-art/${slug}/years/${year}/${date}/${json.sources[0].id}/600.png`
+          albumArtURI: `${SONOS_ROOT}/album-art/${slug}/years/${year}/${date}/${json.sources[0].id}/600.png`
         };
       });
 
@@ -204,7 +207,7 @@ const getTracks = (type, id, callback) => {
                 duration: track.duration,
                 artistId: `Artist:${slug}`,
                 artist: artistName,
-                albumArtURI: `https://sonos.relisten.net/album-art/${slug}/years/${year}/${date}/${sourceId}/600.png`,
+                albumArtURI: `${SONOS_ROOT}/album-art/${slug}/years/${year}/${date}/${sourceId}/600.png`,
                 trackNumber: ++trackIdx,
                 album: [
                   `${Number(month)}/${Number(day)}/${year.slice(2)}`,
