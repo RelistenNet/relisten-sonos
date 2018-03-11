@@ -209,7 +209,7 @@ const getTracks = (type, id, callback) => {
                   json.venue ? json.venue.name : '',
                   json.venue ? json.venue.location : '',
                 ].filter(x => x).join(' – '),
-                // albumArtURI: ''
+                albumArtURI: `https://sonos.relisten.net/album-art/${slug}/years/${year}/${date}/${sourceId}/600.png`
               }
             };
           })

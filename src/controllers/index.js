@@ -7,8 +7,10 @@ const svg2png = require('svg2png');
 const router = express.Router();
 
 const artistsCache = require('../lib/artistsCache');
-const { createCanvas } = require('canvas');
+const { createCanvas, registerFont } = require('canvas');
 const { drawRelistenAlbumArt, makeRect } = require('../lib/albumArt');
+
+registerFont(__dirname + '/../../fonts/Roboto-Bold.ttf', { family: 'Roboto Bold' });
 
 router.get('/', (req, res) => {
   return res.json({ hi: 'hi world' });
