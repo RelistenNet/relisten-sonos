@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <stringtables xmlns="http://sonos.com/sonosapi">
     <stringtable rev="1" xml:lang="en-US">
-        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' concert recordings totaling in 60,000+ tapes and 1,000,000+ songs.</string>
         <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="da-DK">
-        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' concert recordings totaling in 60,000+ tapes and 1,000,000+ songs.</string>
         <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="de-DE"><!--irc: fbm/anzu-->
@@ -21,19 +21,19 @@
         <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="it-IT">
-        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' concert recordings totaling in 60,000+ tapes and 1,000,000+ songs.</string>
         <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="ja-JP">
-        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' concert recordings totaling in 60,000+ tapes and 1,000,000+ songs.</string>
         <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="nb-NO">
-        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' concert recordings totaling in 60,000+ tapes and 1,000,000+ songs.</string>
         <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="nl-NL">
-        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' concert recordings totaling in 60,000+ tapes and 1,000,000+ songs.</string>
         <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="pt-BR"><!--@sallesjuIiana-->
@@ -45,7 +45,7 @@
         <string stringId="Concerts">Concerts</string>
     </stringtable>
     <stringtable rev="1" xml:lang="zh-CN">
-        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' live concerts totaling in 60,000+ recordings and 1,000,000+ songs.</string>
+        <string stringId="ServicePromo">Relisten provides free streaming of over 100 bands' concert recordings totaling in 60,000+ tapes and 1,000,000+ songs.</string>
         <string stringId="Concerts">Concerts</string>
     </stringtable>
 </stringtables>
