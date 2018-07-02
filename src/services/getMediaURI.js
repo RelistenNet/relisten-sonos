@@ -42,6 +42,13 @@ const getMediaURI = (type, id, callback) => {
             trackUrl = res.url;
           }
 
+          // wat.
+          // for some reason https doesn't work with cloudflare or phish.in and sonos.
+          // meh
+          if (slug === 'phish') {
+            trackUrl = trackUrl.replace('https', 'http');
+          }
+
           callback({
             getMediaURIResult: trackUrl
           });
