@@ -23,15 +23,15 @@ app.listen(PORT, '0.0.0.0', function(err) {
   const flacListener = soap.listen(app, '/flac', services('flac'), wsdl);
 
   listener.log = function(type, data) {
-    if (type === 'error') winston.error('soap error mp3', data);
+    if (type === 'error') winston.error('soap error mp3', data, new Error().stack);
   };
 
   mp3Listener.log = function(type, data) {
-    if (type === 'error') winston.error('soap error mp3', data);
+    if (type === 'error') winston.error('soap error mp3', data, new Error().stack);
   };
 
   flacListener.log = function(type, data) {
-    if (type === 'error') winston.error('soap error flac', data);
+    if (type === 'error') winston.error('soap error flac', data, new Error().stack);
   };
 
   winston.info('==> 🌎 Listening on PORT %s. Open up http://0.0.0.0:%s/ in your browser.', PORT, PORT);
