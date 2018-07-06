@@ -12,6 +12,6 @@ const setPlaySeconds = (type, id, seconds, status, callback) => {
 module.exports = (type) => (args, callback) => {
   const { id, seconds, status } = args;
 
-  winston.info("setPlaySeconds", type, id, status, seconds, args);
+  winston.info("setPlayedSeconds", type, id, status, seconds, args);
   return setPlaySeconds(type, id, seconds, status, callback);
 };
