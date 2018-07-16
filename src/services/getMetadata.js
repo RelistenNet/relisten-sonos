@@ -241,18 +241,23 @@ module.exports = (type) => (args, callback) => {
   winston.info("getMetadata", id, args);
 
   if (id === 'root') {
+    winston.I.increment("sonos.wsdl.getMetadata.root");
     return getRoot(callback);
   }
   else if (/Artist\:/.test(id)) {
+    winston.I.increment("sonos.wsdl.getMetadata.Artist");
     return getYears(id, callback);
   }
   else if (/Year\:/.test(id)) {
+    winston.I.increment("sonos.wsdl.getMetadata.Year");
     return getShows(id, callback);
   }
   else if (/Shows\:/.test(id)) {
+    winston.I.increment("sonos.wsdl.getMetadata.Shows");
     return getShow(type, id, callback);
   }
   else if (/Show\:/.test(id)) {
+    winston.I.increment("sonos.wsdl.getMetadata.Show");
     return getTracks(type, id, callback);
   }
 };

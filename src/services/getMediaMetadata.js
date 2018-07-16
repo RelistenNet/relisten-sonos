@@ -70,5 +70,6 @@ module.exports = (type) => (args, callback) => {
   if (!id) return;
 
   winston.info("getMediaMetadata", id);
+  winston.I.increment("sonos.wsdl.getMediaMetadata");
   return getMediaMetadata(type, id, callback);
 };

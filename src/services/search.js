@@ -1,3 +1,4 @@
+const I = require('instrumental-agent');
 const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
 
 // const categories = [
@@ -15,6 +16,7 @@ module.exports = (type) => (args, callback) => {
   const { id, term } = args;
 
   console.log('search', type, id, args);
+  I.increment('sonos.wsdl.search');
 
   const searchForArtists = /artist/.test(id);
   // const searchForSongs = /song/.test(id);
