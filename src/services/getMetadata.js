@@ -12,10 +12,6 @@ const getRoot = (callback) => {
     .then(res => res.json())
     .then(json => {
       const artists = json.map(artist => {
-        // block WSP since it really doesn't work
-        // without duration
-        if (artist.slug === 'wsp') return null;
-
         artistsCache[artist.slug] = artist;
         return {
           id: `Artist:${artist.slug}`,
