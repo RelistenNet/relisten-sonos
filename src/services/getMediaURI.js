@@ -27,7 +27,6 @@ const getMediaURI = (type, id, callback) => {
 
         if (nextTrack) track = nextTrack;
       });
-
       if (!track) return callback({ getMediaURIResult: '' });
 
       let trackUrl = track[`${type}_url`] || track.mp3_url;

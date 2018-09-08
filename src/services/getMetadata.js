@@ -2,7 +2,7 @@ const winston = require('../logger');
 const artistsCache = require('../lib/artistsCache');
 const { durationToHHMMSS } = require('../lib/utils');
 
-const API_ROOT = 'https://api.relisten.live/api/v2';
+const API_ROOT = 'https://api.relisten.net/api/v2';
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const SONOS_ROOT = IS_PRODUCTION ? 'https://sonos.relisten.net' : 'http://192.168.0.101:3000';
@@ -143,7 +143,7 @@ const getShow = (type, id, callback) => {
             source.is_soundboard ? '[SBD]' : '[AUD]',
             type === 'flac' && source.flac_type === 'Flac16Bit' && json.has_streamable_flac_source && '[FLAC]',
           ].filter(x => x).join(' '),
-          summary: source.description,
+          summary: source.description || '',
           canPlay: true,
           albumArtURI: `${SONOS_ROOT}/album-art/${slug}/years/${year}/${date}/${json.sources[0].id}/600.png`
         };

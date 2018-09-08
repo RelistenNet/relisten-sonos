@@ -32,9 +32,7 @@ const getMediaMetadata = (type, id, callback) => {
         if (nextTrack) track = nextTrack;
       });
 
-
       if (!track) return callback({ getMediaMetadataResult: {} });
-
       callback({
         getMediaMetadataResult: {
           id: id,

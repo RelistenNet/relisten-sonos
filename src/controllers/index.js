@@ -50,7 +50,7 @@ router.get('/album-art/:artist/years/:year/:show_date/:source?/:size.png', (req,
   let date = req.params['show_date'];
   let sourceId = req.params['source'];
 
-  fetch(`https://api.relisten.live/api/v2/artists/${slug}/years/${year}/${date}`)
+  fetch(`https://api.relisten.net/api/v2/artists/${slug}/years/${year}/${date}`)
     .then(res => res.json())
     .then(json => {
       if (!json || !json.sources) {
