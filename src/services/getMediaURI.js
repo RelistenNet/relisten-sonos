@@ -38,7 +38,7 @@ const getMediaURI = (type, id, callback) => {
       fetch(trackUrl, options)
         .then(res => {
           if (res.url) {
-            trackUrl = res.url;
+             trackUrl = res.url;
           }
 
           // wat.
@@ -48,8 +48,20 @@ const getMediaURI = (type, id, callback) => {
             trackUrl = trackUrl.replace('https', 'http');
           }
 
+          // sonos requires a urlencode, but we can't encode the slashes
+          // encodeURI encodes a fully formed URL and won't encode the slashes
+          if (slug === 'wsp') {
+            trackUrl = encodeURI(trackUrl);
+          }
+
           callback({
-            getMediaURIResult: trackUrl
+            getMediaURIResult: trackUrl,// 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
+            httpHeaders: [{
+              httpHeader: {
+                header: 'Referer',
+                value: 'https://www.panicstream.com'
+              }
+            }]
           });
         })
     })
