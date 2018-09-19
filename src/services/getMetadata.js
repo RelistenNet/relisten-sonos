@@ -197,7 +197,7 @@ const getTracks = (type, id, callback) => {
               id: `Track:${slug}:${year}:${date}:${source.id}:${track.id}`,
               itemType: 'track',
               mimeType: type === 'flac' && track.flac_url ? 'audio/flac' : 'audio/mp3',
-              title: track.title + ' ' + durationToHHMMSS(track.duration),
+              title: `${track.title} [${durationToHHMMSS(track.duration)}]`,
               trackMetadata: {
                 albumId: id,
                 duration: track.duration,

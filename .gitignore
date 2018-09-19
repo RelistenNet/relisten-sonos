@@ -1,4 +1,5 @@
 node_modules/
 *.rdb
 .DS_store
+*.swp
 
