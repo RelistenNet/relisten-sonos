@@ -79,7 +79,7 @@ const getShows = (id, callback) => {
     .then(res => res.json())
     .then(json => {
       if (!json || !json.shows) {
-        winston.error('error', regex);
+        winston.error('error', { regex });
         return callback({});
       }
 
@@ -127,7 +127,7 @@ const getShow = (type, id, callback) => {
     .then(res => res.json())
     .then(json => {
       if (!json || !json.sources) {
-        winston.error('error', regex);
+        winston.error('error', { regex });
         return callback({});
       }
 
@@ -174,14 +174,14 @@ const getTracks = (type, id, callback) => {
     .then(res => res.json())
     .then(json => {
       if (!json || !json.sources) {
-        winston.error('no json tracks found', slug, year, date, sourceId);
+        winston.error('no json tracks found', { slug, year, date, sourceId });
         return callback({});
       }
 
       const source = json.sources.find(source => `${source.id}` === sourceId);
 
       if (!source || !source.sets) {
-        winston.error('no source found', slug, year, date, sourceId);
+        winston.error('no source found', { slug, year, date, sourceId });
         return callback({});
       }
 
@@ -234,7 +234,7 @@ const getTracks = (type, id, callback) => {
 module.exports = (type) => (args, callback) => {
   const id = args.id;
 
-  winston.info('getMetadata', id, args);
+  winston.info('getMetadata', { id, args });
 
   if (id === 'root') {
     winston.I.increment('sonos.wsdl.getMetadata.root');

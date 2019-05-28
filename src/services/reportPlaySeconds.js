@@ -14,14 +14,14 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
     .then(res => res.json())
     .then(json => {
       if (!json || !json.sources) {
-        winston.error('no SONG json tracks found', slug, year, date, sourceId);
+        winston.error('no SONG json tracks found', { slug, year, date, sourceId });
         return callback({ reportPlaySecondsResult: '' });
       }
 
       const source = json.sources.find(source => `${source.id}` === sourceId);
 
       if (!source || !source.sets) {
-        winston.error('no SONG source found', slug, year, date, sourceId);
+        winston.error('no SONG source found', { slug, year, date, sourceId });
         return callback({ reportPlaySecondsResult: '' });
       }
 
@@ -53,7 +53,7 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
 module.exports = (type) => (args, callback) => {
   const { id, seconds } = args;
 
-  // winston.info('reportPlaySeconds', type, id, seconds, args);
+  // winston.info('reportPlaySeconds', { type, id, seconds, args });
   winston.I.increment('sonos.wsdl.reportPlaySeconds');
   return reportPlaySeconds(type, id, seconds, callback);
 };

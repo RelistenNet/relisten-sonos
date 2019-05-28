@@ -9,14 +9,14 @@ const getMediaURI = (type, id, callback) => {
     .then(res => res.json())
     .then(json => {
       if (!json || !json.sources) {
-        winston.error('no SONG json tracks found', slug, year, date, sourceId);
+        winston.error('no SONG json tracks found', { slug, year, date, sourceId });
         return callback({ getMediaURIResult: '' });
       }
 
       const source = json.sources.find(source => `${source.id}` === sourceId);
 
       if (!source || !source.sets) {
-        winston.error('no SONG source found', slug, year, date, sourceId);
+        winston.error('no SONG source found', { slug, year, date, sourceId });
         return callback({ getMediaURIResult: '' });
       }
 
