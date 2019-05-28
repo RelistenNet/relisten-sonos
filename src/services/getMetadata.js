@@ -37,7 +37,7 @@ const getRoot = (callback) => {
       winston.error(err);
       return callback({});
     });
-}
+};
 
 const getYears = (id, callback) => {
   const slug = id.replace('Artist:', '');
@@ -70,7 +70,7 @@ const getYears = (id, callback) => {
       winston.error(err);
       return callback({});
     });
-}
+};
 
 getShows = (id, callback) => {
   const [regex, slug, year] = id.match(/Year\:(.*)\:(.*)/);
@@ -93,11 +93,11 @@ getShows = (id, callback) => {
             show.venue && show.venue.name,
             show.venue && show.venue.location,
           ].filter(x => x)
-           .join(' - ')
+            .join(' - ')
            + ' ' +
            [
-            `[${show.source_count}]`,
-            show.has_soundboard_source && '[SBD]',
+             `[${show.source_count}]`,
+             show.has_soundboard_source && '[SBD]',
            ].filter(x => x).join(' '),
           summary: show.display_date,
           // canPlay: show.source_count === 1,
@@ -118,7 +118,7 @@ getShows = (id, callback) => {
       winston.error(err);
       return callback({});
     });
-}
+};
 
 const getShow = (type, id, callback) => {
   const [regex, slug, year, date] = id.match(/Shows\:(.*)\:(.*)\:(.*)/);
@@ -128,7 +128,7 @@ const getShow = (type, id, callback) => {
     .then(json => {
       if (!json || !json.sources) {
         winston.error('error', regex);
-        return callback({})
+        return callback({});
       }
 
       // if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
@@ -162,7 +162,7 @@ const getShow = (type, id, callback) => {
       winston.error(err);
       return callback({});
     });
-}
+};
 
 const getTracks = (type, id, callback) => {
   const [regex, slug, year, date, sourceId] = id.match(/Show\:(.*)\:(.*)\:(.*)\:(.*)/);
@@ -175,14 +175,14 @@ const getTracks = (type, id, callback) => {
     .then(json => {
       if (!json || !json.sources) {
         winston.error('no json tracks found', slug, year, date, sourceId);
-        return callback({})
+        return callback({});
       }
 
       const source = json.sources.find(source => `${source.id}` === sourceId);
 
       if (!source || !source.sets) {
         winston.error('no source found', slug, year, date, sourceId);
-        return callback({})
+        return callback({});
       }
 
       let tracks = [];
@@ -229,31 +229,31 @@ const getTracks = (type, id, callback) => {
       winston.error(err);
       return callback({});
     });
-}
+};
 
 module.exports = (type) => (args, callback) => {
   const id = args.id;
 
-  winston.info("getMetadata", id, args);
+  winston.info('getMetadata', id, args);
 
   if (id === 'root') {
-    winston.I.increment("sonos.wsdl.getMetadata.root");
+    winston.I.increment('sonos.wsdl.getMetadata.root');
     return getRoot(callback);
   }
   else if (/Artist\:/.test(id)) {
-    winston.I.increment("sonos.wsdl.getMetadata.Artist");
+    winston.I.increment('sonos.wsdl.getMetadata.Artist');
     return getYears(id, callback);
   }
   else if (/Year\:/.test(id)) {
-    winston.I.increment("sonos.wsdl.getMetadata.Year");
+    winston.I.increment('sonos.wsdl.getMetadata.Year');
     return getShows(id, callback);
   }
   else if (/Shows\:/.test(id)) {
-    winston.I.increment("sonos.wsdl.getMetadata.Shows");
+    winston.I.increment('sonos.wsdl.getMetadata.Shows');
     return getShow(type, id, callback);
   }
   else if (/Show\:/.test(id)) {
-    winston.I.increment("sonos.wsdl.getMetadata.Show");
+    winston.I.increment('sonos.wsdl.getMetadata.Show');
     return getTracks(type, id, callback);
   }
 };

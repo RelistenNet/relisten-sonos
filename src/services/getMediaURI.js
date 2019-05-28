@@ -23,7 +23,7 @@ const getMediaURI = (type, id, callback) => {
       let track;
 
       source.sets.map(set => {
-        const nextTrack = set.tracks.find(internalTrack => `${internalTrack.id}` === trackId)
+        const nextTrack = set.tracks.find(internalTrack => `${internalTrack.id}` === trackId);
 
         if (nextTrack) track = nextTrack;
       });
@@ -38,7 +38,7 @@ const getMediaURI = (type, id, callback) => {
       fetch(trackUrl, options)
         .then(res => {
           if (res.url) {
-             trackUrl = res.url;
+            trackUrl = res.url;
           }
 
           // wat.
@@ -55,7 +55,7 @@ const getMediaURI = (type, id, callback) => {
           }
 
           callback({
-            getMediaURIResult: trackUrl,// 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
+            getMediaURIResult: trackUrl, // 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
             httpHeaders: [{
               httpHeader: {
                 header: 'Referer',
@@ -63,18 +63,18 @@ const getMediaURI = (type, id, callback) => {
               }
             }]
           });
-        })
+        });
     })
     .catch(err => {
       winston.error(err);
       callback({});
     });
-}
+};
 
 module.exports = (type) => (args, callback) => {
   const id = args.id;
 
-  winston.info("getMediaURI", type, id);
-  winston.I.increment("sonos.wsdl.getMediaURI");
+  winston.info('getMediaURI', type, id);
+  winston.I.increment('sonos.wsdl.getMediaURI');
   return getMediaURI(type, id, callback);
 };

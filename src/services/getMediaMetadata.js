@@ -27,7 +27,7 @@ const getMediaMetadata = (type, id, callback) => {
       let track;
 
       source.sets.map(set => {
-        const nextTrack = set.tracks.find(internalTrack => `${internalTrack.id}` === trackId)
+        const nextTrack = set.tracks.find(internalTrack => `${internalTrack.id}` === trackId);
 
         if (nextTrack) track = nextTrack;
       });
@@ -61,13 +61,13 @@ const getMediaMetadata = (type, id, callback) => {
       winston.error(err);
       callback({});
     });
-}
+};
 
 module.exports = (type) => (args, callback) => {
   const id = args.id;
   if (!id) return;
 
-  winston.info("getMediaMetadata", id);
-  winston.I.increment("sonos.wsdl.getMediaMetadata");
+  winston.info('getMediaMetadata', id);
+  winston.I.increment('sonos.wsdl.getMediaMetadata');
   return getMediaMetadata(type, id, callback);
 };

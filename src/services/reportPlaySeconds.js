@@ -28,7 +28,7 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
       let track;
 
       source.sets.map(set => {
-        const nextTrack = set.tracks.find(internalTrack => `${internalTrack.id}` === trackId)
+        const nextTrack = set.tracks.find(internalTrack => `${internalTrack.id}` === trackId);
 
         if (nextTrack) track = nextTrack;
       });
@@ -48,12 +48,12 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
       winston.error(err);
       callback({});
     });
-}
+};
 
 module.exports = (type) => (args, callback) => {
   const { id, seconds } = args;
 
-  winston.info("reportPlaySeconds", type, id, seconds, args);
-  winston.I.increment("sonos.wsdl.reportPlaySeconds");
+  winston.info('reportPlaySeconds', type, id, seconds, args);
+  winston.I.increment('sonos.wsdl.reportPlaySeconds');
   return reportPlaySeconds(type, id, seconds, callback);
 };

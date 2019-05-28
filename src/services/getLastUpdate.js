@@ -1,8 +1,8 @@
 const winston = require('../logger');
 
 module.exports = (type) => () => {
-  winston.info("getLastUpdate");
-  winston.I.increment("sonos.wsdl.getLastUpdate");
+  winston.info('getLastUpdate');
+  winston.I.increment('sonos.wsdl.getLastUpdate');
 
   return {
     getLastUpdateResult: {
@@ -10,5 +10,5 @@ module.exports = (type) => () => {
       catalog: 0,
       pollInterval: 60
     }
-  }
+  };
 };

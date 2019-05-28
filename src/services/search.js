@@ -24,7 +24,7 @@ module.exports = (type) => (args, callback) => {
   fetch(`${API_ROOT}/search?q=${term}`)
     .then(res => res.json())
     .then(json => {
-      let results = [];
+      const results = [];
 
       searchForArtists && json.artists.map(artist => {
         results.push({
@@ -37,7 +37,7 @@ module.exports = (type) => (args, callback) => {
           authrequired: 0,
           canPlay: false,
           // albumArtURI: ''
-        })
+        });
       });
 
       // searchForSongs && json.songs.map(artist => {
