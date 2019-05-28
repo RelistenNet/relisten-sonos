@@ -1,10 +1,12 @@
 # Relisten for Sonos
 
+[![Build Status](https://ci.alecgorge.com/job/RelistenNet/job/relisten-sonos/job/master/badge/icon)](https://ci.alecgorge.com/job/RelistenNet/job/relisten-sonos/job/master/)
+
 ## Introduction
 
-It's Relisten.net.. for Sonos. This is a work in progress, but it does work.
+It's Relisten.net.. for Sonos.
 
-Please contact admin@relisten.net with your feedback. Thank you!
+Please contact team@relisten.net with your feedback. Thank you!
 
 ## Development
 
