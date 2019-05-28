@@ -15,7 +15,7 @@ const wsdl = fs.readFileSync(__dirname + '/../Sonos.wsdl', 'utf8');
 app.use(require('./controllers'));
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
-app.listen(PORT, '0.0.0.0', function(err) {
+app.listen(PORT, '0.0.0.0', (err) => {
   if (err) winston.info(err);
 
   const listener = soap.listen(app, '/wsdl', services('mp3'), wsdl); // only here for posterity
@@ -34,6 +34,5 @@ app.listen(PORT, '0.0.0.0', function(err) {
     if (type === 'error') winston.error('soap error flac', { data, error: new Error().stack });
   };
 
-  winston.info('==> 🌎 Listening on PORT %s. Open up http://0.0.0.0:%s/ in your browser.', PORT, PORT);
+  winston.info(`==> 🌎 Listening on PORT ${PORT}`);
 });
-
