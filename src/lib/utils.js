@@ -48,7 +48,6 @@ const RECORDING_STRINGS = [
   'New %s',
   'Latest %s',
   '%s à la mode',
-  '[x:xs] recordings',
 ].map(x => x.replace('%s', 'Recordings'));
 
 const getRandomLatestRecordingString = () => RECORDING_STRINGS[Math.floor(Math.random() * RECORDING_STRINGS.length)];
