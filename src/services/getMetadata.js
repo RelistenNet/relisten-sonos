@@ -217,6 +217,7 @@ const getShow = (type, id, callback) => {
           displayType: 'list',
           title: [
             source.is_soundboard ? '[SBD]' : '[AUD]',
+            source.source || source.lineage,
             person ? `by ${person}` : null,
             type === 'flac' && source.flac_type === 'Flac16Bit' && json.has_streamable_flac_source && '[FLAC]',
           ].filter(x => x).join(' '),
