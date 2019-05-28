@@ -1,4 +1,4 @@
-import { firstBy } from 'thenby';
+const { firstBy } = require('thenby');
 
 const addZero = (str = '') => {
   const int = parseInt(str, 10);
