@@ -74,7 +74,7 @@ const getMediaURI = (type, id, callback) => {
 module.exports = (type) => (args, callback) => {
   const id = args.id;
 
-  winston.info('getMediaURI', type, id);
+  winston.info('getMediaURI', { type, id });
   winston.I.increment('sonos.wsdl.getMediaURI');
   return getMediaURI(type, id, callback);
 };

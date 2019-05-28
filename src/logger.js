@@ -2,7 +2,7 @@ const winston = require('winston');
 const I = require('instrumental-agent');
 
 const logger = winston.createLogger({
-  format: winston.format.json(),
+  // format: winston.format.json(),
   transports: [
     new winston.transports.Console(),
   ],
