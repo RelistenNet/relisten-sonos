@@ -32,7 +32,7 @@ const getMediaURI = (type, id, callback) => {
       let trackUrl = track[`${type}_url`] || track.mp3_url;
 
       const options = {
-        method: 'HEAD'
+        method: 'HEAD',
       };
 
       fetch(trackUrl, options)
@@ -59,9 +59,9 @@ const getMediaURI = (type, id, callback) => {
             httpHeaders: [{
               httpHeader: {
                 header: 'Referer',
-                value: 'https://www.panicstream.com'
-              }
-            }]
+                value: 'https://www.panicstream.com',
+              },
+            }],
           });
         });
     })

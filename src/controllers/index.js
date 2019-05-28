@@ -67,7 +67,7 @@ router.get('/album-art/:artist/years/:year/:show_date/:source?/:size.png', (req,
 
       let venue = {
         name: 'Unknown',
-        location: 'Unknown'
+        location: 'Unknown',
       };
 
       if (json.venue) {
@@ -81,7 +81,7 @@ router.get('/album-art/:artist/years/:year/:show_date/:source?/:size.png', (req,
         artist: artistName,
         showDate: json.display_date,
         venue: venue.name,
-        location: venue.location
+        location: venue.location,
       }, makeRect(0, 0, size, size), 'aspectfill');
 
       res.type('png');

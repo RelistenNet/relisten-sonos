@@ -6,7 +6,7 @@ module.exports = () => () => {
 
   return {
     getExtendedMetadataTextResult: {
-      getExtendedMetadataTextResult: 'extended text result'
-    }
+      getExtendedMetadataTextResult: 'extended text result',
+    },
   };
 };

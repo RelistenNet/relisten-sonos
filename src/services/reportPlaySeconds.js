@@ -41,7 +41,7 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
       }).then(() => null);
 
       callback({
-        reportPlaySecondsResult: ''
+        reportPlaySecondsResult: '',
       });
     })
     .catch(err => {

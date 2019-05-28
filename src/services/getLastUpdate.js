@@ -8,7 +8,7 @@ module.exports = () => () => {
     getLastUpdateResult: {
       favorites: 0,
       catalog: 0,
-      pollInterval: 60
-    }
+      pollInterval: 60,
+    },
   };
 };

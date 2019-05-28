@@ -58,8 +58,8 @@ module.exports = (type) => (args, callback) => {
           index: 0,
           count: results.length,
           total: results.length,
-          mediaCollection: results
-        }
+          mediaCollection: results,
+        },
       });
     });
 };

@@ -52,9 +52,9 @@ const getMediaMetadata = (type, id, callback) => {
             // albumArtURI: '',
             canPlay: true,
             canSkip: true,
-            canAddToFavorites: false
-          }
-        }
+            canAddToFavorites: false,
+          },
+        },
       });
     })
     .catch(err => {

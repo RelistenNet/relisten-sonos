@@ -13,8 +13,8 @@ const services = (type = 'mp3') => {
           reportPlayStatus: require('./reportPlayStatus')(type),
           reportPlaySeconds: require('./reportPlaySeconds')(type),
           setPlayedSeconds: require('./setPlayedSeconds')(type),
-        }
-      }
+        },
+      },
     }
   );
 };

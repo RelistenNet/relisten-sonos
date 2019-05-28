@@ -29,8 +29,8 @@ const getRoot = (callback) => {
           index: 0,
           count: artists.length,
           total: artists.length,
-          mediaCollection: artists
-        }
+          mediaCollection: artists,
+        },
       });
     })
     .catch(err => {
@@ -62,8 +62,8 @@ const getYears = (id, callback) => {
           index: 0,
           count: years.length,
           total: years.length,
-          mediaCollection: years
-        }
+          mediaCollection: years,
+        },
       });
     })
     .catch(err => {
@@ -110,8 +110,8 @@ const getShows = (id, callback) => {
           index: 0,
           count: shows.length,
           total: shows.length,
-          mediaCollection: shows
-        }
+          mediaCollection: shows,
+        },
       });
     })
     .catch(err => {
@@ -145,7 +145,7 @@ const getShow = (type, id, callback) => {
           ].filter(x => x).join(' '),
           summary: source.description || '',
           canPlay: true,
-          albumArtURI: `${SONOS_ROOT}/album-art/${slug}/years/${year}/${date}/${json.sources[0].id}/600.png`
+          albumArtURI: `${SONOS_ROOT}/album-art/${slug}/years/${year}/${date}/${json.sources[0].id}/600.png`,
         };
       });
 
@@ -155,7 +155,7 @@ const getShow = (type, id, callback) => {
           count: sources.length,
           total: sources.length,
           mediaCollection: sources,
-        }
+        },
       });
     })
     .catch(err => {
@@ -210,7 +210,7 @@ const getTracks = (type, id, callback) => {
                   json.venue ? json.venue.name : '',
                   json.venue ? json.venue.location : '',
                 ].filter(x => x).join(' - '),
-              }
+              },
             };
           })
         );
@@ -221,8 +221,8 @@ const getTracks = (type, id, callback) => {
           index: 0,
           count: tracks.length,
           total: tracks.length,
-          mediaMetadata: tracks
-        }
+          mediaMetadata: tracks,
+        },
       });
     })
     .catch(err => {
