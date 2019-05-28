@@ -3,7 +3,7 @@ const winston = require('../logger');
 const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
 
 const reportPlaySeconds = (type, id, seconds, callback) => {
-  const [regex, slug, year, date, sourceId, trackId] = id.match(/Track\:(.*)\:(.*)\:(.*)\:(.*)\:(.*)/);
+  const [, slug, year, date, sourceId, trackId] = id.match(/Track:(.*):(.*):(.*):(.*):(.*)/);
 
   // only report initial play
   if (seconds > 25) {

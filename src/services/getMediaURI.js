@@ -3,7 +3,7 @@ const winston = require('../logger');
 const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
 
 const getMediaURI = (type, id, callback) => {
-  const [regex, slug, year, date, sourceId, trackId] = id.match(/Track\:(.*)\:(.*)\:(.*)\:(.*)\:(.*)/);
+  const [, slug, year, date, sourceId, trackId] = id.match(/Track:(.*):(.*):(.*):(.*):(.*)/);
 
   fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
     .then(res => res.json())

@@ -55,14 +55,14 @@ router.get('/album-art/:artist/years/:year/:show_date/:source?/:size.png', (req,
     .then(json => {
       if (!json || !json.sources) {
         winston.error('no json tracks found', slug, year, date, sourceId);
-        return callback({});
+        return res.status(404).send('');
       }
 
       const source = json.sources.find(source => `${source.id}` === sourceId) || json.sources[0];
 
       if (!source || !source.sets) {
         winston.error('no source found', slug, year, date, sourceId);
-        return callback({});
+        return res.status(404).send('');
       }
 
       let venue = {

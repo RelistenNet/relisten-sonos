@@ -4,7 +4,7 @@ const artistsCache = require('../lib/artistsCache');
 const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
 
 const getMediaMetadata = (type, id, callback) => {
-  const [regex, slug, year, date, sourceId, trackId] = id.match(/Track\:(.*)\:(.*)\:(.*)\:(.*)\:(.*)/);
+  const [, slug, year, date, sourceId, trackId] = id.match(/Track:(.*):(.*):(.*):(.*):(.*)/);
 
   const artist = artistsCache[slug];
   const artistName = artist ? artist.name : '';

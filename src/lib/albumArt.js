@@ -90,13 +90,6 @@ function drawRelistenAlbumArt(canvas, data, targetFrame, resizing) {
 
 }
 
-//// Infrastructure
-
-function clearCanvas(canvas) {
-  canvas = typeof canvas === 'string' ? document.getElementById(canvas) : canvas;
-  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-}
-
 // Possible arguments for 'resizing' parameter are:
 //   'aspectfit': The content is proportionally resized to fit into the target rectangle.
 //   'aspectfill': The content is proportionally resized to completely fill the target rectangle.

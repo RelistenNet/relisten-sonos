@@ -72,8 +72,8 @@ const getYears = (id, callback) => {
     });
 };
 
-getShows = (id, callback) => {
-  const [regex, slug, year] = id.match(/Year\:(.*)\:(.*)/);
+const getShows = (id, callback) => {
+  const [regex, slug, year] = id.match(/Year:(.*):(.*)/);
 
   fetch(`${API_ROOT}/artists/${slug}/years/${year}`)
     .then(res => res.json())
@@ -121,7 +121,7 @@ getShows = (id, callback) => {
 };
 
 const getShow = (type, id, callback) => {
-  const [regex, slug, year, date] = id.match(/Shows\:(.*)\:(.*)\:(.*)/);
+  const [regex, slug, year, date] = id.match(/Shows:(.*):(.*):(.*)/);
 
   fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
     .then(res => res.json())
@@ -165,7 +165,7 @@ const getShow = (type, id, callback) => {
 };
 
 const getTracks = (type, id, callback) => {
-  const [regex, slug, year, date, sourceId] = id.match(/Show\:(.*)\:(.*)\:(.*)\:(.*)/);
+  const [, slug, year, date, sourceId] = id.match(/Show:(.*):(.*):(.*):(.*)/);
 
   const artist = artistsCache[slug];
   const artistName = artist ? artist.name : '';
@@ -240,19 +240,19 @@ module.exports = (type) => (args, callback) => {
     winston.I.increment('sonos.wsdl.getMetadata.root');
     return getRoot(callback);
   }
-  else if (/Artist\:/.test(id)) {
+  else if (/Artist:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Artist');
     return getYears(id, callback);
   }
-  else if (/Year\:/.test(id)) {
+  else if (/Year:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Year');
     return getShows(id, callback);
   }
-  else if (/Shows\:/.test(id)) {
+  else if (/Shows:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Shows');
     return getShow(type, id, callback);
   }
-  else if (/Show\:/.test(id)) {
+  else if (/Show:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Show');
     return getTracks(type, id, callback);
   }
