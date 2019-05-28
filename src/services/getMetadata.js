@@ -57,12 +57,25 @@ const getYears = (id, callback) => {
         };
       });
 
+      const results = [
+        {
+          id: `Year:${slug}:latest`,
+          itemType: 'container',
+          displayType: 'list-sans-thumbs',
+          title: 'Latest Recordings',
+          summary: 'Most recent recordings',
+          canPlay: false,
+          // albumArtURI: ''
+        },
+        ...years,
+      ];
+
       callback({
         getMetadataResult: {
           index: 0,
-          count: years.length,
-          total: years.length,
-          mediaCollection: years,
+          count: results.length,
+          total: results.length,
+          mediaCollection: results,
         },
       });
     })
@@ -75,15 +88,23 @@ const getYears = (id, callback) => {
 const getShows = (id, callback) => {
   const [regex, slug, year] = id.match(/Year:(.*):(.*)/);
 
-  fetch(`${API_ROOT}/artists/${slug}/years/${year}`)
+  let url = `${API_ROOT}/artists/${slug}/years/${year}`;
+
+  if (year === 'latest') {
+    url = `${API_ROOT}/artists/${slug}/shows/recently-added`;
+  }
+
+  fetch(url)
     .then(res => res.json())
     .then(json => {
-      if (!json || !json.shows) {
+      if (!json) {
         winston.error('error', { regex });
         return callback({});
       }
 
-      const shows = json.shows.map(show => {
+      const arr = Array.isArray(json) ? json : json.shows;
+
+      const shows = arr.map(show => {
         return {
           id: `Shows:${slug}:${year}:${show.display_date}`,
           itemType: 'container',
