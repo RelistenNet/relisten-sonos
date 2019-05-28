@@ -1,6 +1,6 @@
 const winston = require('../logger');
 const artistsCache = require('../lib/artistsCache');
-const { durationToHHMMSS } = require('../lib/utils');
+const { durationToHHMMSS, getRandomLatestRecordingString } = require('../lib/utils');
 
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
@@ -24,12 +24,66 @@ const getRoot = (callback) => {
         };
       }).filter(x => x);
 
+      const results = [
+        {
+          id: 'latest',
+          itemType: 'container',
+          displayType: 'list-sans-thumbs',
+          title: getRandomLatestRecordingString(),
+          summary: 'Latest recordings',
+          canPlay: false,
+          // albumArtURI: ''
+        },
+        ...artists,
+      ];
+
       callback({
         getMetadataResult: {
           index: 0,
-          count: artists.length,
-          total: artists.length,
-          mediaCollection: artists,
+          count: results.length,
+          total: results.length,
+          mediaCollection: results,
+        },
+      });
+    })
+    .catch(err => {
+      winston.error(err);
+      return callback({});
+    });
+};
+
+const getLatest = (id, callback) => {
+  fetch(`${API_ROOT}/shows/recently-added`)
+    .then(res => res.json())
+    .then(json => {
+      const results = json.map(item => {
+        return {
+          id: `Shows:${item.artist.slug}:${item.year.year}:${item.display_date}`,
+          itemType: 'container',
+          displayType: 'list-sans-thumbs',
+          title: [
+            item.artist && item.artist.name,
+            item.display_date,
+            item.venue && item.venue.name,
+            item.venue && item.venue.location,
+          ].filter(x => x).join(' '),
+          summary: [
+            item.artist && item.artist.name,
+            item.display_date,
+            item.venue && item.venue.name,
+            item.venue && item.venue.location,
+          ].filter(x => x).join(' '),
+          canPlay: false,
+          // albumArtURI: ''
+        };
+      });
+
+      callback({
+        getMetadataResult: {
+          index: 0,
+          count: results.length,
+          total: results.length,
+          mediaCollection: results,
         },
       });
     })
@@ -62,7 +116,7 @@ const getYears = (id, callback) => {
           id: `Year:${slug}:latest`,
           itemType: 'container',
           displayType: 'list-sans-thumbs',
-          title: 'Latest Recordings',
+          title: getRandomLatestRecordingString(),
           summary: 'Most recent recordings',
           canPlay: false,
           // albumArtURI: ''
@@ -260,6 +314,10 @@ module.exports = (type) => (args, callback) => {
   if (id === 'root') {
     winston.I.increment('sonos.wsdl.getMetadata.root');
     return getRoot(callback);
+  }
+  else if (id === 'latest') {
+    winston.I.increment('sonos.wsdl.getMetadata.Latest');
+    return getLatest(id, callback);
   }
   else if (/Artist:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Artist');

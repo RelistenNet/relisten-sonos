@@ -37,6 +37,22 @@ const simplePluralize = (str, count) => {
   return `${count} ${count === 1 ? str : str + 's'}`;
 };
 
+const RECORDING_STRINGS = [
+  'Newfangled %s',
+  'Untrodden %s',
+  'Extra-Virgin First-Press %s',
+  'Topical %s',
+  'Ultramodern %s',
+  'Au Courant %s',
+  'Neu! %s',
+  'New %s',
+  'Latest %s',
+  '%s à la mode',
+  '[x:xs] recordings',
+].map(x => x.replace('%s', 'Recordings'));
+
+const getRandomLatestRecordingString = () => RECORDING_STRINGS[Math.floor(Math.random() * RECORDING_STRINGS.length)];
+
 
 module.exports = {
   addZero,
@@ -45,4 +61,5 @@ module.exports = {
   splitShowDate,
   durationToHHMMSS,
   simplePluralize,
+  getRandomLatestRecordingString,
 };
