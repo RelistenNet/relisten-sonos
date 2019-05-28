@@ -1,11 +1,18 @@
 const winston = require('winston');
 const I = require('instrumental-agent');
 
-I.configure({
-  apiKey: process.env.INSTRUMENTAL_KEY,
-  enabled: process.env.NODE_ENV === 'production'
+const logger = winston.createLogger({
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.Console(),
+  ],
 });
 
-winston.I = I;
+I.configure({
+  apiKey: process.env.INSTRUMENTAL_KEY,
+  enabled: process.env.NODE_ENV === 'production',
+});
 
-module.exports = winston;
+logger.I = I;
+
+module.exports = logger;
