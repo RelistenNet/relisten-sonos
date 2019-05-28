@@ -1,6 +1,6 @@
 const winston = require('../logger');
 const artistsCache = require('../lib/artistsCache');
-const { durationToHHMMSS, getRandomLatestRecordingString } = require('../lib/utils');
+const { durationToHHMMSS, getRandomLatestRecordingString, sortTapes } = require('../lib/utils');
 
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
@@ -208,14 +208,16 @@ const getShow = (type, id, callback) => {
 
       // if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
 
-      const sources = json.sources.filter(source => type === 'flac' ? source.flac_type !== 'Flac24Bit' : true).map(source => {
+      const sources = sortTapes(json.sources).sources.filter(source => type === 'flac' ? source.flac_type !== 'Flac24Bit' : true).map(source => {
+        const person = source.taper || source.transferrer;
+
         return {
           id: `Show:${slug}:${year}:${date}:${source.id}`,
           itemType: 'album',
           displayType: 'list',
           title: [
-            source.source || source.lineage || source.taper || source.display_date,
             source.is_soundboard ? '[SBD]' : '[AUD]',
+            person ? `by ${person}` : null,
             type === 'flac' && source.flac_type === 'Flac16Bit' && json.has_streamable_flac_source && '[FLAC]',
           ].filter(x => x).join(' '),
           summary: source.description || '',

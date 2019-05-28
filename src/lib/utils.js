@@ -1,3 +1,5 @@
+import { firstBy } from 'thenby';
+
 const addZero = (str = '') => {
   const int = parseInt(str, 10);
 
@@ -52,6 +54,24 @@ const RECORDING_STRINGS = [
 
 const getRandomLatestRecordingString = () => RECORDING_STRINGS[Math.floor(Math.random() * RECORDING_STRINGS.length)];
 
+const getEtreeId = (s = '') => Number(s.split('.').reverse().find(x => /^[0-9]+$/.test(x)));
+
+// tapes: TODO: GD sort (charlie miller, sbd + etree id, weighted average), sbd + etree id, weighted avg, asc, desc
+// for now, hardcode sort: sbd, charlie miller, etree id, weighted average
+const sortTapes = (data = {}) => {
+  const sortedTapes = [...data.sources].sort(
+    firstBy(t => t.is_soundboard)
+    // Charlie for GD, Pete for JRAD
+      .thenBy(t => /(charlie miller)|(peter costello)/i.test([t.taper, t.transferrer, t.source].join('')))
+      .thenBy((t1, t2) => getEtreeId(t1.upstream_identifier) - getEtreeId(t2.upstream_identifier))
+      .thenBy(t => t.avg_rating_weighted)
+  );
+
+  return {
+    ...data,
+    sources: sortedTapes.reverse(),
+  };
+};
 
 module.exports = {
   addZero,
@@ -61,4 +81,5 @@ module.exports = {
   durationToHHMMSS,
   simplePluralize,
   getRandomLatestRecordingString,
+  sortTapes,
 };

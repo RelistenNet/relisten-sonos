@@ -21,6 +21,7 @@
     "pn": "^1.1.0",
     "soap": "0.27.1",
     "svg2png": "^4.1.1",
+    "thenby": "^1.3.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {}
