@@ -208,7 +208,7 @@ const getShow = (type, id, callback) => {
 
       // if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
 
-      const sources = sortTapes(json.sources).sources.filter(source => type === 'flac' ? source.flac_type !== 'Flac24Bit' : true).map(source => {
+      const sources = sortTapes(json.sources).filter(source => type === 'flac' ? source.flac_type !== 'Flac24Bit' : true).map(source => {
         const person = source.taper || source.transferrer;
 
         return {

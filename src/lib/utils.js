@@ -58,8 +58,8 @@ const getEtreeId = (s = '') => Number(s.split('.').reverse().find(x => /^[0-9]+$
 
 // tapes: TODO: GD sort (charlie miller, sbd + etree id, weighted average), sbd + etree id, weighted avg, asc, desc
 // for now, hardcode sort: sbd, charlie miller, etree id, weighted average
-const sortTapes = (data = {}) => {
-  const sortedTapes = [...data.sources].sort(
+const sortTapes = (sources = []) => {
+  const sortedTapes = [...sources].sort(
     firstBy(t => t.is_soundboard)
     // Charlie for GD, Pete for JRAD
       .thenBy(t => /(charlie miller)|(peter costello)/i.test([t.taper, t.transferrer, t.source].join('')))
@@ -67,10 +67,7 @@ const sortTapes = (data = {}) => {
       .thenBy(t => t.avg_rating_weighted)
   );
 
-  return {
-    ...data,
-    sources: sortedTapes.reverse(),
-  };
+  return sortedTapes.reverse();
 };
 
 module.exports = {
