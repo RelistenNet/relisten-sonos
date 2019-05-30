@@ -11,7 +11,8 @@
   "license": "MIT",
   "scripts": {
     "test": "",
-    "start": "node server.js"
+    "start": "node server.js",
+    "lint": "eslint_d src/**/*.js"
   },
   "dependencies": {
     "canvas": "^2.5.0",
@@ -24,5 +25,9 @@
     "thenby": "^1.3.0",
     "winston": "^3.2.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@switz/eslint-config": "^3.0.0",
+    "eslint": "^5.16.0",
+    "eslint_d": "^7.3.0"
+  }
 }
