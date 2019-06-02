@@ -62,6 +62,7 @@ const getLatest = (id, callback) => {
           itemType: 'container',
           displayType: 'list-sans-thumbs',
           title: [
+            item.has_soundboard_source ? '[SBD]' : '[AUD]',
             item.artist && item.artist.name,
             item.display_date,
             item.venue && item.venue.name,
@@ -164,6 +165,7 @@ const getShows = (id, callback) => {
           itemType: 'container',
           displayType: 'list',
           title: [
+            show.has_soundboard_source ? '[SBD]' : '[AUD]',
             show.display_date,
             show.venue && show.venue.name,
             show.venue && show.venue.location,
@@ -172,7 +174,6 @@ const getShows = (id, callback) => {
            + ' ' +
            [
              `[${show.source_count}]`,
-             show.has_soundboard_source && '[SBD]',
            ].filter(x => x).join(' '),
           summary: show.display_date,
           // canPlay: show.source_count === 1,
