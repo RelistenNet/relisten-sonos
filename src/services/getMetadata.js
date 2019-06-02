@@ -69,6 +69,7 @@ const getLatest = (id, callback) => {
             item.venue && item.venue.location,
           ].filter(x => x).join(' - '),
           summary: [
+            (item.has_soundboard_source ? '[SBD]' : '[AUD]') + ' ' +
             item.artist && item.artist.name,
             item.display_date,
             item.venue && item.venue.name,
