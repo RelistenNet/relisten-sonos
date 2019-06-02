@@ -62,12 +62,12 @@ const getLatest = (id, callback) => {
           itemType: 'container',
           displayType: 'list-sans-thumbs',
           title: [
-            item.has_soundboard_source ? '[SBD]' : '[AUD]',
+            (item.has_soundboard_source ? '[SBD]' : '[AUD]') + ' ' +
             item.artist && item.artist.name,
             item.display_date,
             item.venue && item.venue.name,
             item.venue && item.venue.location,
-          ].filter(x => x).join(' '),
+          ].filter(x => x).join(' - '),
           summary: [
             item.artist && item.artist.name,
             item.display_date,
@@ -165,16 +165,13 @@ const getShows = (id, callback) => {
           itemType: 'container',
           displayType: 'list',
           title: [
-            show.has_soundboard_source ? '[SBD]' : '[AUD]',
+            (show.has_soundboard_source ? '[SBD]' : '[AUD]') + ' ' +
             show.display_date,
             show.venue && show.venue.name,
             show.venue && show.venue.location,
           ].filter(x => x)
             .join(' - ')
-           + ' ' +
-           [
-             `[${show.source_count}]`,
-           ].filter(x => x).join(' '),
+           + ` [${show.source_count}]`,
           summary: show.display_date,
           // canPlay: show.source_count === 1,
           albumArtURI: `${SONOS_ROOT}/album-art/${slug}/years/${year}/${show.display_date}/600.png`,
@@ -217,7 +214,7 @@ const getShow = (type, id, callback) => {
           itemType: 'album',
           displayType: 'list',
           title: [
-            source.is_soundboard ? '[SBD]' : '[AUD]',
+            (source.is_soundboard ? '[SBD]' : '[AUD]') + ' ' +
             source.source || source.lineage,
             person ? `by ${person}` : null,
             type === 'flac' && source.flac_type === 'Flac16Bit' && json.has_streamable_flac_source && '[FLAC]',
