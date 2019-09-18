@@ -44,9 +44,9 @@ const getMediaURI = (type, id, callback) => {
           // wat.
           // for some reason https doesn't work with cloudflare or phish.in and sonos.
           // meh
-          if (slug === 'phish') {
-            trackUrl = trackUrl.replace('https', 'http');
-          }
+          //if (slug === 'phish') {
+          //  trackUrl = trackUrl.replace('https', 'http');
+          //}
 
           // sonos requires a urlencode, but we can't encode the slashes
           // encodeURI encodes a fully formed URL and won't encode the slashes
