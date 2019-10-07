@@ -7,6 +7,13 @@ const API_ROOT = 'https://api.relisten.net/api/v2';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const SONOS_ROOT = IS_PRODUCTION ? 'https://sonos.relisten.net' : 'http://192.168.0.101:3000';
 
+const artistWrapper = (name) => {
+  if (name === 'Phish') return 'Phish (by Phish.in)';
+  else if (name === 'Widespread Panic') return 'Widespread Panic (by PanicStream)';
+
+  return name;
+}
+
 const getRoot = (callback) => {
   fetch(`${API_ROOT}/artists`)
     .then(res => res.json())
@@ -17,7 +24,7 @@ const getRoot = (callback) => {
           id: `Artist:${artist.slug}`,
           itemType: 'artist',
           displayType: 'list-sans-thumbs',
-          title: artist.name,
+          title: artistWrapper(artist.name),
           summary: artist.name,
           canPlay: false,
           // albumArtURI: ''
