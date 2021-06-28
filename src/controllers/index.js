@@ -20,11 +20,11 @@ router.get('/', (req, res) => {
 router.get('/album-art', (req, res) => {
   fs.readFile(__dirname + '/../../images/relisten-album-background.svg')
     .then(svg2png)
-    .then(buffer => {
+    .then((buffer) => {
       res.type('image/png');
       res.send(buffer);
     })
-    .catch(e => {
+    .catch((e) => {
       // just send a default placeholder image here I guess.
       console.log(e);
       return res.json({ error: true, e });
@@ -51,14 +51,14 @@ router.get('/album-art/:artist/years/:year/:show_date/:source?/:size.png', (req,
   const sourceId = req.params['source'];
 
   fetch(`https://api.relisten.net/api/v2/artists/${slug}/years/${year}/${date}`)
-    .then(res => res.json())
-    .then(json => {
+    .then((res) => res.json())
+    .then((json) => {
       if (!json || !json.sources) {
         winston.error('no json tracks found', { slug, year, date, sourceId });
         return res.status(404).send('');
       }
 
-      const source = json.sources.find(source => `${source.id}` === sourceId) || json.sources[0];
+      const source = json.sources.find((source) => `${source.id}` === sourceId) || json.sources[0];
 
       if (!source || !source.sets) {
         winston.error('no source found', { slug, year, date, sourceId });
@@ -72,17 +72,21 @@ router.get('/album-art/:artist/years/:year/:show_date/:source?/:size.png', (req,
 
       if (json.venue) {
         venue = json.venue;
-      }
-      else if (source.venue) {
+      } else if (source.venue) {
         venue = source.venue;
       }
 
-      drawRelistenAlbumArt(canvas, {
-        artist: artistName,
-        showDate: json.display_date,
-        venue: venue.name,
-        location: venue.location,
-      }, makeRect(0, 0, size, size), 'aspectfill');
+      drawRelistenAlbumArt(
+        canvas,
+        {
+          artist: artistName,
+          showDate: json.display_date,
+          venue: venue.name,
+          location: venue.location,
+        },
+        makeRect(0, 0, size, size),
+        'aspectfill'
+      );
 
       res.type('png');
 

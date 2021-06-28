@@ -5,31 +5,35 @@ const { durationToHHMMSS, getRandomLatestRecordingString, sortTapes } = require(
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-const SONOS_ROOT = IS_PRODUCTION ? 'https://sonos.relisten.net' : 'http://192.168.0.101:3000';
+const ALBUM_ART_CDN = IS_PRODUCTION
+  ? 'https://sonos-cdn.relisten.net'
+  : 'http://192.168.0.101:3000';
 
 const artistWrapper = (name) => {
   if (name === 'Phish') return 'Phish (by Phish.in)';
   else if (name === 'Widespread Panic') return 'Widespread Panic (by PanicStream)';
 
   return name;
-}
+};
 
 const getRoot = (callback) => {
   fetch(`${API_ROOT}/artists`)
-    .then(res => res.json())
-    .then(json => {
-      const artists = json.map(artist => {
-        artistsCache[artist.slug] = artist;
-        return {
-          id: `Artist:${artist.slug}`,
-          itemType: 'artist',
-          displayType: 'list-sans-thumbs',
-          title: artistWrapper(artist.name),
-          summary: artist.name,
-          canPlay: false,
-          // albumArtURI: ''
-        };
-      }).filter(x => x);
+    .then((res) => res.json())
+    .then((json) => {
+      const artists = json
+        .map((artist) => {
+          artistsCache[artist.slug] = artist;
+          return {
+            id: `Artist:${artist.slug}`,
+            itemType: 'artist',
+            displayType: 'list-sans-thumbs',
+            title: artistWrapper(artist.name),
+            summary: artist.name,
+            canPlay: false,
+            // albumArtURI: ''
+          };
+        })
+        .filter((x) => x);
 
       const results = [
         {
@@ -53,7 +57,7 @@ const getRoot = (callback) => {
         },
       });
     })
-    .catch(err => {
+    .catch((err) => {
       winston.error(err);
       return callback({});
     });
@@ -61,27 +65,31 @@ const getRoot = (callback) => {
 
 const getLatest = (id, callback) => {
   fetch(`${API_ROOT}/shows/recently-added`)
-    .then(res => res.json())
-    .then(json => {
-      const results = json.map(item => {
+    .then((res) => res.json())
+    .then((json) => {
+      const results = json.map((item) => {
         return {
           id: `Shows:${item.artist.slug}:${item.year.year}:${item.display_date}`,
           itemType: 'container',
           displayType: 'list-sans-thumbs',
           title: [
-            (item.has_soundboard_source ? '[SBD]' : '[AUD]') + ' ' +
-            item.artist && item.artist.name,
+            (item.has_soundboard_source ? '[SBD]' : '[AUD]') + ' ' + item.artist &&
+              item.artist.name,
             item.display_date,
             item.venue && item.venue.name,
             item.venue && item.venue.location,
-          ].filter(x => x).join(' - '),
+          ]
+            .filter((x) => x)
+            .join(' - '),
           summary: [
-            (item.has_soundboard_source ? '[SBD]' : '[AUD]') + ' ' +
-            item.artist && item.artist.name,
+            (item.has_soundboard_source ? '[SBD]' : '[AUD]') + ' ' + item.artist &&
+              item.artist.name,
             item.display_date,
             item.venue && item.venue.name,
             item.venue && item.venue.location,
-          ].filter(x => x).join(' '),
+          ]
+            .filter((x) => x)
+            .join(' '),
           canPlay: false,
           // albumArtURI: ''
         };
@@ -96,7 +104,7 @@ const getLatest = (id, callback) => {
         },
       });
     })
-    .catch(err => {
+    .catch((err) => {
       winston.error(err);
       return callback({});
     });
@@ -106,9 +114,9 @@ const getYears = (id, callback) => {
   const slug = id.replace('Artist:', '');
 
   fetch(`${API_ROOT}/artists/${slug}/years`)
-    .then(res => res.json())
-    .then(json => {
-      const years = json.map(item => {
+    .then((res) => res.json())
+    .then((json) => {
+      const years = json.map((item) => {
         return {
           id: `Year:${slug}:${item.year}`,
           itemType: 'container',
@@ -142,7 +150,7 @@ const getYears = (id, callback) => {
         },
       });
     })
-    .catch(err => {
+    .catch((err) => {
       winston.error(err);
       return callback({});
     });
@@ -158,8 +166,8 @@ const getShows = (id, callback) => {
   }
 
   fetch(url)
-    .then(res => res.json())
-    .then(json => {
+    .then((res) => res.json())
+    .then((json) => {
       if (!json) {
         winston.error('error', { regex });
         return callback({});
@@ -167,22 +175,22 @@ const getShows = (id, callback) => {
 
       const arr = Array.isArray(json) ? json : json.shows;
 
-      const shows = arr.map(show => {
+      const shows = arr.map((show) => {
         return {
           id: `Shows:${slug}:${year}:${show.display_date}`,
           itemType: 'container',
           displayType: 'list',
-          title: [
-            (show.has_soundboard_source ? '[SBD]' : '[AUD]') + ' ' +
-            show.display_date,
-            show.venue && show.venue.name,
-            show.venue && show.venue.location,
-          ].filter(x => x)
-            .join(' - ')
-           + ` [${show.source_count}]`,
+          title:
+            [
+              (show.has_soundboard_source ? '[SBD]' : '[AUD]') + ' ' + show.display_date,
+              show.venue && show.venue.name,
+              show.venue && show.venue.location,
+            ]
+              .filter((x) => x)
+              .join(' - ') + ` [${show.source_count}]`,
           summary: show.display_date,
           // canPlay: show.source_count === 1,
-          albumArtURI: `${SONOS_ROOT}/album-art/${slug}/years/${year}/${show.display_date}/600.png`,
+          albumArtURI: `${ALBUM_ART_CDN}/album-art/${slug}/years/${year}/${show.display_date}/600.png`,
         };
       });
 
@@ -195,7 +203,7 @@ const getShows = (id, callback) => {
         },
       });
     })
-    .catch(err => {
+    .catch((err) => {
       winston.error(err);
       return callback({});
     });
@@ -205,8 +213,8 @@ const getShow = (type, id, callback) => {
   const [regex, slug, year, date] = id.match(/Shows:(.*):(.*):(.*)/);
 
   fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
-    .then(res => res.json())
-    .then(json => {
+    .then((res) => res.json())
+    .then((json) => {
       if (!json || !json.sources) {
         winston.error('error', { regex });
         return callback({});
@@ -214,24 +222,30 @@ const getShow = (type, id, callback) => {
 
       // if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
 
-      const sources = sortTapes(json.sources).filter(source => type === 'flac' ? source.flac_type !== 'Flac24Bit' : true).map(source => {
-        const person = source.taper || source.transferrer;
+      const sources = sortTapes(json.sources)
+        .filter((source) => (type === 'flac' ? source.flac_type !== 'Flac24Bit' : true))
+        .map((source) => {
+          const person = source.taper || source.transferrer;
 
-        return {
-          id: `Show:${slug}:${year}:${date}:${source.id}`,
-          itemType: 'album',
-          displayType: 'list',
-          title: [
-            (source.is_soundboard ? '[SBD]' : '[AUD]') + ' ' +
-            source.source || source.lineage,
-            person ? `by ${person}` : null,
-            type === 'flac' && source.flac_type === 'Flac16Bit' && json.has_streamable_flac_source && '[FLAC]',
-          ].filter(x => x).join(' '),
-          summary: source.description || '',
-          canPlay: true,
-          albumArtURI: `${SONOS_ROOT}/album-art/${slug}/years/${year}/${date}/${json.sources[0].id}/600.png`,
-        };
-      });
+          return {
+            id: `Show:${slug}:${year}:${date}:${source.id}`,
+            itemType: 'album',
+            displayType: 'list',
+            title: [
+              (source.is_soundboard ? '[SBD]' : '[AUD]') + ' ' + source.source || source.lineage,
+              person ? `by ${person}` : null,
+              type === 'flac' &&
+                source.flac_type === 'Flac16Bit' &&
+                json.has_streamable_flac_source &&
+                '[FLAC]',
+            ]
+              .filter((x) => x)
+              .join(' '),
+            summary: source.description || '',
+            canPlay: true,
+            albumArtURI: `${ALBUM_ART_CDN}/album-art/${slug}/years/${year}/${date}/${json.sources[0].id}/600.png`,
+          };
+        });
 
       callback({
         getMetadataResult: {
@@ -242,7 +256,7 @@ const getShow = (type, id, callback) => {
         },
       });
     })
-    .catch(err => {
+    .catch((err) => {
       winston.error(err);
       return callback({});
     });
@@ -255,14 +269,14 @@ const getTracks = (type, id, callback) => {
   const artistName = artist ? artist.name : '';
 
   fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
-    .then(res => res.json())
-    .then(json => {
+    .then((res) => res.json())
+    .then((json) => {
       if (!json || !json.sources) {
         winston.error('no json tracks found', { slug, year, date, sourceId });
         return callback({});
       }
 
-      const source = json.sources.find(source => `${source.id}` === sourceId);
+      const source = json.sources.find((source) => `${source.id}` === sourceId);
 
       if (!source || !source.sets) {
         winston.error('no source found', { slug, year, date, sourceId });
@@ -272,9 +286,9 @@ const getTracks = (type, id, callback) => {
       let tracks = [];
       let trackIdx = 0;
 
-      source.sets.map(set => {
+      source.sets.map((set) => {
         tracks = tracks.concat(
-          set.tracks.map(track => {
+          set.tracks.map((track) => {
             const [year, month, day] = date.split('-');
 
             return {
@@ -287,13 +301,15 @@ const getTracks = (type, id, callback) => {
                 duration: track.duration,
                 artistId: `Artist:${slug}`,
                 artist: artistName,
-                albumArtURI: `${SONOS_ROOT}/album-art/${slug}/years/${year}/${date}/${sourceId}/600.png`,
+                albumArtURI: `${ALBUM_ART_CDN}/album-art/${slug}/years/${year}/${date}/${sourceId}/600.png`,
                 trackNumber: ++trackIdx,
                 album: [
                   `${Number(month)}/${Number(day)}/${year.slice(2)}`,
                   json.venue ? json.venue.name : '',
                   json.venue ? json.venue.location : '',
-                ].filter(x => x).join(' - '),
+                ]
+                  .filter((x) => x)
+                  .join(' - '),
               },
             };
           })
@@ -309,7 +325,7 @@ const getTracks = (type, id, callback) => {
         },
       });
     })
-    .catch(err => {
+    .catch((err) => {
       winston.error(err);
       return callback({});
     });
@@ -323,24 +339,19 @@ module.exports = (type) => (args, callback) => {
   if (id === 'root') {
     winston.I.increment('sonos.wsdl.getMetadata.root');
     return getRoot(callback);
-  }
-  else if (id === 'latest') {
+  } else if (id === 'latest') {
     winston.I.increment('sonos.wsdl.getMetadata.Latest');
     return getLatest(id, callback);
-  }
-  else if (/Artist:/.test(id)) {
+  } else if (/Artist:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Artist');
     return getYears(id, callback);
-  }
-  else if (/Year:/.test(id)) {
+  } else if (/Year:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Year');
     return getShows(id, callback);
-  }
-  else if (/Shows:/.test(id)) {
+  } else if (/Shows:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Shows');
     return getShow(type, id, callback);
-  }
-  else if (/Show:/.test(id)) {
+  } else if (/Show:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Show');
     return getTracks(type, id, callback);
   }

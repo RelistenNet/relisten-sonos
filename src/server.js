@@ -22,15 +22,15 @@ app.listen(PORT, '0.0.0.0', (err) => {
   const mp3Listener = soap.listen(app, '/mp3', services('mp3'), wsdl);
   const flacListener = soap.listen(app, '/flac', services('flac'), wsdl);
 
-  listener.log = function(type, data) {
+  listener.log = function (type, data) {
     if (type === 'error') winston.error('soap error mp3', { data, error: new Error().stack });
   };
 
-  mp3Listener.log = function(type, data) {
+  mp3Listener.log = function (type, data) {
     if (type === 'error') winston.error('soap error mp3', { data, error: new Error().stack });
   };
 
-  flacListener.log = function(type, data) {
+  flacListener.log = function (type, data) {
     if (type === 'error') winston.error('soap error flac', { data, error: new Error().stack });
   };
 

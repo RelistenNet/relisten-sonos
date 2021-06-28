@@ -23,7 +23,7 @@ const splitShowDate = (showDate = '') => {
   return { year, month, day };
 };
 
-const durationToHHMMSS = duration => {
+const durationToHHMMSS = (duration) => {
   const prefix = duration < 0 ? '-' : '';
   let totalSeconds = Math.abs(duration);
   const hours = Math.floor(totalSeconds / 3600);
@@ -31,8 +31,10 @@ const durationToHHMMSS = duration => {
   const minutes = Math.floor(totalSeconds / 60) || 0;
   const seconds = Math.floor(totalSeconds % 60) || 0;
 
-
-  return prefix + [hours, hours ? addZero(minutes) : String(minutes), addZero(seconds)].filter(x => x).join(':');
+  return (
+    prefix +
+    [hours, hours ? addZero(minutes) : String(minutes), addZero(seconds)].filter((x) => x).join(':')
+  );
 };
 
 const simplePluralize = (str, count) => {
@@ -50,21 +52,30 @@ const RECORDING_STRINGS = [
   'New %s',
   'Latest %s',
   '%s à la mode',
-].map(x => x.replace('%s', 'Recordings'));
+].map((x) => x.replace('%s', 'Recordings'));
 
-const getRandomLatestRecordingString = () => RECORDING_STRINGS[Math.floor(Math.random() * RECORDING_STRINGS.length)];
+const getRandomLatestRecordingString = () =>
+  RECORDING_STRINGS[Math.floor(Math.random() * RECORDING_STRINGS.length)];
 
-const getEtreeId = (s = '') => Number(s.split('.').reverse().find(x => /^[0-9]+$/.test(x)));
+const getEtreeId = (s = '') =>
+  Number(
+    s
+      .split('.')
+      .reverse()
+      .find((x) => /^[0-9]+$/.test(x))
+  );
 
 // tapes: TODO: GD sort (charlie miller, sbd + etree id, weighted average), sbd + etree id, weighted avg, asc, desc
 // for now, hardcode sort: sbd, charlie miller, etree id, weighted average
 const sortTapes = (sources = []) => {
   const sortedTapes = [...sources].sort(
-    firstBy(t => t.is_soundboard)
-    // Charlie for GD, Pete for JRAD
-      .thenBy(t => /(charlie miller)|(peter costello)/i.test([t.taper, t.transferrer, t.source].join('')))
+    firstBy((t) => t.is_soundboard)
+      // Charlie for GD, Pete for JRAD
+      .thenBy((t) =>
+        /(charlie miller)|(peter costello)/i.test([t.taper, t.transferrer, t.source].join(''))
+      )
       .thenBy((t1, t2) => getEtreeId(t1.upstream_identifier) - getEtreeId(t2.upstream_identifier))
-      .thenBy(t => t.avg_rating_weighted)
+      .thenBy((t) => t.avg_rating_weighted)
   );
 
   return sortedTapes.reverse();

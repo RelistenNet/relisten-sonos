@@ -11,14 +11,14 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
   }
 
   fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
-    .then(res => res.json())
-    .then(json => {
+    .then((res) => res.json())
+    .then((json) => {
       if (!json || !json.sources) {
         winston.error('no SONG json tracks found', { slug, year, date, sourceId });
         return callback({ reportPlaySecondsResult: '' });
       }
 
-      const source = json.sources.find(source => `${source.id}` === sourceId);
+      const source = json.sources.find((source) => `${source.id}` === sourceId);
 
       if (!source || !source.sets) {
         winston.error('no SONG source found', { slug, year, date, sourceId });
@@ -27,8 +27,8 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
 
       let track;
 
-      source.sets.map(set => {
-        const nextTrack = set.tracks.find(internalTrack => `${internalTrack.id}` === trackId);
+      source.sets.map((set) => {
+        const nextTrack = set.tracks.find((internalTrack) => `${internalTrack.id}` === trackId);
 
         if (nextTrack) track = nextTrack;
       });
@@ -44,7 +44,7 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
         reportPlaySecondsResult: '',
       });
     })
-    .catch(err => {
+    .catch((err) => {
       winston.error(err);
       callback({});
     });

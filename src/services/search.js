@@ -22,23 +22,24 @@ module.exports = (type) => (args, callback) => {
   // const searchForSongs = /song/.test(id);
 
   fetch(`${API_ROOT}/search?q=${term}`)
-    .then(res => res.json())
-    .then(json => {
+    .then((res) => res.json())
+    .then((json) => {
       const results = [];
 
-      searchForArtists && json.artists.map(artist => {
-        results.push({
-          id: `Artist:${artist.slug}`,
-          itemType: 'artist',
-          // displayType: 'list',
-          title: artist.name,
-          summary: artist.name,
-          canEnumerate: true,
-          authrequired: 0,
-          canPlay: false,
-          // albumArtURI: ''
+      searchForArtists &&
+        json.artists.map((artist) => {
+          results.push({
+            id: `Artist:${artist.slug}`,
+            itemType: 'artist',
+            // displayType: 'list',
+            title: artist.name,
+            summary: artist.name,
+            canEnumerate: true,
+            authrequired: 0,
+            canPlay: false,
+            // albumArtURI: ''
+          });
         });
-      });
 
       // searchForSongs && json.songs.map(artist => {
       //   results.push({
