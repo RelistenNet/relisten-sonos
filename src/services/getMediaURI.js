@@ -45,8 +45,8 @@ const getMediaURI = (type, id, callback) => {
         // meh
         if (slug === 'phish') {
           trackUrl = trackUrl
-            .replace('https', 'http')
-            .replace('phish.in/audio', 'phishin-proxy.relisten.live/phishin-audio');
+            // .replace('https', 'http')
+            .replace('phish.in/audio', 'phishin-proxy.relisten.net/phishin-audio');
         }
 
         // sonos requires a urlencode, but we can't encode the slashes
