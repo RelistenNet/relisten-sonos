@@ -55,7 +55,7 @@ const getMediaURI = (type, id, callback) => {
         if (slug === 'wsp') {
           trackUrl = encodeURI(
             trackUrl.replace(
-              'www.panicstream.com/streams/wsp',
+              'www.panicstream.com/streams',
               'phishin-proxy.relisten.net/panicstream'
             )
           );
