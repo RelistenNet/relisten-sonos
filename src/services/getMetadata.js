@@ -222,8 +222,6 @@ const getShow = (type, id, callback) => {
 
       // if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
 
-      const sourceTitle = source.source || source.lineage;
-
       if (slug === 'wsp' || slug === 'phish') {
         return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
       }
@@ -232,6 +230,7 @@ const getShow = (type, id, callback) => {
         .filter((source) => (type === 'flac' ? source.flac_type !== 'Flac24Bit' : true))
         .map((source) => {
           const person = source.taper || source.transferrer;
+          const sourceTitle = source.source || source.lineage;
 
           return {
             id: `Show:${slug}:${year}:${date}:${source.id}`,
