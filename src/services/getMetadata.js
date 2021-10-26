@@ -222,6 +222,12 @@ const getShow = (type, id, callback) => {
 
       // if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
 
+      const sourceTitle = source.source || source.lineage;
+
+      if (slug === 'wsp' || slug === 'phish') {
+        return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
+      }
+
       const sources = sortTapes(json.sources)
         .filter((source) => (type === 'flac' ? source.flac_type !== 'Flac24Bit' : true))
         .map((source) => {
@@ -232,7 +238,7 @@ const getShow = (type, id, callback) => {
             itemType: 'album',
             displayType: 'list',
             title: [
-              (source.is_soundboard ? '[SBD]' : '[AUD]') + ' ' + source.source || source.lineage,
+              (source.is_soundboard ? '[SBD]' : '[AUD]') + ' ' + sourceTitle,
               person ? `by ${person}` : null,
               type === 'flac' &&
                 source.flac_type === 'Flac16Bit' &&
