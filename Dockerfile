@@ -1,12 +1,18 @@
-FROM node:10.15.3
+FROM node:14-alpine
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 RUN yarn global add node-gyp
 
-RUN apt-get update
-RUN apt-get install -y libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev build-essential g++
+RUN apk update
+RUN apk add --no-cache \
+  build-base \
+  g++ \
+  cairo-dev \
+  jpeg-dev \
+  pango-dev \
+  giflib-dev
 
 COPY package.json /usr/src/app
 COPY yarn.lock /usr/src/app

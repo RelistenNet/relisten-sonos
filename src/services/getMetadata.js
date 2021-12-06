@@ -1,6 +1,7 @@
 const winston = require('../logger');
 const artistsCache = require('../lib/artistsCache');
 const { durationToHHMMSS, getRandomLatestRecordingString, sortTapes } = require('../lib/utils');
+const { rules } = require('eslint-plugin-prettier');
 
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
@@ -15,6 +16,8 @@ const artistWrapper = (name) => {
 
   return name;
 };
+
+const LATEST_TAPES = 'Latest Tapes';
 
 const getRoot = (callback) => {
   fetch(`${API_ROOT}/artists`)
@@ -40,7 +43,7 @@ const getRoot = (callback) => {
           id: 'latest',
           itemType: 'container',
           displayType: 'list-sans-thumbs',
-          title: getRandomLatestRecordingString(),
+          title: LATEST_TAPES,
           summary: 'Latest recordings',
           canPlay: false,
           // albumArtURI: ''
@@ -133,7 +136,7 @@ const getYears = (id, callback) => {
           id: `Year:${slug}:latest`,
           itemType: 'container',
           displayType: 'list-sans-thumbs',
-          title: getRandomLatestRecordingString(),
+          title: LATEST_TAPES,
           summary: 'Most recent recordings',
           canPlay: false,
           // albumArtURI: ''
@@ -301,6 +304,7 @@ const getTracks = (type, id, callback) => {
               itemType: 'track',
               mimeType: type === 'flac' && track.flac_url ? 'audio/flac' : 'audio/mp3',
               title: `${track.title} [${durationToHHMMSS(track.duration)}]`,
+              canPlay: true,
               trackMetadata: {
                 albumId: id,
                 duration: track.duration,

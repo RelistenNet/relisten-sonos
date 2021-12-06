@@ -72,6 +72,5 @@ module.exports = {
   splitShowDate,
   durationToHHMMSS,
   simplePluralize,
-  getRandomLatestRecordingString,
   sortTapes,
 };
