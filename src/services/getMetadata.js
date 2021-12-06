@@ -189,7 +189,7 @@ const getShows = (id, callback) => {
               .filter((x) => x)
               .join(' - ') + ` [${show.source_count}]`,
           summary: show.display_date,
-          // canPlay: show.source_count === 1,
+          canPlay: show.source_count === 1,
           albumArtURI: `${ALBUM_ART_CDN}/album-art/${slug}/years/${year}/${show.display_date}/600.png`,
         };
       });
