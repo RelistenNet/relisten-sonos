@@ -225,7 +225,7 @@ const getShow = (type, id, callback) => {
 
       // if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
 
-      if (slug === 'wsp' || slug === 'phish') {
+      if (slug === 'wsp' || slug === 'phish' || slug === 'trey') {
         return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
       }
 
