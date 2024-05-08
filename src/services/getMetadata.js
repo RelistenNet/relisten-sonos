@@ -8,7 +8,7 @@ const API_ROOT = 'https://api.relisten.net/api/v2';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const ALBUM_ART_CDN = IS_PRODUCTION
   ? 'https://sonos-cdn.relisten.net'
-  : 'http://192.168.0.101:3000';
+  : 'http://192.168.0.19:3000';
 
 const artistWrapper = (name) => {
   if (name === 'Phish') return 'Phish (by Phish.in)';
@@ -21,6 +21,7 @@ const LATEST_TAPES = 'Latest Tapes';
 
 const getRoot = (args, callback) => {
   const { count, index } = args;
+
   fetch(`${API_ROOT}/artists`)
     .then((res) => res.json())
     .then((json) => {
@@ -69,11 +70,13 @@ const getRoot = (args, callback) => {
     });
 };
 
-const getLatest = (id, callback) => {
+const getLatest = (args, callback) => {
+  const { id, count, index } = args;
+
   fetch(`${API_ROOT}/shows/recently-added`)
     .then((res) => res.json())
     .then((json) => {
-      const results = json.map((item) => {
+      const allResults = json.map((item) => {
         return {
           id: `Shows:${item.artist.slug}:${item.year.year}:${item.display_date}`,
           itemType: 'container',
@@ -101,11 +104,13 @@ const getLatest = (id, callback) => {
         };
       });
 
+      const results = allResults.slice(index, index + count);
+
       callback({
         getMetadataResult: {
-          index: 0,
+          index,
+          total: allResults.length,
           count: results.length,
-          total: results.length,
           mediaCollection: results,
         },
       });
@@ -116,7 +121,9 @@ const getLatest = (id, callback) => {
     });
 };
 
-const getYears = (id, callback) => {
+const getYears = (args, callback) => {
+  const { id, count, index } = args;
+
   const slug = id.replace('Artist:', '');
 
   fetch(`${API_ROOT}/artists/${slug}/years`)
@@ -134,7 +141,7 @@ const getYears = (id, callback) => {
         };
       });
 
-      const results = [
+      const allResults = [
         {
           id: `Year:${slug}:latest`,
           itemType: 'container',
@@ -147,11 +154,13 @@ const getYears = (id, callback) => {
         ...years,
       ];
 
+      const results = allResults.slice(index, index + count);
+
       callback({
         getMetadataResult: {
-          index: 0,
+          index,
+          total: allResults.length,
           count: results.length,
-          total: results.length,
           mediaCollection: results,
         },
       });
@@ -162,7 +171,9 @@ const getYears = (id, callback) => {
     });
 };
 
-const getShows = (id, callback) => {
+const getShows = (args, callback) => {
+  const { id, count, index } = args;
+
   const [regex, slug, year] = id.match(/Year:(.*):(.*)/);
 
   let url = `${API_ROOT}/artists/${slug}/years/${year}`;
@@ -181,7 +192,7 @@ const getShows = (id, callback) => {
 
       const arr = Array.isArray(json) ? json : json.shows;
 
-      const shows = arr.map((show) => {
+      const allResults = arr.map((show) => {
         return {
           id: `Shows:${slug}:${year}:${show.display_date}`,
           itemType: 'container',
@@ -200,12 +211,14 @@ const getShows = (id, callback) => {
         };
       });
 
+      const results = allResults.slice(index, index + count);
+
       callback({
         getMetadataResult: {
-          index: 0,
-          count: shows.length,
-          total: shows.length,
-          mediaCollection: shows,
+          index,
+          total: allResults.length,
+          count: results.length,
+          mediaCollection: results,
         },
       });
     })
@@ -215,7 +228,9 @@ const getShows = (id, callback) => {
     });
 };
 
-const getShow = (type, id, callback) => {
+const getShow = (type, args, callback) => {
+  const { id, count, index } = args;
+
   const [regex, slug, year, date] = id.match(/Shows:(.*):(.*):(.*)/);
 
   fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
@@ -232,7 +247,7 @@ const getShow = (type, id, callback) => {
         return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
       }
 
-      const sources = sortTapes(json.sources)
+      const allResults = sortTapes(json.sources)
         .filter((source) => (type === 'flac' ? source.flac_type !== 'Flac24Bit' : true))
         .map((source) => {
           const person = source.taper || source.transferrer;
@@ -258,12 +273,14 @@ const getShow = (type, id, callback) => {
           };
         });
 
+      const results = allResults.slice(index, index + count);
+
       callback({
         getMetadataResult: {
-          index: 0,
-          count: sources.length,
-          total: sources.length,
-          mediaCollection: sources,
+          index,
+          total: allResults.length,
+          count: results.length,
+          mediaCollection: results,
         },
       });
     })
@@ -273,7 +290,9 @@ const getShow = (type, id, callback) => {
     });
 };
 
-const getTracks = (type, id, callback) => {
+const getTracks = (type, args, callback) => {
+  const { id, count, index } = args;
+
   const [, slug, year, date, sourceId] = id.match(/Show:(.*):(.*):(.*):(.*)/);
 
   const artist = artistsCache[slug];
@@ -328,12 +347,14 @@ const getTracks = (type, id, callback) => {
         );
       });
 
+      const results = tracks.slice(index, index + count);
+
       callback({
         getMetadataResult: {
-          index: 0,
-          count: tracks.length,
+          index,
           total: tracks.length,
-          mediaMetadata: tracks,
+          count: results.length,
+          mediaMetadata: results,
         },
       });
     })
@@ -344,27 +365,26 @@ const getTracks = (type, id, callback) => {
 };
 
 module.exports = (type) => (args, callback) => {
-  winston.info('getMetadata', { id, args });
-
   const { id } = args;
+  winston.info('getMetadata', { id, args });
 
   if (id === 'root') {
     winston.I.increment('sonos.wsdl.getMetadata.root');
     return getRoot(args, callback);
   } else if (id === 'latest') {
     winston.I.increment('sonos.wsdl.getMetadata.Latest');
-    return getLatest(id, callback);
+    return getLatest(args, callback);
   } else if (/Artist:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Artist');
-    return getYears(id, callback);
+    return getYears(args, callback);
   } else if (/Year:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Year');
-    return getShows(id, callback);
+    return getShows(args, callback);
   } else if (/Shows:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Shows');
-    return getShow(type, id, callback);
+    return getShow(type, args, callback);
   } else if (/Show:/.test(id)) {
     winston.I.increment('sonos.wsdl.getMetadata.Show');
-    return getTracks(type, id, callback);
+    return getTracks(type, args, callback);
   }
 };
