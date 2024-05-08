@@ -19,7 +19,8 @@ const artistWrapper = (name) => {
 
 const LATEST_TAPES = 'Latest Tapes';
 
-const getRoot = (callback) => {
+const getRoot = (args, callback) => {
+  const { count, index } = args;
   fetch(`${API_ROOT}/artists`)
     .then((res) => res.json())
     .then((json) => {
@@ -38,7 +39,7 @@ const getRoot = (callback) => {
         })
         .filter((x) => x);
 
-      const results = [
+      const allResults = [
         {
           id: 'latest',
           itemType: 'container',
@@ -51,11 +52,13 @@ const getRoot = (callback) => {
         ...artists,
       ];
 
+      const results = allResults.slice(index, index + count);
+
       callback({
         getMetadataResult: {
-          index: 0,
+          index,
+          total: allResults.length,
           count: results.length,
-          total: results.length,
           mediaCollection: results,
         },
       });
@@ -341,13 +344,13 @@ const getTracks = (type, id, callback) => {
 };
 
 module.exports = (type) => (args, callback) => {
-  const id = args.id;
-
   winston.info('getMetadata', { id, args });
+
+  const { id } = args;
 
   if (id === 'root') {
     winston.I.increment('sonos.wsdl.getMetadata.root');
-    return getRoot(callback);
+    return getRoot(args, callback);
   } else if (id === 'latest') {
     winston.I.increment('sonos.wsdl.getMetadata.Latest');
     return getLatest(id, callback);

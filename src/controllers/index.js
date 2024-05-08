@@ -95,4 +95,62 @@ router.get('/album-art/:artist/years/:year/:show_date/:source?/:size.png', (req,
     });
 });
 
+router.get('/ios-album-art/:artist/:source_uuid?/:size.png', (req, res) => {
+  const size = parseInt(req.params['size'], 10);
+
+  if (!(size > 0 && size <= 1500)) {
+    res.send(400);
+    return;
+  }
+
+  const canvas = createCanvas(size, size);
+
+  const artist = req.params['artist'];
+  const sourceUuid = req.params['source_uuid'];
+
+  fetch(`https://api.relisten.net/api/v3/shows/${sourceUuid}`)
+    .then((res) => res.json())
+    .then((json) => {
+      if (!json || !json.sources) {
+        winston.error('no json tracks found', { sourceUuid});
+        return res.status(404).send('');
+      }
+
+      const source = json.sources.find((source) => `${source.uuid}` === sourceUuid) || json.sources[0];
+
+      if (!source || !source.sets) {
+        winston.error('no source found', { slug, year, date, sourceId });
+        return res.status(404).send('');
+      }
+
+      let venue = {
+        name: 'Unknown',
+        location: 'Unknown',
+      };
+
+      if (json.venue) {
+        venue = json.venue;
+      } else if (source.venue) {
+        venue = source.venue;
+      }
+
+      drawRelistenAlbumArt(
+        canvas,
+        {
+          artist,
+          showDate: json.display_date,
+          venue: venue.name,
+          location: venue.location,
+        },
+        makeRect(0, 0, size, size),
+        'aspectfill'
+      );
+
+      res.type('png');
+
+      // PNG Buffer, zlib compression level 3 (from 0-9): faster but bigger
+      res.send(canvas.toBuffer(undefined, 3, canvas.PNG_FILTER_NONE));
+    });
+});
+
 module.exports = router;
