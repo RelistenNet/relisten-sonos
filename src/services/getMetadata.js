@@ -54,7 +54,14 @@ const getRoot = (args, callback) => {
       ];
 
       const results = allResults.slice(index, index + count);
-
+      console.log({
+        getMetadataResult: {
+          index,
+          total: allResults.length,
+          count: results.length,
+          mediaCollection: results[0],
+        },
+      })
       callback({
         getMetadataResult: {
           index,
@@ -65,7 +72,8 @@ const getRoot = (args, callback) => {
       });
     })
     .catch((err) => {
-      winston.error(err);
+      console.error(err);
+      winston.error('root err', { err });
       return callback({});
     });
 };
