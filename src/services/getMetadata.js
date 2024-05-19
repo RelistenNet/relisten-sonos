@@ -1,7 +1,6 @@
 const winston = require('../logger');
 const artistsCache = require('../lib/artistsCache');
 const { durationToHHMMSS, getRandomLatestRecordingString, sortTapes } = require('../lib/utils');
-const { rules } = require('eslint-plugin-prettier');
 
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
@@ -54,14 +53,7 @@ const getRoot = (args, callback) => {
       ];
 
       const results = allResults.slice(index, index + count);
-      console.log({
-        getMetadataResult: {
-          index,
-          total: allResults.length,
-          count: results.length,
-          mediaCollection: results[0],
-        },
-      })
+
       callback({
         getMetadataResult: {
           index,
@@ -252,7 +244,7 @@ const getShow = (type, args, callback) => {
       // if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
 
       if (slug === 'wsp' || slug === 'phish' || slug === 'trey') {
-        return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
+        return getTracks(type, { id: `Show:${slug}:${year}:${date}:${json.sources[0].id}`, count: 500, index: 0 }, callback);
       }
 
       const allResults = sortTapes(json.sources)
