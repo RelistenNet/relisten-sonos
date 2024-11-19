@@ -1,5 +1,5 @@
 const I = require('instrumental-agent');
-const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
+const { API_ROOT } = require('./getMediaMetadata');
 
 // const categories = [
 //   {

@@ -1,8 +1,7 @@
 const winston = require('../logger');
 const artistsCache = require('../lib/artistsCache');
 const { durationToHHMMSS, getRandomLatestRecordingString, sortTapes } = require('../lib/utils');
-
-const API_ROOT = 'https://api.relisten.net/api/v2';
+const { API_ROOT } = require('./getMediaMetadata');
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const ALBUM_ART_CDN = IS_PRODUCTION

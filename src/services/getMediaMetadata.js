@@ -1,7 +1,7 @@
 const winston = require('../logger');
 const artistsCache = require('../lib/artistsCache');
 
-const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
+const API_ROOT = 'https://api.relisten.net/api/v2';
 
 const getMediaMetadata = (type, id, callback) => {
   const [, slug, year, date, sourceId, trackId] = id.match(/Track:(.*):(.*):(.*):(.*):(.*)/);
@@ -61,6 +61,8 @@ const getMediaMetadata = (type, id, callback) => {
       callback({});
     });
 };
+
+exports.API_ROOT = API_ROOT;
 
 module.exports = (type) => (args, callback) => {
   const id = args.id;

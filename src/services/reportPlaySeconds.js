@@ -1,6 +1,5 @@
 const winston = require('../logger');
-
-const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
+const { API_ROOT } = require('./getMediaMetadata');
 
 const reportPlaySeconds = (type, id, seconds, callback) => {
   const [, slug, year, date, sourceId, trackId] = id.match(/Track:(.*):(.*):(.*):(.*):(.*)/);

@@ -1,6 +1,6 @@
 const winston = require('../logger');
+const { API_ROOT } = require('./getMediaMetadata');
 
-const API_ROOT = 'https://relistenapi.alecgorge.com/api/v2';
 
 const getMediaURI = (type, id, callback) => {
   const [, slug, year, date, sourceId, trackId] = id.match(/Track:(.*):(.*):(.*):(.*):(.*)/);
@@ -45,7 +45,7 @@ const getMediaURI = (type, id, callback) => {
         // meh
         if (slug === 'phish') {
           trackUrl = trackUrl
-            // .replace('https', 'http')
+            .replace('https', 'http')
             .replace('phish.in/audio', 'phishin-proxy.relisten.net/phishin-audio');
         }
 
