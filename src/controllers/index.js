@@ -9,7 +9,8 @@ const router = express.Router();
 const artistsCache = require('../lib/artistsCache');
 const { createCanvas, registerFont } = require('canvas');
 const { drawRelistenAlbumArt, makeRect } = require('../lib/albumArt');
-const { API_ROOT } = require('../services/getMediaMetadata');
+
+const API_ROOT = 'https://api.relisten.net/api/v2';
 
 // registerFont(__dirname + '/../../fonts/Roboto-Bold.ttf', { family: 'Roboto Bold' });
 registerFont(__dirname + '/../../fonts/Roboto-Black.ttf', { family: 'RobotoBlack' });

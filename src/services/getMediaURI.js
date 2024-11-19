@@ -1,6 +1,5 @@
 const winston = require('../logger');
-const { API_ROOT } = require('./getMediaMetadata');
-
+const API_ROOT = 'https://api.relisten.net/api/v2';
 
 const getMediaURI = (type, id, callback) => {
   const [, slug, year, date, sourceId, trackId] = id.match(/Track:(.*):(.*):(.*):(.*):(.*)/);

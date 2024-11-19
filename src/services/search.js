@@ -1,5 +1,6 @@
 const I = require('instrumental-agent');
-const { API_ROOT } = require('./getMediaMetadata');
+
+const API_ROOT = 'https://api.relisten.net/api/v2';
 
 // const categories = [
 //   {
