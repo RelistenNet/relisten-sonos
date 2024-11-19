@@ -1,8 +1,7 @@
-const { API_ROOT } = require("../services/getMediaMetadata");
 
 const artistsCache = {};
 
-fetch(API_ROOT + '/artists')
+fetch('https://api/relisten.net/api/v2/artists')
   .then((res) => res.json())
   .then((json) => json.map((artist) => (artistsCache[artist.slug] = artist)));
 
