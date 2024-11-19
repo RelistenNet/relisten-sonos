@@ -9,6 +9,7 @@ const router = express.Router();
 const artistsCache = require('../lib/artistsCache');
 const { createCanvas, registerFont } = require('canvas');
 const { drawRelistenAlbumArt, makeRect } = require('../lib/albumArt');
+const { API_ROOT } = require('../services/getMediaMetadata');
 
 // registerFont(__dirname + '/../../fonts/Roboto-Bold.ttf', { family: 'Roboto Bold' });
 registerFont(__dirname + '/../../fonts/Roboto-Black.ttf', { family: 'RobotoBlack' });
@@ -50,7 +51,7 @@ router.get('/album-art/:artist/years/:year/:show_date/:source?/:size.png', (req,
   const date = req.params['show_date'];
   const sourceId = req.params['source'];
 
-  fetch(`https://api.relisten.net/api/v2/artists/${slug}/years/${year}/${date}`)
+  fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
     .then((res) => res.json())
     .then((json) => {
       if (!json || !json.sources) {
