@@ -17,4 +17,4 @@ const services = (type = 'mp3') => {
   };
 };
 
-module.exports = services;
+export default services;

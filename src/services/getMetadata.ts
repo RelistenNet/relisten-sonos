@@ -1,6 +1,6 @@
-const winston = require('../logger');
-const artistsCache = require('../lib/artistsCache');
-const { durationToHHMMSS, getRandomLatestRecordingString, sortTapes } = require('../lib/utils');
+import winston from '../logger';
+import artistsCache from '../lib/artistsCache';
+import { durationToHHMMSS, getRandomLatestRecordingString, sortTapes } from '../lib/utils';
 
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
@@ -364,7 +364,7 @@ const getTracks = (type, args, callback) => {
     });
 };
 
-module.exports = (type) => (args, callback) => {
+export default (type) => (args, callback) => {
   const { id } = args;
   winston.info('getMetadata', { id, args });
 

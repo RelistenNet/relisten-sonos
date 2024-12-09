@@ -1,4 +1,4 @@
-const winston = require('../logger');
+import winston from '../logger';
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
 const getMediaURI = (type, id, callback) => {
@@ -73,7 +73,7 @@ const getMediaURI = (type, id, callback) => {
     });
 };
 
-module.exports = (type) => (args, callback) => {
+export default (type) => (args, callback) => {
   const id = args.id;
 
   winston.info('getMediaURI', { type, id });

@@ -1,4 +1,4 @@
-const winston = require('../logger');
+import winston from '../logger';
 
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
@@ -50,7 +50,7 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
     });
 };
 
-module.exports = (type) => (args, callback) => {
+export default (type) => (args, callback) => {
   const { id, seconds } = args;
 
   // winston.info('reportPlaySeconds', { type, id, seconds, args });

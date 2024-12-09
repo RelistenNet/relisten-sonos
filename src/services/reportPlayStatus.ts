@@ -1,11 +1,11 @@
-const winston = require('../logger');
+import winston from '../logger';
 
 const reportPlayStatus = (type, id, seconds, status, callback) => {
   // do nothing.. for now.
   return callback({ reportPlayStatusResult: '' });
 };
 
-module.exports = (type) => (args, callback) => {
+export default (type) => (args, callback) => {
   const { id, seconds, status } = args;
 
   winston.info('reportPlayStatus', { type, id, status, seconds, args });
