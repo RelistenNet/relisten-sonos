@@ -1,5 +1,5 @@
 
-const artistsCache = {};
+const artistsCache: { [key: string]: { slug: string } } = {};
 
 fetch('https://api.relisten.net/api/v2/artists')
   .then((res) => res.json())

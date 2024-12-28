@@ -1,6 +1,6 @@
 import winston from '../logger';
 import artistsCache from '../lib/artistsCache';
-import { durationToHHMMSS, getRandomLatestRecordingString, sortTapes } from '../lib/utils';
+import { durationToHHMMSS, sortTapes } from '../lib/utils';
 
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
@@ -9,7 +9,7 @@ const ALBUM_ART_CDN = IS_PRODUCTION
   ? 'https://sonos-cdn.relisten.net'
   : 'http://192.168.0.19:3000';
 
-const artistWrapper = (name) => {
+const artistWrapper = (name: string) => {
   if (name === 'Phish') return 'Phish (by Phish.in)';
   else if (name === 'Widespread Panic') return 'Widespread Panic (by PanicStream)';
 
@@ -290,7 +290,7 @@ const getShow = (type, args, callback) => {
     });
 };
 
-const getTracks = (type, args, callback) => {
+const getTracks = (type: string, args, callback) => {
   const { id, count, index } = args;
 
   const [, slug, year, date, sourceId] = id.match(/Show:(.*):(.*):(.*):(.*)/);
@@ -364,7 +364,7 @@ const getTracks = (type, args, callback) => {
     });
 };
 
-export default (type) => (args, callback) => {
+export default (type: string) => (args, callback) => {
   const { id } = args;
   winston.info('getMetadata', { id, args });
 
