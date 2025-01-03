@@ -1,6 +1,6 @@
-const winston = require('../logger');
+import winston from '../logger';
 
-module.exports = () => () => {
+export default () => () => {
   // winston.info('getLastUpdate');
   winston.I.increment('sonos.wsdl.getLastUpdate');
 

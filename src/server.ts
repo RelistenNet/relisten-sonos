@@ -1,15 +1,15 @@
-const path = require('path');
-const fs = require('fs');
-const express = require('express');
-const soap = require('soap');
+import path from 'path';
+import fs from 'fs';
+import express from 'express';
+import soap from 'soap';
 require('isomorphic-fetch');
 
-const winston = require('./logger');
+import winston from './logger';
 
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-const services = require('./services');
+import services from './services';
 const wsdl = fs.readFileSync(__dirname + '/../Sonos.wsdl', 'utf8');
 
 app.use(require('./controllers'));

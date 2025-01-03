@@ -1,6 +1,6 @@
-const winston = require('../logger');
+import winston from '../logger';
 
-module.exports = () => (args) => {
+export default () => (args) => {
   // winston.info('getExtendedMetadata', args.id);
   winston.I.increment('sonos.wsdl.getExtendedMetadata');
 

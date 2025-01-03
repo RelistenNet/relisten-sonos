@@ -1,5 +1,5 @@
-const winston = require('../logger');
-const artistsCache = require('../lib/artistsCache');
+import winston from '../logger';
+import artistsCache from '../lib/artistsCache';
 
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
@@ -64,7 +64,7 @@ const getMediaMetadata = (type, id, callback) => {
 
 exports.API_ROOT = API_ROOT;
 
-module.exports = (type) => (args, callback) => {
+export default (type) => (args, callback) => {
   const id = args.id;
   if (!id) return;
 

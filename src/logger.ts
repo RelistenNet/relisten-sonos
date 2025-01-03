@@ -1,7 +1,9 @@
-const winston = require('winston');
-const I = require('instrumental-agent');
+import winston from 'winston';
+import I from 'instrumental-agent';
 
-const logger = winston.createLogger({
+type CustomLogger = winston.Logger & { I?: typeof I };
+
+const logger: CustomLogger = winston.createLogger({
   // format: winston.format.json(),
   transports: [
     new winston.transports.Console({
@@ -17,4 +19,4 @@ I.configure({
 
 logger.I = I;
 
-module.exports = logger;
+export default logger;

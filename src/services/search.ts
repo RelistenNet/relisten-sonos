@@ -1,4 +1,4 @@
-const I = require('instrumental-agent');
+import I from 'instrumental-agent';
 
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
@@ -13,7 +13,7 @@ const API_ROOT = 'https://api.relisten.net/api/v2';
 //   }
 // ];
 
-module.exports = (type) => (args, callback) => {
+export default (type) => (args, callback) => {
   const { id, term } = args;
 
   console.log('search', type, id, args);
