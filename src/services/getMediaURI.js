@@ -30,45 +30,41 @@ const getMediaURI = (type, id, callback) => {
 
       let trackUrl = track[`${type}_url`] || track.mp3_url;
 
-      const options = {
-        method: 'HEAD',
-      };
+      let headers = [];
 
-      fetch(trackUrl, options).then((res) => {
-        if (res.url) {
-          trackUrl = res.url;
-        }
+      if (/\/archive\.org/.test(trackUrl)) {
+        trackUrl = trackUrl.replace('://archive.org/', '://audio.relisten.net/archive.org/');
+      }
 
-        // wat.
-        // for some reason https doesn't work with cloudflare or phish.in and sonos.
-        // meh
-        if (slug === 'phish') {
-          trackUrl = trackUrl
-            .replace('https', 'http')
-            .replace('phish.in/audio', 'phishin-proxy.relisten.net/phishin-audio');
-        }
+      // wat.
+      // for some reason https doesn't work with cloudflare or phish.in and sonos.
+      // meh
+      if (slug === 'phish') {
+        // trackUrl = trackUrl
+        //   .replace('https', 'http')
+        //   .replace('phish.in/audio', 'phishin-proxy.relisten.net/phishin-audio');
+      }
 
-        // sonos requires a urlencode, but we can't encode the slashes
-        // encodeURI encodes a fully formed URL and won't encode the slashes
-        // also use relisten proxy
-        if (slug === 'wsp') {
-          trackUrl = trackUrl.replace(
-            'www.panicstream.com/streams',
-            'phishin-proxy.relisten.net/panicstream'
-          );
-        }
+      // sonos requires a urlencode, but we can't encode the slashes
+      // encodeURI encodes a fully formed URL and won't encode the slashes
+      // also use relisten proxy
+      if (slug === 'wsp') {
+        // trackUrl = trackUrl.replace(
+        //   'www.panicstream.com/streams',
+        //   'phishin-proxy.relisten.net/panicstream'
+        // );
 
-        callback({
-          getMediaURIResult: trackUrl, // 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
-          httpHeaders: [
-            {
-              httpHeader: {
-                header: 'Referer',
-                value: 'https://www.panicstream.com',
-              },
-            },
-          ],
+        headers.push({
+          httpHeader: {
+            header: 'Referer',
+            value: 'https://www.panicstream.com',
+          },
         });
+      }
+
+      callback({
+        getMediaURIResult: trackUrl, // 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
+        httpHeaders: headers,
       });
     })
     .catch((err) => {
