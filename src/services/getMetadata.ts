@@ -5,9 +5,7 @@ import { durationToHHMMSS, sortTapes } from '../lib/utils';
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-const ALBUM_ART_CDN = IS_PRODUCTION
-  ? 'https://sonos-cdn.relisten.net'
-  : 'http://192.168.0.19:3000';
+const ALBUM_ART_CDN = IS_PRODUCTION ? 'https://sonos-cdn.relisten.net' : 'http://192.168.0.19:3000';
 
 const artistWrapper = (name: string) => {
   if (name === 'Phish') return 'Phish (by Phish.in)';
@@ -244,7 +242,11 @@ const getShow = (type, args, callback) => {
       // if (json.sources.length === 1) return getTracks(type, `Show:${slug}:${year}:${date}:${json.sources[0].id}`, callback);
 
       if (slug === 'wsp' || slug === 'phish' || slug === 'trey') {
-        return getTracks(type, { id: `Show:${slug}:${year}:${date}:${json.sources[0].id}`, count: 500, index: 0 }, callback);
+        return getTracks(
+          type,
+          { id: `Show:${slug}:${year}:${date}:${json.sources[0].id}`, count: 500, index: 0 },
+          callback
+        );
       }
 
       const allResults = sortTapes(json.sources)

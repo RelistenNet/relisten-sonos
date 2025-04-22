@@ -1,22 +1,22 @@
 import path from 'path';
 import fs from 'fs';
 import express from 'express';
-import soap from 'soap';
-require('isomorphic-fetch');
+import * as soap from 'soap';
 
 import winston from './logger';
+import controllers from './controllers';
 
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 const app = express();
 
 import services from './services';
 const wsdl = fs.readFileSync(__dirname + '/../Sonos.wsdl', 'utf8');
 
-app.use(require('./controllers'));
+app.use(controllers);
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
-app.listen(PORT, '0.0.0.0', (err) => {
-  if (err) winston.info(err);
+app.listen(PORT, '0.0.0.0', (err: any) => {
+  if (err) winston.info('Error', err);
 
   const listener = soap.listen(app, '/wsdl', services('mp3'), wsdl); // only here for posterity
   const mp3Listener = soap.listen(app, '/mp3', services('mp3'), wsdl);
