@@ -19,8 +19,10 @@ COPY yarn.lock /usr/src/app
 
 RUN yarn install
 
+
 COPY . /usr/src/app
-# ADD nginx.conf.sigil /
+
+RUN npm run build
 
 EXPOSE 3000
 
