@@ -27,7 +27,7 @@ export default (type) => (args, callback) => {
     .then((json) => {
       const results = [];
 
-      searchForArtists &&
+      if (searchForArtists) {
         json.artists.map((artist) => {
           results.push({
             id: `Artist:${artist.slug}`,
@@ -41,6 +41,7 @@ export default (type) => (args, callback) => {
             // albumArtURI: ''
           });
         });
+      }
 
       // searchForSongs && json.songs.map(artist => {
       //   results.push({

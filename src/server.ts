@@ -15,9 +15,17 @@ const wsdl = fs.readFileSync(__dirname + '/../Sonos.wsdl', 'utf8');
 app.use(controllers);
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
-app.listen(PORT, '0.0.0.0', (err: any) => {
-  if (err) winston.info('Error', err);
+process.on('unhandledRejection', (err) => {
+  console.error('unhandledRejection', err);
+  winston.error('unhandledRejection');
+});
 
+process.on('uncaughtException', (err) => {
+  console.error('uncaughtException', err);
+  winston.error('uncaughtException');
+});
+
+app.listen(PORT, '0.0.0.0', () => {
   const listener = soap.listen(app, '/wsdl', services('mp3'), wsdl); // only here for posterity
   const mp3Listener = soap.listen(app, '/mp3', services('mp3'), wsdl);
   const flacListener = soap.listen(app, '/flac', services('flac'), wsdl);

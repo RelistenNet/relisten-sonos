@@ -30,7 +30,7 @@ const getMediaURI = (type, id, callback) => {
 
       let trackUrl = track[`${type}_url`] || track.mp3_url;
 
-      let headers = [];
+      const headers = [];
 
       if (/\/archive\.org/.test(trackUrl)) {
         trackUrl = trackUrl.replace('://archive.org/', '://audio.relisten.net/archive.org/');

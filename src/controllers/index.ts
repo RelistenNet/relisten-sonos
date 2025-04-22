@@ -43,14 +43,14 @@ const API_ROOT = 'https://api.relisten.net/api/v2';
 registerFont(__dirname + '/../../fonts/Roboto-Black.ttf', { family: 'RobotoBlack' });
 
 router.get('/', (req, res) => {
-  return res.json({ hi: 'hi world' });
+  res.json({ hi: 'hi world' });
 });
 
 router.get('/album-art/:artist/years/:year/:show_date/{:source}/:size.png', (req, res) => {
   const size = parseInt(req.params['size'] || '500', 10); // Provide default or handle NaN
 
   if (isNaN(size) || !(size > 0 && size <= 1500)) {
-    return res.status(400).send('Invalid size parameter');
+    res.status(400).send('Invalid size parameter');
   }
 
   const canvas: Canvas = createCanvas(size, size);
@@ -73,7 +73,7 @@ router.get('/album-art/:artist/years/:year/:show_date/{:source}/:size.png', (req
     .then((json: ShowApiResponse) => {
       if (!json || !json.sources || json.sources.length === 0) {
         winston.error('no json sources found (v2 api)', { slug, year, date, sourceId });
-        return res.status(404).send('Show or sources not found');
+        res.status(404).send('Show or sources not found');
       }
 
       // Find source by ID if provided, otherwise use the first source
@@ -88,7 +88,7 @@ router.get('/album-art/:artist/years/:year/:show_date/{:source}/:size.png', (req
           date,
           sourceId,
         });
-        return res.status(404).send('Source not found or invalid');
+        res.status(404).send('Source not found or invalid');
       }
 
       let venue: Venue = {
@@ -130,7 +130,7 @@ router.get('/album-art/:artist/years/:year/:show_date/{:source}/:size.png', (req
               date,
               sourceId,
             });
-            return res.status(500).send('Error generating image buffer');
+            res.status(500).send('Error generating image buffer');
           }
           res.send(buf);
         },
@@ -156,7 +156,7 @@ router.get('/ios-album-art/:artist/:source_uuid/:size.png', (req, res) => {
   const size = parseInt(req.params['size'] || '500', 10); // Provide default or handle NaN
 
   if (isNaN(size) || !(size > 0 && size <= 1500)) {
-    return res.status(400).send('Invalid size parameter');
+    res.status(400).send('Invalid size parameter');
   }
 
   const canvas: Canvas = createCanvas(size, size);
@@ -177,7 +177,7 @@ router.get('/ios-album-art/:artist/:source_uuid/:size.png', (req, res) => {
       // V3 show endpoint returns a single show, sources are within it.
       if (!json || !json.sources || json.sources.length === 0) {
         winston.error('no json sources found (v3 api)', { sourceUuid });
-        return res.status(404).send('Show or sources not found');
+        res.status(404).send('Show or sources not found');
       }
 
       // In v3 /shows/{uuid}, the response is the show containing the source.
@@ -191,7 +191,7 @@ router.get('/ios-album-art/:artist/:source_uuid/:size.png', (req, res) => {
           artistParam,
           sourceUuid,
         });
-        return res.status(404).send('Source not found or invalid');
+        res.status(404).send('Source not found or invalid');
       }
 
       let venue: Venue = {
@@ -228,7 +228,7 @@ router.get('/ios-album-art/:artist/:source_uuid/:size.png', (req, res) => {
         (err, buf) => {
           if (err) {
             winston.error('Failed to create PNG buffer', { error: err, artistParam, sourceUuid });
-            return res.status(500).send('Error generating image buffer');
+            res.status(500).send('Error generating image buffer');
           }
           res.send(buf);
         },
