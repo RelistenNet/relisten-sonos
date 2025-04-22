@@ -1,4 +1,13 @@
-const { firstBy } = require('thenby');
+import { firstBy } from 'thenby';
+
+type Source = {
+  is_soundboard: boolean;
+  taper: string;
+  transferrer: string;
+  source: string;
+  upstream_identifier: string;
+  avg_rating_weighted: number;
+}
 
 const addZero = (str = '') => {
   const int = parseInt(str, 10);
@@ -13,7 +22,7 @@ const removeLeadingZero = (str = '') => {
   return String(int);
 };
 
-const createShowDate = (year, month, day) => {
+const createShowDate = (year: string, month: string, day: string) => {
   return `${year}-${addZero(month)}-${addZero(day)}`;
 };
 
@@ -23,7 +32,7 @@ const splitShowDate = (showDate = '') => {
   return { year, month, day };
 };
 
-const durationToHHMMSS = (duration) => {
+const durationToHHMMSS = (duration: number) => {
   const prefix = duration < 0 ? '-' : '';
   let totalSeconds = Math.abs(duration);
   const hours = Math.floor(totalSeconds / 3600);
@@ -33,11 +42,11 @@ const durationToHHMMSS = (duration) => {
 
   return (
     prefix +
-    [hours, hours ? addZero(minutes) : String(minutes), addZero(seconds)].filter((x) => x).join(':')
+    [hours, hours ? addZero(String(minutes)) : String(minutes), addZero(String(seconds))].filter((x) => x).join(':')
   );
 };
 
-const simplePluralize = (str, count) => {
+const simplePluralize = (str: string, count: number) => {
   return `${count} ${count === 1 ? str : str + 's'}`;
 };
 
@@ -53,19 +62,19 @@ const getEtreeId = (s = '') =>
 // for now, hardcode sort: sbd, charlie miller, etree id, weighted average
 const sortTapes = (sources = []) => {
   const sortedTapes = [...sources].sort(
-    firstBy((t) => t.is_soundboard)
+    firstBy((t: Source) => t.is_soundboard)
       // Charlie for GD, Pete for JRAD
-      .thenBy((t) =>
+      .thenBy((t: Source) =>
         /(charlie miller)|(peter costello)/i.test([t.taper, t.transferrer, t.source].join(''))
       )
-      .thenBy((t1, t2) => getEtreeId(t1.upstream_identifier) - getEtreeId(t2.upstream_identifier))
-      .thenBy((t) => t.avg_rating_weighted)
+      .thenBy((t1: Source, t2: Source) => getEtreeId(t1.upstream_identifier) - getEtreeId(t2.upstream_identifier))
+      .thenBy((t: Source) => t.avg_rating_weighted)
   );
 
   return sortedTapes.reverse();
 };
 
-module.exports = {
+export {
   addZero,
   removeLeadingZero,
   createShowDate,

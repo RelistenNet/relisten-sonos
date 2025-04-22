@@ -1,4 +1,20 @@
-function drawRelistenAlbumArt(canvas, data, targetFrame, resizing) {
+import { Canvas } from 'canvas';
+
+type Rect = {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+type ResizeBehavior = 'aspectfit' | 'aspectfill' | 'stretch' | 'center';
+
+function drawRelistenAlbumArt(
+  canvas: Canvas,
+  data: { artist: string; showDate: string; venue: string; location: string },
+  targetFrame: Rect,
+  resizing: ResizeBehavior
+) {
   //// General Declarations
   const context = canvas.getContext('2d');
 
@@ -15,7 +31,7 @@ function drawRelistenAlbumArt(canvas, data, targetFrame, resizing) {
   const textForeground = 'rgba(255, 255, 255, 1)';
 
   //// Gradient Declarations
-  function linearGradient1(g) {
+  function linearGradient1(g: CanvasGradient) {
     g.addColorStop(0, gradientColor);
     g.addColorStop(0.45, gradientColor2);
     g.addColorStop(1, gradientColor3);
@@ -88,7 +104,7 @@ function drawRelistenAlbumArt(canvas, data, targetFrame, resizing) {
 //   'aspectfill': The content is proportionally resized to completely fill the target rectangle.
 //   'stretch': The content is stretched to match the entire target rectangle.
 //   'center': The content is centered in the target rectangle, but it is NOT resized.
-function applyResizingBehavior(resizing, rect, targetRect) {
+function applyResizingBehavior(resizing: ResizeBehavior, rect: Rect, targetRect: Rect) {
   if (
     targetRect === undefined ||
     equalRects(rect, targetRect) ||
@@ -141,17 +157,19 @@ function applyResizingBehavior(resizing, rect, targetRect) {
   return result;
 }
 
-function makeRect(x, y, w, h) {
+function makeRect(x: number, y: number, w: number, h: number): Rect {
   return { x: x, y: y, w: w, h: h };
 }
 
-function equalRects(r1, r2) {
+function equalRects(r1: Rect, r2: Rect): boolean {
   return r1.x === r2.x && r1.y === r2.y && r1.w == r2.w && r1.h === r2.h;
 }
 
-function makeSize(w, h) {
+function makeSize(w: number, h: number) {
   return { w: w, h: h };
 }
 
-exports.drawRelistenAlbumArt = drawRelistenAlbumArt;
-exports.makeRect = makeRect;
+export {
+  drawRelistenAlbumArt,
+  makeRect
+};
