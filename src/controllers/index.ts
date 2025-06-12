@@ -47,7 +47,7 @@ router.get('/', (req, res) => {
 });
 router.get(
   '/album-art/:artist/years/:year/:show_date/{:source}/:size.png',
-  async (req, res): any => {
+  async (req, res): Promise<any> => {
     const size = parseInt(req.params['size'] || '500', 10); // Provide default or handle NaN
 
     if (isNaN(size) || !(size > 0 && size <= 1500)) {
@@ -151,7 +151,7 @@ router.get(
   }
 );
 
-router.get('/ios-album-art/:artist/:source_uuid/:size.png', async (req, res): any => {
+router.get('/ios-album-art/:artist/:source_uuid/:size.png', async (req, res): Promise<any> => {
   // Note: source_uuid is now mandatory based on the path, removed '?'
   const size = parseInt(req.params['size'] || '500', 10); // Provide default or handle NaN
 
