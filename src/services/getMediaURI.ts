@@ -49,10 +49,11 @@ const getMediaURI = (type, id, callback) => {
       // encodeURI encodes a fully formed URL and won't encode the slashes
       // also use relisten proxy
       if (slug === 'wsp') {
-        trackUrl = trackUrl.replace(
-          'www.panicstream.com/streams',
-          'phishin-proxy.relisten.net/panicstream'
+        const url = new URL(
+          trackUrl.replace('www.panicstream.com/streams', 'phishin-proxy.relisten.net/panicstream')
         );
+        url.pathname = encodeURIComponent(url.pathname);
+        trackUrl = url.href;
 
         headers.push({
           httpHeader: {
