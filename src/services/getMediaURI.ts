@@ -33,14 +33,11 @@ const getMediaURI = (type, id, callback) => {
       const headers = [];
 
       if (/\/archive\.org/.test(trackUrl)) {
-        trackUrl = trackUrl.replace('://archive.org/', '://audio.relisten.net/archive.org/');
+        trackUrl = trackUrl.replace('://archive.org/', '://audio-bare.relisten.net/archive.org/');
       }
 
-      // wat.
-      // for some reason https doesn't work with cloudflare or phish.in and sonos.
-      // meh
       if (slug === 'phish') {
-        trackUrl = trackUrl.replace('phish.in/audio', 'phishin-proxy.relisten.net/phishin-audio');
+        trackUrl = trackUrl.replace('://phish.in', '://audio-bare.relisten.net/phish.in');
       }
 
       // sonos requires a urlencode, but we can't encode the slashes
@@ -49,7 +46,10 @@ const getMediaURI = (type, id, callback) => {
       if (slug === 'wsp') {
         // this is important, auto encodes url
         const url = new URL(
-          trackUrl.replace('www.panicstream.com/streams', 'phishin-proxy.relisten.net/panicstream')
+          trackUrl.replace(
+            '://www.panicstream.com',
+            '://audio-bare.relisten.net/www.panicstream.com'
+          )
         );
         trackUrl = url.href;
 
