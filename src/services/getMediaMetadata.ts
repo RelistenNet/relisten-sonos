@@ -65,10 +65,11 @@ const getMediaMetadata = (type, id, callback) => {
 exports.API_ROOT = API_ROOT;
 
 export default (type) => (args, callback) => {
+  winston.info('getMediaMetadata', args);
+
   const id = args.id;
   if (!id) return;
 
-  winston.info('getMediaMetadata', id);
   winston.I.increment('sonos.wsdl.getMediaMetadata');
   return getMediaMetadata(type, id, callback);
 };
