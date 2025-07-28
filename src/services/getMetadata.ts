@@ -51,6 +51,8 @@ const getRoot = (args, callback) => {
 
       const results = allResults.slice(index, index + count);
 
+      winston.info(`getRoot allResults.length=${allResults.length}, results.length=${results.length}`);
+
       callback({
         getMetadataResult: {
           index,
