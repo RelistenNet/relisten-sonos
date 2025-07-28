@@ -9,7 +9,6 @@ const ALBUM_ART_CDN = IS_PRODUCTION ? 'https://sonos-cdn.relisten.net' : 'http:/
 
 const artistWrapper = (name: string) => {
   if (name === 'Phish') return 'Phish (by Phish.in)';
-  else if (name === 'Widespread Panic') return 'Widespread Panic (by PanicStream)';
 
   return name;
 };

@@ -40,27 +40,6 @@ const getMediaURI = (type, id, callback) => {
         trackUrl = trackUrl.replace('://phish.in', '://audio-bare.relisten.net/phish.in');
       }
 
-      // sonos requires a urlencode, but we can't encode the slashes
-      // encodeURI encodes a fully formed URL and won't encode the slashes
-      // also use relisten proxy
-      if (slug === 'wsp') {
-        // this is important, auto encodes url
-        const url = new URL(
-          trackUrl.replace(
-            '://www.panicstream.com',
-            '://audio-bare.relisten.net/www.panicstream.com'
-          )
-        );
-        trackUrl = url.href;
-
-        headers.push({
-          httpHeader: {
-            header: 'Referer',
-            value: 'https://www.panicstream.com',
-          },
-        });
-      }
-
       winston.info('MP3 prepped', {
         getMediaURIResult: trackUrl, // 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
         httpHeaders: headers,
