@@ -40,6 +40,10 @@ const getMediaURI = (type, id, callback) => {
         trackUrl = trackUrl.replace('://phish.in', '://audio-bare.relisten.net/phish.in');
       }
 
+      if (slug === 'trey') {
+        trackUrl = trackUrl.replace('://audio.relisten.net', '://audio-bare.relisten.net');
+      }
+
       winston.info('MP3 prepped', {
         getMediaURIResult: trackUrl, // 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
         httpHeaders: headers,
