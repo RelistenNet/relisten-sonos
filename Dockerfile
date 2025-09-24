@@ -1,28 +1,33 @@
 FROM node:22-alpine
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# Install canvas build dependencies FIRST, before anything else
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    giflib-dev \
+    pixman-dev \
+    && ln -sf python3 /usr/bin/python
 
 # Install pnpm
 RUN npm install -g pnpm
 
-RUN apk update
-RUN apk add --no-cache \
-  build-base \
-  g++ \
-  cairo-dev \
-  jpeg-dev \
-  pango-dev \
-  giflib-dev \
-  pixman-dev
+# Create app directory
+WORKDIR /usr/src/app
 
-COPY package.json /usr/src/app
-COPY pnpm-lock.yaml /usr/src/app
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
 
-RUN pnpm install
+# Install dependencies with proper flags
+RUN pnpm install --frozen-lockfile
 
-COPY . /usr/src/app
+# Copy application source
+COPY . .
 
+# Build the application
 RUN pnpm run build
 
 EXPOSE 3000
