@@ -46,6 +46,7 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
     })
     .catch((err) => {
       winston.error(err);
+console.error(err);
       callback({});
     });
 };

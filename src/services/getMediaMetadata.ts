@@ -58,6 +58,7 @@ const getMediaMetadata = (type, id, callback) => {
     })
     .catch((err) => {
       winston.error(err);
+      console.error(err);
       callback({});
     });
 };

@@ -118,6 +118,7 @@ const getLatest = (args, callback) => {
     })
     .catch((err) => {
       winston.error(err);
+      console.error(err);
       return callback({});
     });
 };
@@ -168,6 +169,7 @@ const getYears = (args, callback) => {
     })
     .catch((err) => {
       winston.error(err);
+      console.error(err);
       return callback({});
     });
 };
@@ -225,6 +227,7 @@ const getShows = (args, callback) => {
     })
     .catch((err) => {
       winston.error(err);
+      console.error(err);
       return callback({});
     });
 };
@@ -291,6 +294,7 @@ const getShow = (type, args, callback) => {
     })
     .catch((err) => {
       winston.error(err);
+      console.error(err);
       return callback({});
     });
 };
@@ -365,6 +369,7 @@ const getTracks = (type: string, args, callback) => {
     })
     .catch((err) => {
       winston.error(err);
+      console.error(err);
       return callback({});
     });
 };
