@@ -13,7 +13,8 @@ RUN apk add --no-cache \
   cairo-dev \
   jpeg-dev \
   pango-dev \
-  giflib-dev
+  giflib-dev \
+  pixman-dev
 
 COPY package.json /usr/src/app
 COPY pnpm-lock.yaml /usr/src/app
