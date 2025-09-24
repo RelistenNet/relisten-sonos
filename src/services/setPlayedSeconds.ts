@@ -1,4 +1,4 @@
-import winston from '../logger';
+import winston from '../logger.js';
 
 const setPlaySeconds = (type, id, seconds, status, callback) => {
   // do nothing.. for now.

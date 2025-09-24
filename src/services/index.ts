@@ -1,13 +1,13 @@
-import getMetadata from './getMetadata';
-import getExtendedMetadata from './getExtendedMetadata';
-import getExtendedMetadataText from './getExtendedMetadataText';
-import getLastUpdate from './getLastUpdate';
-import getMediaMetadata from './getMediaMetadata';
-import getMediaURI from './getMediaURI';
-import search from './search';
-import reportPlayStatus from './reportPlayStatus';
-import reportPlaySeconds from './reportPlaySeconds';
-import setPlayedSeconds from './setPlayedSeconds';
+import getMetadata from './getMetadata.js';
+import getExtendedMetadata from './getExtendedMetadata.js';
+import getExtendedMetadataText from './getExtendedMetadataText.js';
+import getLastUpdate from './getLastUpdate.js';
+import getMediaMetadata from './getMediaMetadata.js';
+import getMediaURI from './getMediaURI.js';
+import search from './search.js';
+import reportPlayStatus from './reportPlayStatus.js';
+import reportPlaySeconds from './reportPlaySeconds.js';
+import setPlayedSeconds from './setPlayedSeconds.js';
 
 const services = (type = 'mp3') => {
   return {

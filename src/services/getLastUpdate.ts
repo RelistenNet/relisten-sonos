@@ -1,4 +1,4 @@
-import winston from '../logger';
+import winston from '../logger.js';
 
 export default () => () => {
   // winston.info('getLastUpdate');

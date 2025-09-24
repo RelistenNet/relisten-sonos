@@ -1,4 +1,4 @@
-import winston from '../logger';
+import winston from '../logger.js';
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
 const getMediaURI = (type, id, callback) => {
@@ -45,12 +45,12 @@ const getMediaURI = (type, id, callback) => {
       }
 
       winston.info('MP3 prepped', {
-        getMediaURIResult: trackUrl, // 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
+        getMediaURIResult: encodeURI(trackUrl), // 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
         httpHeaders: headers,
       });
 
       callback({
-        getMediaURIResult: trackUrl, // 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
+        getMediaURIResult: encodeURI(trackUrl), // 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
         httpHeaders: headers,
       });
     })

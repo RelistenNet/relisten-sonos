@@ -1,7 +1,7 @@
-import winston from '../logger';
-import artistsCache from '../lib/artistsCache';
+import winston from '../logger.js';
+import artistsCache from '../lib/artistsCache.js';
 
-const API_ROOT = 'https://api.relisten.net/api/v2';
+export const API_ROOT = 'https://api.relisten.net/api/v2';
 
 const getMediaMetadata = (type, id, callback) => {
   const [, slug, year, date, sourceId, trackId] = id.match(/Track:(.*):(.*):(.*):(.*):(.*)/);
@@ -61,8 +61,6 @@ const getMediaMetadata = (type, id, callback) => {
       callback({});
     });
 };
-
-exports.API_ROOT = API_ROOT;
 
 export default (type) => (args, callback) => {
   winston.info('getMediaMetadata', args);

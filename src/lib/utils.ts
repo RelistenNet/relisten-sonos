@@ -1,4 +1,4 @@
-import { firstBy } from 'thenby';
+import * as thenby from 'thenby';
 
 type Source = {
   is_soundboard: boolean;
@@ -7,7 +7,7 @@ type Source = {
   source: string;
   upstream_identifier: string;
   avg_rating_weighted: number;
-}
+};
 
 const addZero = (str = '') => {
   const int = parseInt(str, 10);
@@ -42,7 +42,9 @@ const durationToHHMMSS = (duration: number) => {
 
   return (
     prefix +
-    [hours, hours ? addZero(String(minutes)) : String(minutes), addZero(String(seconds))].filter((x) => x).join(':')
+    [hours, hours ? addZero(String(minutes)) : String(minutes), addZero(String(seconds))]
+      .filter((x) => x)
+      .join(':')
   );
 };
 
@@ -62,12 +64,16 @@ const getEtreeId = (s = '') =>
 // for now, hardcode sort: sbd, charlie miller, etree id, weighted average
 const sortTapes = (sources = []) => {
   const sortedTapes = [...sources].sort(
-    firstBy((t: Source) => t.is_soundboard)
+    thenby
+      .firstBy((t: Source) => t.is_soundboard)
       // Charlie for GD, Pete for JRAD
       .thenBy((t: Source) =>
         /(charlie miller)|(peter costello)/i.test([t.taper, t.transferrer, t.source].join(''))
       )
-      .thenBy((t1: Source, t2: Source) => getEtreeId(t1.upstream_identifier) - getEtreeId(t2.upstream_identifier))
+      .thenBy(
+        (t1: Source, t2: Source) =>
+          getEtreeId(t1.upstream_identifier) - getEtreeId(t2.upstream_identifier)
+      )
       .thenBy((t: Source) => t.avg_rating_weighted)
   );
 

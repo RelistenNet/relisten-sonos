@@ -3,7 +3,8 @@ FROM node:22-alpine
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-RUN yarn global add node-gyp
+# Install pnpm
+RUN npm install -g pnpm
 
 RUN apk update
 RUN apk add --no-cache \
@@ -15,14 +16,14 @@ RUN apk add --no-cache \
   giflib-dev
 
 COPY package.json /usr/src/app
-COPY yarn.lock /usr/src/app
+COPY pnpm-lock.yaml /usr/src/app
 
-RUN yarn install
+RUN pnpm install
 
 COPY . /usr/src/app
 
-RUN npm run build
+RUN pnpm run build
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]

@@ -5,7 +5,7 @@ type Rect = {
   y: number;
   w: number;
   h: number;
-}
+};
 
 type ResizeBehavior = 'aspectfit' | 'aspectfill' | 'stretch' | 'center';
 
@@ -169,7 +169,4 @@ function makeSize(w: number, h: number) {
   return { w: w, h: h };
 }
 
-export {
-  drawRelistenAlbumArt,
-  makeRect
-};
+export { drawRelistenAlbumArt, makeRect };

@@ -3,17 +3,17 @@ import fs from 'fs';
 import express from 'express';
 import * as soap from 'soap';
 
-import winston from './logger';
-import controllers from './controllers';
+import winston from './logger.js';
+import controllers from './controllers/index.js';
 
 const PORT = Number(process.env.PORT) || 3000;
 const app = express();
 
-import services from './services';
-const wsdl = fs.readFileSync(__dirname + '/../Sonos.wsdl', 'utf8');
+import services from './services/index.js';
+const wsdl = fs.readFileSync(import.meta.dirname + '/../Sonos.wsdl', 'utf8');
 
 app.use(controllers);
-app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(path.join(import.meta.dirname, 'public')));
 
 process.on('unhandledRejection', (err) => {
   console.error('unhandledRejection', err);

@@ -1,4 +1,4 @@
-import winston from '../logger';
+import winston from '../logger.js';
 
 const API_ROOT = 'https://api.relisten.net/api/v2';
 

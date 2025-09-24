@@ -1,6 +1,6 @@
-import winston from '../logger';
-import artistsCache from '../lib/artistsCache';
-import { durationToHHMMSS, sortTapes } from '../lib/utils';
+import winston from '../logger.js';
+import artistsCache from '../lib/artistsCache.js';
+import { durationToHHMMSS, sortTapes } from '../lib/utils.js';
 
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
@@ -51,7 +51,9 @@ const getRoot = (args, callback) => {
 
       const results = allResults.slice(index, index + count);
 
-      winston.info(`getRoot allResults.length=${allResults.length}, results.length=${results.length}`);
+      winston.info(
+        `getRoot allResults.length=${allResults.length}, results.length=${results.length}`
+      );
 
       callback({
         getMetadataResult: {
@@ -70,7 +72,7 @@ const getRoot = (args, callback) => {
 };
 
 const getLatest = (args, callback) => {
-  const { id, count, index } = args;
+  const { count, index } = args;
 
   fetch(`${API_ROOT}/shows/recently-added`)
     .then((res) => res.json())

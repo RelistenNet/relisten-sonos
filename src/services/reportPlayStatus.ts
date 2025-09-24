@@ -1,4 +1,4 @@
-import winston from '../logger';
+import winston from '../logger.js';
 
 const reportPlayStatus = (type, id, seconds, status, callback) => {
   // do nothing.. for now.

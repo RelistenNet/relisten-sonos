@@ -1,8 +1,8 @@
 import { Canvas, createCanvas, registerFont } from 'canvas';
-import express, { Router } from 'express';
-import { drawRelistenAlbumArt, makeRect } from '../lib/albumArt'; // Assuming these are named exports
-import artistsCache from '../lib/artistsCache'; // Assuming default export
-import winston from '../logger';
+import express, { Router, Response } from 'express';
+import { drawRelistenAlbumArt, makeRect } from '../lib/albumArt.js'; // Assuming these are named exports
+import artistsCache from '../lib/artistsCache.js'; // Assuming default export
+import winston from '../logger.js';
 
 // Define interfaces for better type safety (can be refined or moved)
 interface Venue {
@@ -13,7 +13,7 @@ interface Venue {
 interface Source {
   id?: string | number;
   uuid?: string;
-  sets: any[]; // Define Set/Track types if needed
+  sets: unknown[]; // Define Set/Track types if needed
   venue?: Venue;
 }
 
@@ -40,14 +40,14 @@ const router: Router = express.Router();
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
 // registerFont(__dirname + '/../../fonts/Roboto-Bold.ttf', { family: 'Roboto Bold' });
-registerFont(__dirname + '/../../fonts/Roboto-Black.ttf', { family: 'RobotoBlack' });
+registerFont(import.meta.dirname + '/../../fonts/Roboto-Black.ttf', { family: 'RobotoBlack' });
 
 router.get('/', (req, res) => {
   res.json({ hi: 'hi world' });
 });
 router.get(
   '/album-art/:artist/years/:year/:show_date/{:source}/:size.png',
-  async (req, res): Promise<any> => {
+  async (req, res): Promise<Response> => {
     const size = parseInt(req.params['size'] || '500', 10); // Provide default or handle NaN
 
     if (isNaN(size) || !(size > 0 && size <= 1500)) {
@@ -151,7 +151,7 @@ router.get(
   }
 );
 
-router.get('/ios-album-art/:artist/:source_uuid/:size.png', async (req, res): Promise<any> => {
+router.get('/ios-album-art/:artist/:source_uuid/:size.png', async (req, res): Promise<Response> => {
   // Note: source_uuid is now mandatory based on the path, removed '?'
   const size = parseInt(req.params['size'] || '500', 10); // Provide default or handle NaN
 
