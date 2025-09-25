@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM public.ecr.aws/docker/library/node:22-alpine
 
 # Install canvas build dependencies FIRST, before anything else
 RUN apk add --no-cache \

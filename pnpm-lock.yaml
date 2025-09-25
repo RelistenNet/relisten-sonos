@@ -14,15 +14,15 @@ importers:
       express:
         specifier: 5.1.0
         version: 5.1.0
+      fast-sort:
+        specifier: ^3.4.1
+        version: 3.4.1
       instrumental-agent:
         specifier: alecgorge/instrumental_agent-node#master
         version: https://codeload.github.com/alecgorge/instrumental_agent-node/tar.gz/f66f395ef6bd37baa4f50e861f7451d233a9e33b
       soap:
         specifier: 1.3.0
         version: 1.3.0
-      thenby:
-        specifier: ^1.3.4
-        version: 1.3.4
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -1014,6 +1014,9 @@ packages:
 
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
+
+  fast-sort@3.4.1:
+    resolution: {integrity: sha512-76uvGPsF6So53sZAqenP9UVT3p5l7cyTHkLWVCMinh41Y8NDrK1IYXJgaBMfc1gk7nJiSRZp676kddFG2Aa5+A==}
 
   fastq@1.19.1:
     resolution: {integrity: sha512-GwLTyxkCXjXbxqIhTsMI2Nui8huMPtnxg7krajPJAjnEG/iiOS7i+zCtWGZR9G0NBKbXKh6X9m9UIsYX/N6vvQ==}
@@ -2210,9 +2213,6 @@ packages:
 
   text-hex@1.0.0:
     resolution: {integrity: sha512-uuVGNWzgJ4yhRaNSiubPY7OjISw4sw4E5Uv0wbjp+OzcbmVU/rsT8ujgcXJhn9ypzsgr5vlzpPqP+MBBKcGvbg==}
-
-  thenby@1.3.4:
-    resolution: {integrity: sha512-89Gi5raiWA3QZ4b2ePcEwswC3me9JIg+ToSgtE0JWeCynLnLxNr/f9G+xfo9K+Oj4AFdom8YNJjibIARTJmapQ==}
 
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
@@ -3639,6 +3639,8 @@ snapshots:
   fast-json-stable-stringify@2.1.0: {}
 
   fast-levenshtein@2.0.6: {}
+
+  fast-sort@3.4.1: {}
 
   fastq@1.19.1:
     dependencies:
@@ -5104,8 +5106,6 @@ snapshots:
       yallist: 4.0.0
 
   text-hex@1.0.0: {}
-
-  thenby@1.3.4: {}
 
   to-regex-range@5.0.1:
     dependencies:

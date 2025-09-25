@@ -242,6 +242,7 @@ const getShow = (type, args, callback) => {
     .then((json) => {
       if (!json || !json.sources) {
         winston.error('error', { regex });
+        console.error('years', json);
         return callback({});
       }
 
@@ -293,7 +294,7 @@ const getShow = (type, args, callback) => {
       });
     })
     .catch((err) => {
-      winston.error(err);
+      winston.error('getShow', { err });
       console.error(err);
       return callback({});
     });
@@ -368,7 +369,7 @@ const getTracks = (type: string, args, callback) => {
       });
     })
     .catch((err) => {
-      winston.error(err);
+      winston.error('getTracks', { err });
       console.error(err);
       return callback({});
     });

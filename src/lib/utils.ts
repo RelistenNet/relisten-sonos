@@ -1,4 +1,4 @@
-import * as thenby from 'thenby';
+import { sort } from 'fast-sort';
 
 type Source = {
   is_soundboard: boolean;
@@ -63,21 +63,18 @@ const getEtreeId = (s = '') =>
 // tapes: TODO: GD sort (charlie miller, sbd + etree id, weighted average), sbd + etree id, weighted avg, asc, desc
 // for now, hardcode sort: sbd, charlie miller, etree id, weighted average
 const sortTapes = (sources = []) => {
-  const sortedTapes = [...sources].sort(
-    thenby
-      .firstBy((t: Source) => t.is_soundboard)
-      // Charlie for GD, Pete for JRAD
-      .thenBy((t: Source) =>
-        /(charlie miller)|(peter costello)/i.test([t.taper, t.transferrer, t.source].join(''))
-      )
-      .thenBy(
-        (t1: Source, t2: Source) =>
-          getEtreeId(t1.upstream_identifier) - getEtreeId(t2.upstream_identifier)
-      )
-      .thenBy((t: Source) => t.avg_rating_weighted)
-  );
+  const sortedTapes = sort([...sources]).by([
+    { desc: (t: Source) => t.is_soundboard },
+    // Charlie for GD, Pete for JRAD
+    {
+      desc: (t: Source) =>
+        /(charlie miller)|(peter costello)/i.test([t.taper, t.transferrer, t.source].join('')),
+    },
+    { asc: (t: Source) => getEtreeId(t.upstream_identifier) },
+    { desc: (t: Source) => t.avg_rating_weighted },
+  ]);
 
-  return sortedTapes.reverse();
+  return sortedTapes;
 };
 
 export {
