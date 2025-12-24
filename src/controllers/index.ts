@@ -39,8 +39,7 @@ const router: Router = express.Router();
 
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
-// registerFont(__dirname + '/../../fonts/Roboto-Bold.ttf', { family: 'Roboto Bold' });
-registerFont(import.meta.dirname + '/../../fonts/Roboto-Black.ttf', { family: 'RobotoBlack' });
+registerFont(import.meta.dirname + '/../../fonts/Inter-Bold.ttf', { family: 'Inter', weight: 'bold' });
 
 router.get('/', (req, res) => {
   res.json({ hi: 'hi world' });
