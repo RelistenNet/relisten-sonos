@@ -1,3 +1,6 @@
+allowBuilds:
+  canvas: true
+  esbuild: true
 onlyBuiltDependencies:
   - canvas
   - esbuild

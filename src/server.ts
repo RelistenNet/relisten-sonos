@@ -42,5 +42,5 @@ app.listen(PORT, '0.0.0.0', () => {
     if (type === 'error') winston.error('soap error flac', { data, error: new Error().stack });
   };
 
-  winston.info(`==> 🌎 Listening on PORT ${PORT}`);
+  winston.info(`==> 🌎 Listening on PORT ${PORT} ${process.env.NODE_ENV}`);
 });

@@ -5,7 +5,7 @@ import { durationToHHMMSS, sortTapes } from '../lib/utils.js';
 const API_ROOT = 'https://api.relisten.net/api/v2';
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-const ALBUM_ART_CDN = IS_PRODUCTION ? 'https://sonos-cdn.relisten.net' : 'http://192.168.0.19:3000';
+const ALBUM_ART_CDN = IS_PRODUCTION ? 'https://relisten.net' : 'http://192.168.0.19:3000';
 
 const artistWrapper = (name: string) => {
   if (name === 'Phish') return 'Phish (by Phish.in)';
