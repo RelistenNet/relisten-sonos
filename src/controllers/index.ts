@@ -134,7 +134,7 @@ router.get(
           return res.send(buf);
         },
         'image/png',
-        { compressionLevel: 3, filters: canvas.PNG_FILTER_NONE }
+        { compressionLevel: 3, filters: Canvas.PNG_FILTER_NONE }
       );
     } catch (error) {
       winston.error('Error fetching or processing show data (v2 api)', {
@@ -231,7 +231,7 @@ router.get('/ios-album-art/:artist/:source_uuid/:size.png', async (req, res): Pr
         return res.send(buf);
       },
       'image/png',
-      { compressionLevel: 3, filters: canvas.PNG_FILTER_NONE }
+      { compressionLevel: 3, filters: Canvas.PNG_FILTER_NONE }
     );
   } catch (error) {
     winston.error('Error fetching or processing show data (v3 api)', {

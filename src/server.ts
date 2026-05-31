@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import http from 'http';
 import express from 'express';
 import * as soap from 'soap';
 
@@ -25,10 +26,12 @@ process.on('uncaughtException', (err) => {
   winston.error('uncaughtException');
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  const listener = soap.listen(app, '/wsdl', services('mp3'), wsdl); // only here for posterity
-  const mp3Listener = soap.listen(app, '/mp3', services('mp3'), wsdl);
-  const flacListener = soap.listen(app, '/flac', services('flac'), wsdl);
+const server = http.createServer(app);
+
+server.listen(PORT, '0.0.0.0', () => {
+  const listener = soap.listen(server, '/wsdl', services('mp3'), wsdl); // only here for posterity
+  const mp3Listener = soap.listen(server, '/mp3', services('mp3'), wsdl);
+  const flacListener = soap.listen(server, '/flac', services('flac'), wsdl);
 
   listener.log = function (type, data) {
     if (type === 'error') winston.error('soap error mp3', { data, error: new Error().stack });
