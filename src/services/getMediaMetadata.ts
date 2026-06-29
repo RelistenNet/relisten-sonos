@@ -1,7 +1,6 @@
 import winston from '../logger.js';
 import artistsCache from '../lib/artistsCache.js';
-
-export const API_ROOT = 'https://api.relisten.net/api/v2';
+import { API_V2_ROOT } from '../lib/relistenApi.js';
 
 const getMediaMetadata = (type, id, callback) => {
   const [, slug, year, date, sourceId, trackId] = id.match(/Track:(.*):(.*):(.*):(.*):(.*)/);
@@ -9,7 +8,7 @@ const getMediaMetadata = (type, id, callback) => {
   const artist = artistsCache[slug];
   const artistName = artist ? artist.name : '';
 
-  fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
+  fetch(`${API_V2_ROOT}/artists/${slug}/years/${year}/${date}`)
     .then((res) => res.json())
     .then((json) => {
       if (!json || !json.sources) {

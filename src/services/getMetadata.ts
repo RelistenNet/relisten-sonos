@@ -1,8 +1,7 @@
 import winston from '../logger.js';
 import artistsCache from '../lib/artistsCache.js';
+import { API_V2_ROOT } from '../lib/relistenApi.js';
 import { durationToHHMMSS, sortTapes } from '../lib/utils.js';
-
-const API_ROOT = 'https://api.relisten.net/api/v2';
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const ALBUM_ART_CDN = IS_PRODUCTION ? 'https://relisten.net' : 'http://192.168.0.19:3000';
@@ -18,7 +17,7 @@ const LATEST_TAPES = 'Latest Tapes';
 const getRoot = (args, callback) => {
   const { count, index } = args;
 
-  fetch(`${API_ROOT}/artists`)
+  fetch(`${API_V2_ROOT}/artists`)
     .then((res) => res.json())
     .then((json) => {
       const artists = json
@@ -74,7 +73,7 @@ const getRoot = (args, callback) => {
 const getLatest = (args, callback) => {
   const { count, index } = args;
 
-  fetch(`${API_ROOT}/shows/recently-added`)
+  fetch(`${API_V2_ROOT}/shows/recently-added`)
     .then((res) => res.json())
     .then((json) => {
       const allResults = json.map((item) => {
@@ -128,7 +127,7 @@ const getYears = (args, callback) => {
 
   const slug = id.replace('Artist:', '');
 
-  fetch(`${API_ROOT}/artists/${slug}/years`)
+  fetch(`${API_V2_ROOT}/artists/${slug}/years`)
     .then((res) => res.json())
     .then((json) => {
       const years = json.map((item) => {
@@ -179,10 +178,10 @@ const getShows = (args, callback) => {
 
   const [regex, slug, year] = id.match(/Year:(.*):(.*)/);
 
-  let url = `${API_ROOT}/artists/${slug}/years/${year}`;
+  let url = `${API_V2_ROOT}/artists/${slug}/years/${year}`;
 
   if (year === 'latest') {
-    url = `${API_ROOT}/artists/${slug}/shows/recently-added`;
+    url = `${API_V2_ROOT}/artists/${slug}/shows/recently-added`;
   }
 
   fetch(url)
@@ -237,7 +236,7 @@ const getShow = (type, args, callback) => {
 
   const [regex, slug, year, date] = id.match(/Shows:(.*):(.*):(.*)/);
 
-  fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
+  fetch(`${API_V2_ROOT}/artists/${slug}/years/${year}/${date}`)
     .then((res) => res.json())
     .then((json) => {
       if (!json || !json.sources) {
@@ -308,7 +307,7 @@ const getTracks = (type: string, args, callback) => {
   const artist = artistsCache[slug];
   const artistName = artist ? artist.name : '';
 
-  fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
+  fetch(`${API_V2_ROOT}/artists/${slug}/years/${year}/${date}`)
     .then((res) => res.json())
     .then((json) => {
       if (!json || !json.sources) {

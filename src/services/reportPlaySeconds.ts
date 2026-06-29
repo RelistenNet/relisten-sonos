@@ -1,6 +1,5 @@
 import winston from '../logger.js';
-
-const API_ROOT = 'https://api.relisten.net/api/v2';
+import { API_V2_ROOT } from '../lib/relistenApi.js';
 
 const reportPlaySeconds = (type, id, seconds, callback) => {
   const [, slug, year, date, sourceId, trackId] = id.match(/Track:(.*):(.*):(.*):(.*):(.*)/);
@@ -10,7 +9,7 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
     return callback({ reportPlaySecondsResult: '' });
   }
 
-  fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
+  fetch(`${API_V2_ROOT}/artists/${slug}/years/${year}/${date}`)
     .then((res) => res.json())
     .then((json) => {
       if (!json || !json.sources) {
@@ -36,7 +35,7 @@ const reportPlaySeconds = (type, id, seconds, callback) => {
       if (!track) return callback({ reportPlaySecondsResult: '' });
 
       // submit play POST
-      fetch(`${API_ROOT}/live/play?track_id=${track.id}&app_type=sonos`, {
+      fetch(`${API_V2_ROOT}/live/play?track_id=${track.id}&app_type=sonos`, {
         method: 'POST',
       }).then(() => null);
 

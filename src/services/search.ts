@@ -1,6 +1,5 @@
 import I from 'instrumental-agent';
-
-const API_ROOT = 'https://api.relisten.net/api/v2';
+import { API_V2_ROOT } from '../lib/relistenApi.js';
 
 // const categories = [
 //   {
@@ -22,7 +21,7 @@ export default (type) => (args, callback) => {
   const searchForArtists = /artist/.test(id);
   // const searchForSongs = /song/.test(id);
 
-  fetch(`${API_ROOT}/search?q=${term}`)
+  fetch(`${API_V2_ROOT}/search?q=${term}`)
     .then((res) => res.json())
     .then((json) => {
       const results = [];

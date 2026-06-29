@@ -2,6 +2,7 @@ import { Canvas, createCanvas, registerFont } from 'canvas';
 import express, { Router, Response } from 'express';
 import { drawRelistenAlbumArt, makeRect } from '../lib/albumArt.js'; // Assuming these are named exports
 import artistsCache from '../lib/artistsCache.js'; // Assuming default export
+import { API_V2_ROOT, API_V3_ROOT } from '../lib/relistenApi.js';
 import winston from '../logger.js';
 
 // Define interfaces for better type safety (can be refined or moved)
@@ -37,8 +38,6 @@ const typedArtistsCache = artistsCache as ArtistsCacheType;
 
 const router: Router = express.Router();
 
-const API_ROOT = 'https://api.relisten.net/api/v2';
-
 registerFont(import.meta.dirname + '/../../fonts/Inter-Bold.ttf', { family: 'Inter', weight: 'bold' });
 
 router.get('/', (req, res) => {
@@ -64,7 +63,7 @@ router.get(
     const sourceId: string | undefined = req.params['source']; // source is optional
 
     try {
-      const apiRes = await fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`);
+      const apiRes = await fetch(`${API_V2_ROOT}/artists/${slug}/years/${year}/${date}`);
       if (!apiRes.ok) {
         throw new Error(`API request failed with status ${apiRes.status}`);
       }
@@ -134,7 +133,7 @@ router.get(
           return res.send(buf);
         },
         'image/png',
-        { compressionLevel: 3, filters: Canvas.PNG_FILTER_NONE }
+        { compressionLevel: 3, filters: canvas.PNG_FILTER_NONE }
       );
     } catch (error) {
       winston.error('Error fetching or processing show data (v2 api)', {
@@ -165,7 +164,7 @@ router.get('/ios-album-art/:artist/:source_uuid/:size.png', async (req, res): Pr
 
   // Using v3 API endpoint as in the original code
   try {
-    const apiRes = await fetch(`https://api.relisten.net/api/v3/shows/${sourceUuid}`);
+    const apiRes = await fetch(`${API_V3_ROOT}/shows/${sourceUuid}`);
     if (!apiRes.ok) {
       throw new Error(`API request failed with status ${apiRes.status}`);
     }
@@ -231,7 +230,7 @@ router.get('/ios-album-art/:artist/:source_uuid/:size.png', async (req, res): Pr
         return res.send(buf);
       },
       'image/png',
-      { compressionLevel: 3, filters: Canvas.PNG_FILTER_NONE }
+      { compressionLevel: 3, filters: canvas.PNG_FILTER_NONE }
     );
   } catch (error) {
     winston.error('Error fetching or processing show data (v3 api)', {

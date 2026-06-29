@@ -1,10 +1,10 @@
 import winston from '../logger.js';
-const API_ROOT = 'https://api.relisten.net/api/v2';
+import { API_V2_ROOT } from '../lib/relistenApi.js';
 
 const getMediaURI = (type, id, callback) => {
   const [, slug, year, date, sourceId, trackId] = id.match(/Track:(.*):(.*):(.*):(.*):(.*)/);
 
-  fetch(`${API_ROOT}/artists/${slug}/years/${year}/${date}`)
+  fetch(`${API_V2_ROOT}/artists/${slug}/years/${year}/${date}`)
     .then((res) => res.json())
     .then((json) => {
       if (!json || !json.sources) {
