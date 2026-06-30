@@ -1,6 +1,8 @@
 allowBuilds:
   canvas: true
   esbuild: true
+  protobufjs: true
 onlyBuiltDependencies:
   - canvas
   - esbuild
+  - protobufjs
