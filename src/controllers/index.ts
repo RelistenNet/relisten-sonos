@@ -38,7 +38,10 @@ const typedArtistsCache = artistsCache as ArtistsCacheType;
 
 const router: Router = express.Router();
 
-registerFont(import.meta.dirname + '/../../fonts/Inter-Bold.ttf', { family: 'Inter', weight: 'bold' });
+registerFont(import.meta.dirname + '/../../fonts/Inter-Bold.ttf', {
+  family: 'Inter',
+  weight: 'bold',
+});
 
 router.get('/', (req, res) => {
   res.json({ hi: 'hi world' });
