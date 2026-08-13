@@ -1,7 +1,5 @@
 import winston from '../logger.js';
-
-type SmapiArgs = { id?: string; term?: string; index?: number; count?: number; seconds?: number };
-type SmapiCallback = (result: unknown) => void;
+import type { SmapiArgs, SmapiCallback } from './types.js';
 
 type HandlerOptions = {
   // What to hand back when the handler throws. Every verb has its own shape.
@@ -20,16 +18,16 @@ export const smapiHandler =
     fn: (args: TArgs) => Promise<unknown>,
     { errorResult = {}, metric }: HandlerOptions = {}
   ) =>
-  (args: TArgs, callback: SmapiCallback): void => {
+  (args: TArgs, callback?: SmapiCallback): void => {
     const metricName = metric === undefined ? `sonos.wsdl.${name}` : metric;
 
     if (metricName) winston.I.increment(metricName);
 
     fn(args).then(
-      (result) => callback(result),
+      (result) => callback?.(result),
       (err) => {
         winston.error(name, { err });
-        callback(errorResult);
+        callback?.(errorResult);
       }
     );
   };
@@ -42,7 +40,10 @@ export const paginate = <T>(
   { index, count }: Pagination,
   kind: 'mediaCollection' | 'mediaMetadata' = 'mediaCollection'
 ) => {
-  const results = items.slice(index, index + count);
+  // Sonos always sends both bounds. If either is missing the arithmetic below
+  // yields NaN and slice returns nothing, which is what has always happened.
+  const end = (index ?? NaN) + (count ?? NaN);
+  const results = items.slice(index, end);
 
   return {
     index,

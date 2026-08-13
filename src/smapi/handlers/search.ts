@@ -22,7 +22,7 @@ export default (ctx: { format: string }) =>
 
     winston.info('search', { type: ctx.format, id, args });
 
-    const searchForArtists = /artist/.test(id);
+    const searchForArtists = /artist/.test(id ?? '');
     // const searchForSongs = /song/.test(id);
 
     const artists = await searchArtists(term);

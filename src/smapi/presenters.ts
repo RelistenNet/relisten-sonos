@@ -18,7 +18,7 @@ export const albumArtURI = (slug: string, year: string, date: string, sourceId?:
     sourceId === undefined ? '' : `/${sourceId}`
   }/600.png`;
 
-const soundboardPrefix = (isSoundboard: boolean) => (isSoundboard ? '[SBD]' : '[AUD]');
+const soundboardPrefix = (isSoundboard: boolean | undefined) => (isSoundboard ? '[SBD]' : '[AUD]');
 
 export const artistToItem = (artist: Artist) => ({
   id: formatId({ kind: 'artist', slug: artist.slug }),
@@ -65,7 +65,15 @@ export const latestTapesYearItem = (slug: string) => ({
 });
 
 export const latestShowToItem = (show: Show) => {
-  const artistName = show.artist && show.artist.name;
+  const { artist, year } = show;
+
+  // The recently-added feed always embeds both, and there is no id to hand back
+  // without them. Previously this threw a TypeError a few lines further down.
+  if (!artist || !year) {
+    throw new Error(`recently-added show ${show.display_date} is missing its artist or year`);
+  }
+
+  const artistName = artist.name;
 
   const parts = [
     artistName && `${soundboardPrefix(show.has_soundboard_source)} ${artistName}`,
@@ -77,8 +85,8 @@ export const latestShowToItem = (show: Show) => {
   return {
     id: formatId({
       kind: 'show',
-      slug: show.artist.slug,
-      year: show.year.year,
+      slug: artist.slug,
+      year: year.year,
       date: show.display_date,
     }),
     itemType: 'container',
@@ -132,7 +140,8 @@ export const sourceToItem = ({
   show: Show;
   source: Source;
   format: string;
-  artSourceId: string | number;
+  // Omitted from the album art url when the source has no id.
+  artSourceId: string | number | undefined;
 }) => {
   const person = source.taper || source.transferrer;
   const sourceTitle = source.source || source.lineage;

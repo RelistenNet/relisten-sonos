@@ -39,7 +39,7 @@ export const reportPlaySeconds = smapiHandler<ReportArgs>(
     const { slug, year, date, sourceId, trackId } = parsed;
 
     // only report initial play
-    if (seconds > 25) {
+    if (seconds !== undefined && seconds > 25) {
       return { reportPlaySecondsResult: '' };
     }
 

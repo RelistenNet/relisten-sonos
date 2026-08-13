@@ -18,6 +18,9 @@ const UNKNOWN_VENUE: Venue = {
   location: 'Unknown Location',
 };
 
+// Catch clauses hand us `unknown`; log the message when there is one.
+const errorMessage = (error: unknown): unknown => (error instanceof Error ? error.message : error);
+
 const parseSize = (raw: string | undefined): number | null => {
   const size = parseInt(raw || '500', 10);
 
@@ -115,7 +118,7 @@ router.get(
       return await renderAlbumArt(res, size, artistName, { show, source, logContext });
     } catch (error) {
       winston.error('Error fetching or processing show data (v2 api)', {
-        error: error.message || error,
+        error: errorMessage(error),
         ...logContext,
       });
       // Avoid sending detailed error messages to the client
@@ -157,7 +160,7 @@ router.get(
       return await renderAlbumArt(res, size, artistParam, { show, source, logContext });
     } catch (error) {
       winston.error('Error fetching or processing show data (v3 api)', {
-        error: error.message || error,
+        error: errorMessage(error),
         ...logContext,
       });
       return res.status(500).send('Error fetching show data');

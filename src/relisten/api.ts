@@ -29,7 +29,7 @@ export const getArtistYears = (slug: string) =>
 // The `latest` pseudo-year is served by a different endpoint, and the two
 // endpoints disagree on their envelope: one returns shows, the other an object
 // containing them.
-export const getYearShows = async (slug: string, year: string): Promise<Show[]> => {
+export const getYearShows = async (slug: string, year: string): Promise<Show[] | undefined> => {
   const url =
     year === 'latest'
       ? `${API_V2_ROOT}/artists/${slug}/shows/recently-added`
@@ -52,7 +52,7 @@ export const reportPlay = (trackId: number | string) =>
     method: 'POST',
   }).then(() => null);
 
-export const searchArtists = async (term: string): Promise<Artist[]> => {
+export const searchArtists = async (term: string | undefined): Promise<Artist[]> => {
   const json = await getJson<SearchResults>(`${API_V2_ROOT}/search?q=${term}`);
 
   return json.Artists;

@@ -46,6 +46,11 @@ export default (ctx: { format: string }) =>
 
       const trackUrl = streamUrlForTrack(track, ctx.format, slug);
 
+      if (trackUrl === undefined) {
+        winston.error('no stream url on track', { slug, year, date, sourceId, trackId });
+        return { getMediaURIResult: '' };
+      }
+
       const result = {
         getMediaURIResult: encodeURI(trackUrl), // 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
         httpHeaders: [],

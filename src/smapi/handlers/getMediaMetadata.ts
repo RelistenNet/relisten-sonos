@@ -5,11 +5,14 @@ import { getArtistName } from '../../relisten/artists.js';
 import { findSource, findTrack } from '../../relisten/tracks.js';
 import { trackMetadata } from '../presenters.js';
 import { smapiHandler } from '../respond.js';
+import type { SmapiCallback } from '../types.js';
 
 type MediaMetadataArgs = { id?: string };
 
+// The exported wrapper below refuses to answer without an id, so the handler
+// itself always sees one.
 const handle = (ctx: { format: string }) =>
-  smapiHandler<MediaMetadataArgs>(
+  smapiHandler<MediaMetadataArgs & { id: string }>(
     'getMediaMetadata',
     async ({ id }) => {
       const parsed = parseId(id);
@@ -60,12 +63,14 @@ const handle = (ctx: { format: string }) =>
 export default (ctx: { format: string }) => {
   const handler = handle(ctx);
 
-  return (args: MediaMetadataArgs, callback: (result: unknown) => void) => {
+  return (args: MediaMetadataArgs, callback?: SmapiCallback) => {
     winston.info('getMediaMetadata', args);
 
-    // Sonos occasionally asks without an id; we deliberately never answer.
-    if (!args.id) return;
+    const { id } = args;
 
-    return handler(args, callback);
+    // Sonos occasionally asks without an id; we deliberately never answer.
+    if (!id) return;
+
+    return handler({ ...args, id }, callback);
   };
 };

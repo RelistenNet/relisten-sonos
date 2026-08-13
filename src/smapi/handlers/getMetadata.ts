@@ -72,13 +72,16 @@ const getSources = async (
     return {};
   }
 
+  // Bound to a local so the narrowing above survives into the callbacks below.
+  const { sources } = show;
+
   // if (show.sources.length === 1) return getTracks(format, formatId({ kind: 'source', slug, year, date, sourceId: `${show.sources[0].id}` }), callback);
 
   // These artists only ever have the one source per show, so skip the picker.
   if (slug === 'wsp' || slug === 'phish' || slug === 'trey') {
     return getTracks(
       {
-        id: formatId({ kind: 'source', slug, year, date, sourceId: `${show.sources[0].id}` }),
+        id: formatId({ kind: 'source', slug, year, date, sourceId: `${sources[0].id}` }),
         count: 500,
         index: 0,
       },
@@ -86,7 +89,7 @@ const getSources = async (
     );
   }
 
-  const allResults = sortTapes(show.sources)
+  const allResults = sortTapes(sources)
     .filter((source) => (format === 'flac' ? source.flac_type !== 'Flac24Bit' : true))
     .map((source) =>
       sourceToItem({
@@ -96,7 +99,7 @@ const getSources = async (
         show,
         source,
         format,
-        artSourceId: show.sources[0].id,
+        artSourceId: sources[0].id,
       })
     );
 
@@ -104,9 +107,12 @@ const getSources = async (
 };
 
 const getTracks = async (args: MetadataArgs, format: string) => {
-  const parsed = parseId(args.id);
+  // The id of the album we are listing tracks for; every track points back at it.
+  const albumId = args.id;
+  const parsed = parseId(albumId);
 
-  if (!parsed || parsed.kind !== 'source') return {};
+  // `!albumId` is implied by `!parsed`, but stating it keeps albumId a string.
+  if (!albumId || !parsed || parsed.kind !== 'source') return {};
 
   const { slug, year, date, sourceId } = parsed;
 
@@ -134,7 +140,7 @@ const getTracks = async (args: MetadataArgs, format: string) => {
   const tracks = source.sets.flatMap((set) =>
     set.tracks.map((track) =>
       trackToItem({
-        albumId: args.id,
+        albumId,
         slug,
         year: dateYear,
         date,

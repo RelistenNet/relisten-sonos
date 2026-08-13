@@ -22,7 +22,8 @@ export type SonosId =
       trackId: string;
     };
 
-export const parseId = (raw: string): SonosId | null => {
+// Ids arrive straight off the SOAP wire, so they may well be missing entirely.
+export const parseId = (raw: string | undefined): SonosId | null => {
   if (!raw) return null;
 
   if (raw === 'root') return { kind: 'root' };
