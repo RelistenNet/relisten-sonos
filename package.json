@@ -2,20 +2,21 @@
   "name": "relisten-sonos",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "license": "MIT",
+  "author": "Daniel Saewitz",
   "repository": {
     "type": "git",
     "url": "https://github.com/switz/relisten-sonos.git"
   },
-  "author": "Daniel Saewitz",
-  "license": "MIT",
   "type": "module",
+  "main": "server.js",
   "scripts": {
     "test": "",
     "start": "node build/server.js",
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "lint": "eslint src/**/*.ts"
+    "lint": "oxlint -c oxlint.json",
+    "fmt": "oxfmt ."
   },
   "dependencies": {
     "@opentelemetry/api": "1.9.1",
@@ -36,9 +37,9 @@
   "devDependencies": {
     "@switz/eslint-config": "^13.1.0",
     "@types/express": "^5.0.6",
-    "eslint": "^10.8.1",
+    "oxfmt": "^0.63.0",
+    "oxlint": "^1.78.0",
     "tsx": "^4.23.12",
-    "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "@typescript/native": "npm:typescript@^7.0.2"
+    "typescript": "^7.0.2"
   }
 }
