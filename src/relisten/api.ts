@@ -55,5 +55,5 @@ export const reportPlay = (trackId: number | string) =>
 export const searchArtists = async (term: string): Promise<Artist[]> => {
   const json = await getJson<SearchResults>(`${API_V2_ROOT}/search?q=${term}`);
 
-  return json.artists;
+  return json.Artists;
 };

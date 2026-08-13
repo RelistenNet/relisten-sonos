@@ -54,5 +54,6 @@ export interface Show {
 }
 
 export interface SearchResults {
-  artists: Artist[];
+  // The v2 search envelope uses PascalCase keys.
+  Artists: Artist[];
 }
