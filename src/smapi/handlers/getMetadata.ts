@@ -320,8 +320,23 @@ const getSongShowList = async (
   return { getMetadataResult: paginate(shows, args) };
 };
 
-const topShowsCache = new Map<string, { shows: Show[]; ts: number }>();
+const TOP_SHOWS_CACHE_MAX = 50;
 const TOP_SHOWS_TTL = 10 * 60 * 1000;
+const MAX_YEAR_FANOUT = 50;
+const topShowsCache = new Map<string, { shows: Show[]; ts: number }>();
+
+const evictTopShowsCache = () => {
+  if (topShowsCache.size <= TOP_SHOWS_CACHE_MAX) return;
+  let oldest = '';
+  let oldestTs = Infinity;
+  for (const [key, entry] of topShowsCache) {
+    if (entry.ts < oldestTs) {
+      oldest = key;
+      oldestTs = entry.ts;
+    }
+  }
+  if (oldest) topShowsCache.delete(oldest);
+};
 
 const getTopShows = async (args: MetadataArgs, format: string, slug: string) => {
   const cached = topShowsCache.get(slug);
@@ -331,10 +346,12 @@ const getTopShows = async (args: MetadataArgs, format: string, slug: string) => 
     allShows = cached.shows;
   } else {
     const years = await getArtistYears(slug);
+    const bounded = years.slice(0, MAX_YEAR_FANOUT);
     allShows = (
-      await Promise.all(years.map((year) => getYearShows(slug, year.year)))
+      await Promise.all(bounded.map((year) => getYearShows(slug, year.year)))
     ).flatMap((shows) => shows ?? []);
     topShowsCache.set(slug, { shows: allShows, ts: Date.now() });
+    evictTopShowsCache();
   }
 
   const sorted = [...allShows].sort(
