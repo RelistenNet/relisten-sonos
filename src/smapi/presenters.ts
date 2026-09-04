@@ -1,6 +1,6 @@
 import { formatId } from '../ids.js';
 import { durationToHHMMSS } from '../lib/utils.js';
-import type { Artist, Show, Source, Track, Year } from '../relisten/types.js';
+import type { Artist, Show, Song, Source, Track, Venue, Year } from '../relisten/types.js';
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const ALBUM_ART_CDN = IS_PRODUCTION ? 'https://relisten.net' : 'http://192.168.0.19:3000';
@@ -46,22 +46,22 @@ export const searchArtistToItem = (artist: Artist) => ({
 export const latestTapesItem = () => ({
   id: formatId({ kind: 'latest' }),
   itemType: 'container',
-  displayType: 'list-sans-thumbs',
+  displayType: 'hero',
   title: LATEST_TAPES,
   summary: 'Latest recordings',
   canPlay: false,
-  // albumArtURI: ''
+  canEnumerate: true,
 });
 
 // The per-artist equivalent, which browses to a pseudo-year named `latest`.
 export const latestTapesYearItem = (slug: string) => ({
   id: formatId({ kind: 'year', slug, year: 'latest' }),
   itemType: 'container',
-  displayType: 'list-sans-thumbs',
+  displayType: 'hero',
   title: LATEST_TAPES,
   summary: 'Most recent recordings',
   canPlay: false,
-  // albumArtURI: ''
+  canEnumerate: true,
 });
 
 export const latestShowToItem = (show: Show) => {
@@ -102,11 +102,17 @@ export const yearToItem = (slug: string, year: Year) => ({
   id: formatId({ kind: 'year', slug, year: year.year }),
   itemType: 'container',
   displayType: 'list-sans-thumbs',
-  title: year.year,
+  title: year.show_count ? `${year.year} (${year.show_count} shows)` : year.year,
   summary: year.year,
   canPlay: false,
-  // albumArtURI: ''
+  canEnumerate: true,
 });
+
+const ratingStars = (rating: number | undefined) => {
+  if (!rating || rating <= 0) return '';
+  const rounded = Math.round(rating * 10) / 10;
+  return ` ${rounded.toFixed(1)}★`;
+};
 
 export const showToItem = (slug: string, year: string, show: Show) => ({
   id: formatId({ kind: 'show', slug, year, date: show.display_date }),
@@ -120,8 +126,15 @@ export const showToItem = (slug: string, year: string, show: Show) => ({
     ]
       .filter((x) => x)
       .join(' - ') + ` [${show.source_count}]`,
-  summary: show.display_date,
-  canPlay: show.source_count === 1,
+  summary: [
+    show.display_date,
+    show.venue?.name,
+    show.avg_rating ? `${show.avg_rating.toFixed(1)}★` : '',
+  ]
+    .filter((x) => x)
+    .join(' • '),
+  canPlay: true,
+  canEnumerate: true,
   albumArtURI: albumArtURI(slug, year, show.display_date),
 });
 
@@ -153,6 +166,7 @@ export const sourceToItem = ({
     title: [
       `${soundboardPrefix(source.is_soundboard)} ${sourceTitle}`,
       person ? `by ${person}` : null,
+      ratingStars(source.avg_rating_weighted),
       format === 'flac' &&
         source.flac_type === 'Flac16Bit' &&
         show.has_streamable_flac_source &&
@@ -160,7 +174,14 @@ export const sourceToItem = ({
     ]
       .filter((x) => x)
       .join(' '),
-    summary: source.description || '',
+    summary: [
+      source.description || sourceTitle,
+      source.avg_rating_weighted
+        ? `${source.avg_rating_weighted.toFixed(1)}★ (${source.num_ratings ?? 0} ratings)`
+        : '',
+    ]
+      .filter((x) => x)
+      .join(' • '),
     canPlay: true,
     albumArtURI: albumArtURI(slug, year, date, artSourceId),
   };
@@ -216,6 +237,56 @@ export const trackToItem = ({
     },
   };
 };
+
+export const venuesContainerItem = (slug: string) => ({
+  id: formatId({ kind: 'venues', slug }),
+  itemType: 'container',
+  displayType: 'list-sans-thumbs',
+  title: 'Venues',
+  summary: 'Browse by venue',
+  canPlay: false,
+  canEnumerate: true,
+});
+
+export const songsContainerItem = (slug: string) => ({
+  id: formatId({ kind: 'songs', slug }),
+  itemType: 'container',
+  displayType: 'list-sans-thumbs',
+  title: 'Songs',
+  summary: 'Browse by song',
+  canPlay: false,
+  canEnumerate: true,
+});
+
+export const topShowsContainerItem = (slug: string) => ({
+  id: formatId({ kind: 'topShows', slug }),
+  itemType: 'container',
+  displayType: 'list',
+  title: 'Top Shows',
+  summary: 'Most popular shows',
+  canPlay: false,
+  canEnumerate: true,
+});
+
+export const venueToItem = (slug: string, venue: Venue) => ({
+  id: formatId({ kind: 'venue', slug, venueSlug: venue.slug ?? '' }),
+  itemType: 'container',
+  displayType: 'list-sans-thumbs',
+  title: `${venue.name} (${venue.shows_at_venue ?? 0})`,
+  summary: venue.location,
+  canPlay: false,
+  canEnumerate: true,
+});
+
+export const songToItem = (slug: string, song: Song) => ({
+  id: formatId({ kind: 'song', slug, songSlug: song.slug }),
+  itemType: 'container',
+  displayType: 'list-sans-thumbs',
+  title: `${song.name} (${song.shows_played_at})`,
+  summary: `Played ${song.shows_played_at} time${song.shows_played_at === 1 ? '' : 's'}`,
+  canPlay: false,
+  canEnumerate: true,
+});
 
 export const trackMimeType = (track: Track, format: string) =>
   format === 'flac' && track.flac_url ? 'audio/flac' : 'audio/mp3';
