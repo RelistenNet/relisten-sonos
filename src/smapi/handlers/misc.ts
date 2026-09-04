@@ -98,9 +98,7 @@ export const getExtendedMetadataText = smapiHandler<ExtendedTextArgs>(
 
           if (parts.length) {
             return {
-              getExtendedMetadataTextResult: {
-                getExtendedMetadataTextResult: parts.join('\n\n'),
-              },
+              getExtendedMetadataTextResult: parts.join('\n\n'),
             };
           }
         }
@@ -108,9 +106,7 @@ export const getExtendedMetadataText = smapiHandler<ExtendedTextArgs>(
     }
 
     return {
-      getExtendedMetadataTextResult: {
-        getExtendedMetadataTextResult: '',
-      },
+      getExtendedMetadataTextResult: '',
     };
   }
 );

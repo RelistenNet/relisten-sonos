@@ -26,7 +26,7 @@ export default (ctx: { format: string }) =>
         title: `${song.name}${song.slim_artist ? ` — ${song.slim_artist.name}` : ''}`,
         summary: `Played ${song.shows_played_at} time${song.shows_played_at === 1 ? '' : 's'}`,
         canEnumerate: true,
-        canPlay: true,
+        canPlay: false,
       }));
       return { searchResult: paginate(items, args) };
     }
