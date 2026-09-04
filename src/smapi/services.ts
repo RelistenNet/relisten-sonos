@@ -1,6 +1,7 @@
 import getMediaMetadata from './handlers/getMediaMetadata.js';
 import getMediaURI from './handlers/getMediaURI.js';
 import getMetadata from './handlers/getMetadata.js';
+import getScrollIndices from './handlers/getScrollIndices.js';
 import { getExtendedMetadata, getExtendedMetadataText, getLastUpdate } from './handlers/misc.js';
 import { reportPlaySeconds, reportPlayStatus, setPlayedSeconds } from './handlers/reporting.js';
 import search from './handlers/search.js';
@@ -18,6 +19,7 @@ const buildServices = (ctx: ServiceContext) => {
         getMediaMetadata: getMediaMetadata(ctx),
         getMediaURI: getMediaURI(ctx),
         search: search(ctx),
+        getScrollIndices,
         reportPlayStatus,
         reportPlaySeconds,
         setPlayedSeconds,

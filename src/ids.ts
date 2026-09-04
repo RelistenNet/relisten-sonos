@@ -20,7 +20,12 @@ export type SonosId =
       date: string;
       sourceId: string;
       trackId: string;
-    };
+    }
+  | { kind: 'venues'; slug: string }
+  | { kind: 'venue'; slug: string; venueSlug: string }
+  | { kind: 'songs'; slug: string }
+  | { kind: 'song'; slug: string; songSlug: string }
+  | { kind: 'topShows'; slug: string };
 
 // Ids arrive straight off the SOAP wire, so they may well be missing entirely.
 export const parseId = (raw: string | undefined): SonosId | null => {
@@ -57,6 +62,31 @@ export const parseId = (raw: string | undefined): SonosId | null => {
       if (rest.length !== 5) return null;
       return { kind: 'track', slug, year, date, sourceId, trackId };
     }
+    case 'Venues': {
+      const [slug] = rest;
+      if (rest.length !== 1) return null;
+      return { kind: 'venues', slug };
+    }
+    case 'Venue': {
+      const [slug, venueSlug] = rest;
+      if (rest.length !== 2) return null;
+      return { kind: 'venue', slug, venueSlug };
+    }
+    case 'ArtistSongs': {
+      const [slug] = rest;
+      if (rest.length !== 1) return null;
+      return { kind: 'songs', slug };
+    }
+    case 'ArtistSong': {
+      const [slug, songSlug] = rest;
+      if (rest.length !== 2) return null;
+      return { kind: 'song', slug, songSlug };
+    }
+    case 'TopShows': {
+      const [slug] = rest;
+      if (rest.length !== 1) return null;
+      return { kind: 'topShows', slug };
+    }
     default:
       return null;
   }
@@ -78,5 +108,15 @@ export const formatId = (id: SonosId): string => {
       return `Show:${id.slug}:${id.year}:${id.date}:${id.sourceId}`;
     case 'track':
       return `Track:${id.slug}:${id.year}:${id.date}:${id.sourceId}:${id.trackId}`;
+    case 'venues':
+      return `Venues:${id.slug}`;
+    case 'venue':
+      return `Venue:${id.slug}:${id.venueSlug}`;
+    case 'songs':
+      return `ArtistSongs:${id.slug}`;
+    case 'song':
+      return `ArtistSong:${id.slug}:${id.songSlug}`;
+    case 'topShows':
+      return `TopShows:${id.slug}`;
   }
 };

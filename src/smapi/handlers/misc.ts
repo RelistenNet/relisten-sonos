@@ -1,10 +1,10 @@
+import { formatId, parseId } from '../../ids.js';
 import winston from '../../logger.js';
-
-// These three answer synchronously: node-soap uses a handler's return value
-// whenever it is not undefined.
+import { getShow } from '../../relisten/api.js';
+import { findSource } from '../../relisten/tracks.js';
+import { smapiHandler } from '../respond.js';
 
 export const getLastUpdate = () => {
-  // winston.info('getLastUpdate');
   winston.I.increment('sonos.wsdl.getLastUpdate');
 
   return {
@@ -17,24 +17,100 @@ export const getLastUpdate = () => {
 };
 
 export const getExtendedMetadata = (args: { id?: string }) => {
-  // winston.info('getExtendedMetadata', args.id);
   winston.I.increment('sonos.wsdl.getExtendedMetadata');
 
-  return {
-    getExtendedMetadataResult: {
-      id: args.id,
-      type: 'artist',
-    },
-  };
+  const parsed = parseId(args.id);
+  if (!parsed) {
+    return { getExtendedMetadataResult: { mediaMetadata: { id: args.id, itemType: 'other' } } };
+  }
+
+  switch (parsed.kind) {
+    case 'artist': {
+      return {
+        getExtendedMetadataResult: {
+          mediaMetadata: { id: args.id, itemType: 'artist' },
+          relatedBrowse: [
+            {
+              id: formatId({ kind: 'topShows', slug: parsed.slug }),
+              type: 'RELATED_ARTISTS',
+              title: 'Top Shows',
+            },
+            {
+              id: formatId({ kind: 'venues', slug: parsed.slug }),
+              type: 'RELATED_ARTISTS',
+              title: 'Venues',
+            },
+            {
+              id: formatId({ kind: 'songs', slug: parsed.slug }),
+              type: 'RELATED_ARTISTS',
+              title: 'Songs',
+            },
+          ],
+        },
+      };
+    }
+
+    case 'source': {
+      const { slug, year, date } = parsed;
+      return {
+        getExtendedMetadataResult: {
+          mediaMetadata: { id: args.id, itemType: 'album' },
+          relatedBrowse: [
+            {
+              id: formatId({ kind: 'show', slug, year, date }),
+              type: 'RELATED_ARTISTS',
+              title: 'All Sources',
+            },
+          ],
+        },
+      };
+    }
+
+    default:
+      return {
+        getExtendedMetadataResult: {
+          mediaMetadata: { id: args.id, itemType: 'other' },
+        },
+      };
+  }
 };
 
-export const getExtendedMetadataText = () => {
-  winston.info('getExtendedMetadataText');
-  winston.I.increment('sonos.wsdl.getExtendedMetadataText');
+type ExtendedTextArgs = { id?: string; type?: string };
 
-  return {
-    getExtendedMetadataTextResult: {
-      getExtendedMetadataTextResult: 'extended text result',
-    },
-  };
-};
+export const getExtendedMetadataText = smapiHandler<ExtendedTextArgs>(
+  'getExtendedMetadataText',
+  async (args) => {
+    const parsed = parseId(args.id);
+
+    if (parsed?.kind === 'source') {
+      const { slug, year, date, sourceId } = parsed;
+      const show = await getShow(slug, year, date);
+
+      if (show?.sources) {
+        const source = findSource(show, sourceId);
+        if (source) {
+          const parts: string[] = [];
+          if (source.description) parts.push(source.description);
+          if (source.taper) parts.push(`Taper: ${source.taper}`);
+          if (source.transferrer) parts.push(`Transferrer: ${source.transferrer}`);
+          if (source.lineage) parts.push(`Lineage: ${source.lineage}`);
+          if (source.source) parts.push(`Source: ${source.source}`);
+
+          if (parts.length) {
+            return {
+              getExtendedMetadataTextResult: {
+                getExtendedMetadataTextResult: parts.join('\n\n'),
+              },
+            };
+          }
+        }
+      }
+    }
+
+    return {
+      getExtendedMetadataTextResult: {
+        getExtendedMetadataTextResult: '',
+      },
+    };
+  }
+);

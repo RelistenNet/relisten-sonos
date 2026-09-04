@@ -1,20 +1,10 @@
+import { formatId } from '../../ids.js';
 import winston from '../../logger.js';
-import { searchArtists } from '../../relisten/api.js';
+import { search } from '../../relisten/api.js';
 import { searchArtistToItem } from '../presenters.js';
 import { smapiHandler } from '../respond.js';
 
 type SearchArgs = { id?: string; term?: string };
-
-// const categories = [
-//   {
-//     mediaCollection: {
-//       id: 'search-artists',
-//       itemType: 'search',
-//       title: 'artists',
-//       canPlay: false,
-//     }
-//   }
-// ];
 
 export default (ctx: { format: string }) =>
   smapiHandler<SearchArgs>('search', async (args) => {
@@ -22,21 +12,76 @@ export default (ctx: { format: string }) =>
 
     winston.info('search', { type: ctx.format, id, args });
 
-    const searchForArtists = /artist/.test(id ?? '');
-    // const searchForSongs = /song/.test(id);
+    const results = await search(term);
 
-    const artists = await searchArtists(term);
+    if (/artist/.test(id ?? '')) {
+      const items = results.Artists.map(searchArtistToItem);
+      return {
+        searchResult: {
+          index: 0,
+          count: items.length,
+          total: items.length,
+          mediaCollection: items,
+        },
+      };
+    }
 
-    const results = searchForArtists ? artists.map(searchArtistToItem) : [];
+    if (/song/.test(id ?? '')) {
+      const items = results.Songs.map((song) => ({
+        id: formatId({ kind: 'song', slug: song.slim_artist?.slug ?? '', songSlug: song.slug }),
+        itemType: 'container',
+        title: `${song.name}${song.slim_artist ? ` — ${song.slim_artist.name}` : ''}`,
+        summary: `Played ${song.shows_played_at} time${song.shows_played_at === 1 ? '' : 's'}`,
+        canEnumerate: true,
+        canPlay: true,
+      }));
+      return {
+        searchResult: {
+          index: 0,
+          count: items.length,
+          total: items.length,
+          mediaCollection: items,
+        },
+      };
+    }
 
-    // searchForSongs && json.songs.map(...)
+    if (/concert/.test(id ?? '')) {
+      const items = results.Sources.map((source) => {
+        const slug = source.slim_artist?.slug ?? '';
+        const date = source.display_date ?? '';
+        const [year] = date.split('-');
+        return {
+          id: formatId({ kind: 'show', slug, year, date }),
+          itemType: 'container',
+          title: [
+            source.slim_artist?.name,
+            date,
+            source.venue?.name,
+            source.venue?.location,
+          ]
+            .filter((x) => x)
+            .join(' — '),
+          summary: source.description ?? '',
+          canEnumerate: true,
+          canPlay: true,
+        };
+      });
+      return {
+        searchResult: {
+          index: 0,
+          count: items.length,
+          total: items.length,
+          mediaCollection: items,
+        },
+      };
+    }
 
     return {
       searchResult: {
         index: 0,
-        count: results.length,
-        total: results.length,
-        mediaCollection: results,
+        count: 0,
+        total: 0,
+        mediaCollection: [],
       },
     };
   });
