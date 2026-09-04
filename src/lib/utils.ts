@@ -1,35 +1,11 @@
 import { sort } from 'fast-sort';
-
-type Source = {
-  is_soundboard: boolean;
-  taper: string;
-  transferrer: string;
-  source: string;
-  upstream_identifier: string;
-  avg_rating_weighted: number;
-};
+import type { Source } from '../relisten/types.js';
 
 const addZero = (str = '') => {
   const int = parseInt(str, 10);
 
   if (int < 10) return '0' + String(int);
   return String(int);
-};
-
-const removeLeadingZero = (str = '') => {
-  const int = parseInt(str, 10);
-
-  return String(int);
-};
-
-const createShowDate = (year: string, month: string, day: string) => {
-  return `${year}-${addZero(month)}-${addZero(day)}`;
-};
-
-const splitShowDate = (showDate = '') => {
-  const [year, month, day] = showDate.split('-');
-
-  return { year, month, day };
 };
 
 const durationToHHMMSS = (duration: number) => {
@@ -48,10 +24,6 @@ const durationToHHMMSS = (duration: number) => {
   );
 };
 
-const simplePluralize = (str: string, count: number) => {
-  return `${count} ${count === 1 ? str : str + 's'}`;
-};
-
 const getEtreeId = (s = '') =>
   Number(
     s
@@ -62,7 +34,7 @@ const getEtreeId = (s = '') =>
 
 // tapes: TODO: GD sort (charlie miller, sbd + etree id, weighted average), sbd + etree id, weighted avg, asc, desc
 // for now, hardcode sort: sbd, charlie miller, etree id, weighted average
-const sortTapes = (sources = []) => {
+const sortTapes = (sources: Source[] = []) => {
   const sortedTapes = sort([...sources]).by([
     { desc: (t: Source) => t.is_soundboard },
     // Charlie for GD, Pete for JRAD
@@ -77,12 +49,4 @@ const sortTapes = (sources = []) => {
   return sortedTapes;
 };
 
-export {
-  addZero,
-  removeLeadingZero,
-  createShowDate,
-  splitShowDate,
-  durationToHHMMSS,
-  simplePluralize,
-  sortTapes,
-};
+export { durationToHHMMSS, sortTapes };

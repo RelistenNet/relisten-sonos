@@ -7,15 +7,15 @@ import express from 'express';
 import * as soap from 'soap';
 
 import winston from './logger.js';
-import controllers from './controllers/index.js';
+import albumArt from './controllers/albumArt.js';
+import buildServices from './smapi/services.js';
 
 const PORT = Number(process.env.PORT) || 3000;
 const app = express();
 
-import services from './services/index.js';
 const wsdl = fs.readFileSync(import.meta.dirname + '/../Sonos.wsdl', 'utf8');
 
-app.use(controllers);
+app.use(albumArt);
 app.use('/static', express.static(path.join(import.meta.dirname, 'public')));
 
 process.on('unhandledRejection', (err) => {
@@ -31,9 +31,9 @@ process.on('uncaughtException', (err) => {
 const server = http.createServer(app);
 
 server.listen(PORT, '0.0.0.0', () => {
-  const listener = soap.listen(server, '/wsdl', services('mp3'), wsdl); // only here for posterity
-  const mp3Listener = soap.listen(server, '/mp3', services('mp3'), wsdl);
-  const flacListener = soap.listen(server, '/flac', services('flac'), wsdl);
+  const listener = soap.listen(server, '/wsdl', buildServices({ format: 'mp3' }), wsdl); // only here for posterity
+  const mp3Listener = soap.listen(server, '/mp3', buildServices({ format: 'mp3' }), wsdl);
+  const flacListener = soap.listen(server, '/flac', buildServices({ format: 'flac' }), wsdl);
 
   listener.log = function (type, data) {
     if (type === 'error') winston.error('soap error mp3', { data, error: new Error().stack });

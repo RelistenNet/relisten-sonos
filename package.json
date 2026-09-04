@@ -2,42 +2,44 @@
   "name": "relisten-sonos",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "license": "MIT",
+  "author": "Daniel Saewitz",
   "repository": {
     "type": "git",
     "url": "https://github.com/switz/relisten-sonos.git"
   },
-  "author": "Daniel Saewitz",
-  "license": "MIT",
   "type": "module",
+  "main": "server.js",
   "scripts": {
     "test": "",
     "start": "node build/server.js",
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "lint": "eslint src/**/*.ts"
+    "lint": "oxlint -c oxlint.json",
+    "fmt": "oxfmt ."
   },
   "dependencies": {
     "@opentelemetry/api": "1.9.1",
-    "@opentelemetry/exporter-trace-otlp-http": "0.214.0",
-    "@opentelemetry/instrumentation-http": "0.214.0",
-    "@opentelemetry/instrumentation-undici": "0.24.0",
-    "@opentelemetry/resources": "2.6.1",
-    "@opentelemetry/sdk-node": "0.214.0",
-    "@opentelemetry/sdk-trace-node": "2.6.1",
-    "@opentelemetry/semantic-conventions": "1.40.0",
+    "@opentelemetry/exporter-trace-otlp-http": "0.221.0",
+    "@opentelemetry/instrumentation-http": "0.221.0",
+    "@opentelemetry/instrumentation-undici": "0.31.0",
+    "@opentelemetry/resources": "2.10.0",
+    "@opentelemetry/sdk-node": "0.221.0",
+    "@opentelemetry/sdk-trace-node": "2.10.0",
+    "@opentelemetry/semantic-conventions": "1.43.0",
     "canvas": "^3.2.3",
     "express": "5.2.1",
     "fast-sort": "^3.4.1",
-    "instrumental-agent": "alecgorge/instrumental_agent-node#master",
-    "soap": "1.9.3",
+    "instrumental-agent": "github:alecgorge/instrumental_agent-node#master",
+    "soap": "1.10.0",
     "winston": "^3.19.0"
   },
   "devDependencies": {
-    "@switz/eslint-config": "^13.0.2",
+    "@switz/eslint-config": "^13.1.0",
     "@types/express": "^5.0.6",
-    "eslint": "^10.4.1",
-    "tsx": "^4.22.3",
-    "typescript": "^6.0.3"
+    "oxfmt": "^0.63.0",
+    "oxlint": "^1.78.0",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
   }
 }
