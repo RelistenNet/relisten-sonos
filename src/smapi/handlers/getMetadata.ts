@@ -33,8 +33,7 @@ import { paginate, smapiHandler } from '../respond.js';
 
 type MetadataArgs = { id?: string; index?: number; count?: number; recursive?: boolean };
 
-// When recursive=true, Sonos wants a flat list of all tracks under a container.
-// This resolves a show (date) into its best source's tracks.
+// Resolve a show into its best source's tracks (for recursive playback).
 const getTracksForShow = async (
   format: string,
   slug: string,
@@ -89,21 +88,8 @@ const getRoot = async (args: MetadataArgs) => {
   return { getMetadataResult };
 };
 
-const getLatest = async (args: MetadataArgs, format: string) => {
+const getLatest = async (args: MetadataArgs) => {
   const shows = await getRecentShows();
-
-  if (args.recursive) {
-    const tracks = (
-      await Promise.all(
-        shows.slice(0, 20).map((show) => {
-          const slug = show.artist?.slug ?? '';
-          const year = show.year?.year ?? show.display_date.split('-')[0];
-          return getTracksForShow(format, slug, year, show.display_date);
-        })
-      )
-    ).flat();
-    return { getMetadataResult: paginate(tracks, args, 'mediaMetadata') };
-  }
 
   return { getMetadataResult: paginate(shows.map(latestShowToItem), args) };
 };
@@ -122,24 +108,12 @@ const getYears = async (args: MetadataArgs, slug: string) => {
   return { getMetadataResult: paginate(allResults, args) };
 };
 
-const getShows = async (args: MetadataArgs, format: string, slug: string, year: string) => {
+const getShows = async (args: MetadataArgs, slug: string, year: string) => {
   const shows = await getYearShows(slug, year);
 
   if (!shows) {
     winston.error('error', { id: args.id });
     return {};
-  }
-
-  if (args.recursive) {
-    const tracks = (
-      await Promise.all(
-        shows.map((show) => {
-          const showYear = show.year?.year ?? show.display_date.split('-')[0];
-          return getTracksForShow(format, slug, showYear, show.display_date);
-        })
-      )
-    ).flat();
-    return { getMetadataResult: paginate(tracks, args, 'mediaMetadata') };
   }
 
   const allResults = shows.map((show) => showToItem(slug, year, show));
@@ -154,6 +128,7 @@ const getSources = async (
   year: string,
   date: string
 ) => {
+  // Recursive: Sonos wants a flat track list for Play All on a show.
   if (args.recursive) {
     const tracks = await getTracksForShow(format, slug, year, date);
     return { getMetadataResult: paginate(tracks, args, 'mediaMetadata') };
@@ -252,27 +227,10 @@ const getVenues = async (args: MetadataArgs, slug: string) => {
   return { getMetadataResult: paginate(sorted.map((v) => venueToItem(slug, v)), args) };
 };
 
-const getVenueShowList = async (
-  args: MetadataArgs,
-  format: string,
-  slug: string,
-  venueSlug: string
-) => {
+const getVenueShowList = async (args: MetadataArgs, slug: string, venueSlug: string) => {
   const venue = await getVenueShows(slug, venueSlug);
 
   if (!venue?.shows) return {};
-
-  if (args.recursive) {
-    const tracks = (
-      await Promise.all(
-        venue.shows.map((show) => {
-          const year = show.year?.year ?? show.display_date.split('-')[0];
-          return getTracksForShow(format, slug, year, show.display_date);
-        })
-      )
-    ).flat();
-    return { getMetadataResult: paginate(tracks, args, 'mediaMetadata') };
-  }
 
   const shows = venue.shows.map((show) => {
     const year = show.year?.year ?? show.display_date.split('-')[0];
@@ -290,27 +248,10 @@ const getSongs = async (args: MetadataArgs, slug: string) => {
   return { getMetadataResult: paginate(sorted.map((s) => songToItem(slug, s)), args) };
 };
 
-const getSongShowList = async (
-  args: MetadataArgs,
-  format: string,
-  slug: string,
-  songSlug: string
-) => {
+const getSongShowList = async (args: MetadataArgs, slug: string, songSlug: string) => {
   const song = await getSongShows(slug, songSlug);
 
   if (!song?.shows) return {};
-
-  if (args.recursive) {
-    const tracks = (
-      await Promise.all(
-        song.shows.map((show) => {
-          const year = show.year?.year ?? show.display_date.split('-')[0];
-          return getTracksForShow(format, slug, year, show.display_date);
-        })
-      )
-    ).flat();
-    return { getMetadataResult: paginate(tracks, args, 'mediaMetadata') };
-  }
 
   const shows = song.shows.map((show) => {
     const year = show.year?.year ?? show.display_date.split('-')[0];
@@ -338,7 +279,7 @@ const evictTopShowsCache = () => {
   if (oldest) topShowsCache.delete(oldest);
 };
 
-const getTopShows = async (args: MetadataArgs, format: string, slug: string) => {
+const getTopShows = async (args: MetadataArgs, slug: string) => {
   const cached = topShowsCache.get(slug);
   let allShows: Show[];
 
@@ -359,18 +300,6 @@ const getTopShows = async (args: MetadataArgs, format: string, slug: string) => 
   );
 
   const top = sorted.slice(0, 100);
-
-  if (args.recursive) {
-    const tracks = (
-      await Promise.all(
-        top.map((show) => {
-          const year = show.year?.year ?? show.display_date.split('-')[0];
-          return getTracksForShow(format, slug, year, show.display_date);
-        })
-      )
-    ).flat();
-    return { getMetadataResult: paginate(tracks, args, 'mediaMetadata') };
-  }
 
   const items = top.map((show) => {
     const year = show.year?.year ?? show.display_date.split('-')[0];
@@ -397,13 +326,13 @@ export default (ctx: { format: string }) =>
           return getRoot(args);
         case 'latest':
           winston.I.increment('sonos.wsdl.getMetadata.Latest');
-          return getLatest(args, ctx.format);
+          return getLatest(args);
         case 'artist':
           winston.I.increment('sonos.wsdl.getMetadata.Artist');
           return getYears(args, parsed.slug);
         case 'year':
           winston.I.increment('sonos.wsdl.getMetadata.Year');
-          return getShows(args, ctx.format, parsed.slug, parsed.year);
+          return getShows(args, parsed.slug, parsed.year);
         case 'show':
           winston.I.increment('sonos.wsdl.getMetadata.Shows');
           return getSources(args, ctx.format, parsed.slug, parsed.year, parsed.date);
@@ -415,16 +344,16 @@ export default (ctx: { format: string }) =>
           return getVenues(args, parsed.slug);
         case 'venue':
           winston.I.increment('sonos.wsdl.getMetadata.Venue');
-          return getVenueShowList(args, ctx.format, parsed.slug, parsed.venueSlug);
+          return getVenueShowList(args, parsed.slug, parsed.venueSlug);
         case 'songs':
           winston.I.increment('sonos.wsdl.getMetadata.Songs');
           return getSongs(args, parsed.slug);
         case 'song':
           winston.I.increment('sonos.wsdl.getMetadata.Song');
-          return getSongShowList(args, ctx.format, parsed.slug, parsed.songSlug);
+          return getSongShowList(args, parsed.slug, parsed.songSlug);
         case 'topShows':
           winston.I.increment('sonos.wsdl.getMetadata.TopShows');
-          return getTopShows(args, ctx.format, parsed.slug);
+          return getTopShows(args, parsed.slug);
         default:
           return {};
       }

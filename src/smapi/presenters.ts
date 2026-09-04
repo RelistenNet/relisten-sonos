@@ -49,7 +49,7 @@ export const latestTapesItem = () => ({
   displayType: 'hero',
   title: LATEST_TAPES,
   summary: 'Latest recordings',
-  canPlay: true,
+  canPlay: false,
   canEnumerate: true,
 });
 
@@ -60,7 +60,7 @@ export const latestTapesYearItem = (slug: string) => ({
   displayType: 'hero',
   title: LATEST_TAPES,
   summary: 'Most recent recordings',
-  canPlay: true,
+  canPlay: false,
   canEnumerate: true,
 });
 
@@ -104,7 +104,7 @@ export const yearToItem = (slug: string, year: Year) => ({
   displayType: 'list-sans-thumbs',
   title: year.show_count ? `${year.year} (${year.show_count} shows)` : year.year,
   summary: year.year,
-  canPlay: true,
+  canPlay: false,
   canEnumerate: true,
 });
 
@@ -246,7 +246,6 @@ export const venuesContainerItem = (slug: string) => ({
   summary: 'Browse by venue',
   canPlay: false,
   canEnumerate: true,
-  canScroll: true,
 });
 
 export const songsContainerItem = (slug: string) => ({
@@ -257,7 +256,6 @@ export const songsContainerItem = (slug: string) => ({
   summary: 'Browse by song',
   canPlay: false,
   canEnumerate: true,
-  canScroll: true,
 });
 
 export const topShowsContainerItem = (slug: string) => ({
@@ -266,7 +264,7 @@ export const topShowsContainerItem = (slug: string) => ({
   displayType: 'list',
   title: 'Top Shows',
   summary: 'Most popular shows',
-  canPlay: true,
+  canPlay: false,
   canEnumerate: true,
 });
 
@@ -276,7 +274,7 @@ export const venueToItem = (slug: string, venue: Venue) => ({
   displayType: 'list-sans-thumbs',
   title: `${venue.name} (${venue.shows_at_venue ?? 0})`,
   summary: venue.location,
-  canPlay: true,
+  canPlay: false,
   canEnumerate: true,
 });
 
@@ -286,7 +284,7 @@ export const songToItem = (slug: string, song: Song) => ({
   displayType: 'list-sans-thumbs',
   title: `${song.name} (${song.shows_played_at})`,
   summary: `Played ${song.shows_played_at} time${song.shows_played_at === 1 ? '' : 's'}`,
-  canPlay: true,
+  canPlay: false,
   canEnumerate: true,
 });
 

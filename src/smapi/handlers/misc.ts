@@ -61,6 +61,7 @@ export const getExtendedMetadata = (args: { id?: string }) => {
           relatedBrowse: [
             { id: formatId({ kind: 'show', slug, year, date }), type: 'ALL_SOURCES' },
           ],
+          relatedText: [{ id: args.id, type: 'SOURCE_NOTES' }],
         },
       };
     }
