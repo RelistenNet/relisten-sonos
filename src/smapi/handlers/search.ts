@@ -2,9 +2,9 @@ import { formatId } from '../../ids.js';
 import winston from '../../logger.js';
 import { search } from '../../relisten/api.js';
 import { searchArtistToItem } from '../presenters.js';
-import { smapiHandler } from '../respond.js';
+import { paginate, smapiHandler } from '../respond.js';
 
-type SearchArgs = { id?: string; term?: string };
+type SearchArgs = { id?: string; term?: string; index?: number; count?: number };
 
 export default (ctx: { format: string }) =>
   smapiHandler<SearchArgs>('search', async (args) => {
@@ -16,14 +16,7 @@ export default (ctx: { format: string }) =>
 
     if (/artist/.test(id ?? '')) {
       const items = results.Artists.map(searchArtistToItem);
-      return {
-        searchResult: {
-          index: 0,
-          count: items.length,
-          total: items.length,
-          mediaCollection: items,
-        },
-      };
+      return { searchResult: paginate(items, args) };
     }
 
     if (/song/.test(id ?? '')) {
@@ -35,14 +28,7 @@ export default (ctx: { format: string }) =>
         canEnumerate: true,
         canPlay: true,
       }));
-      return {
-        searchResult: {
-          index: 0,
-          count: items.length,
-          total: items.length,
-          mediaCollection: items,
-        },
-      };
+      return { searchResult: paginate(items, args) };
     }
 
     if (/concert/.test(id ?? '')) {
@@ -66,14 +52,7 @@ export default (ctx: { format: string }) =>
           canPlay: true,
         };
       });
-      return {
-        searchResult: {
-          index: 0,
-          count: items.length,
-          total: items.length,
-          mediaCollection: items,
-        },
-      };
+      return { searchResult: paginate(items, args) };
     }
 
     return {

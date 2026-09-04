@@ -246,6 +246,7 @@ export const venuesContainerItem = (slug: string) => ({
   summary: 'Browse by venue',
   canPlay: false,
   canEnumerate: true,
+  canScroll: true,
 });
 
 export const songsContainerItem = (slug: string) => ({
@@ -256,6 +257,7 @@ export const songsContainerItem = (slug: string) => ({
   summary: 'Browse by song',
   canPlay: false,
   canEnumerate: true,
+  canScroll: true,
 });
 
 export const topShowsContainerItem = (slug: string) => ({

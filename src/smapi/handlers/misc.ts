@@ -21,30 +21,27 @@ export const getExtendedMetadata = (args: { id?: string }) => {
 
   const parsed = parseId(args.id);
   if (!parsed) {
-    return { getExtendedMetadataResult: { mediaMetadata: { id: args.id, itemType: 'other' } } };
+    return {
+      getExtendedMetadataResult: {
+        mediaCollection: { id: args.id, itemType: 'container', title: '' },
+      },
+    };
   }
 
   switch (parsed.kind) {
     case 'artist': {
       return {
         getExtendedMetadataResult: {
-          mediaMetadata: { id: args.id, itemType: 'artist' },
+          mediaCollection: {
+            id: args.id,
+            itemType: 'artist',
+            title: '',
+            canEnumerate: true,
+          },
           relatedBrowse: [
-            {
-              id: formatId({ kind: 'topShows', slug: parsed.slug }),
-              type: 'RELATED_ARTISTS',
-              title: 'Top Shows',
-            },
-            {
-              id: formatId({ kind: 'venues', slug: parsed.slug }),
-              type: 'RELATED_ARTISTS',
-              title: 'Venues',
-            },
-            {
-              id: formatId({ kind: 'songs', slug: parsed.slug }),
-              type: 'RELATED_ARTISTS',
-              title: 'Songs',
-            },
+            { id: formatId({ kind: 'topShows', slug: parsed.slug }), type: 'TOP_SHOWS' },
+            { id: formatId({ kind: 'venues', slug: parsed.slug }), type: 'VENUES' },
+            { id: formatId({ kind: 'songs', slug: parsed.slug }), type: 'SONGS' },
           ],
         },
       };
@@ -54,13 +51,15 @@ export const getExtendedMetadata = (args: { id?: string }) => {
       const { slug, year, date } = parsed;
       return {
         getExtendedMetadataResult: {
-          mediaMetadata: { id: args.id, itemType: 'album' },
+          mediaCollection: {
+            id: args.id,
+            itemType: 'album',
+            title: '',
+            canEnumerate: true,
+            canPlay: true,
+          },
           relatedBrowse: [
-            {
-              id: formatId({ kind: 'show', slug, year, date }),
-              type: 'RELATED_ARTISTS',
-              title: 'All Sources',
-            },
+            { id: formatId({ kind: 'show', slug, year, date }), type: 'ALL_SOURCES' },
           ],
         },
       };
@@ -69,7 +68,7 @@ export const getExtendedMetadata = (args: { id?: string }) => {
     default:
       return {
         getExtendedMetadataResult: {
-          mediaMetadata: { id: args.id, itemType: 'other' },
+          mediaCollection: { id: args.id, itemType: 'container', title: '' },
         },
       };
   }
