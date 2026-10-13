@@ -1,7 +1,6 @@
 import { parseId } from '../../ids.js';
 import winston from '../../logger.js';
-import { getShow } from '../../relisten/api.js';
-import { findSource, findTrack, streamUrlForTrack } from '../../relisten/tracks.js';
+import { lookupTrack, streamUrlForTrack } from '../../relisten/tracks.js';
 import { smapiHandler } from '../respond.js';
 
 type MediaURIArgs = { id?: string };
@@ -21,28 +20,11 @@ export default (ctx: { format: string }) =>
 
       const { slug, year, date, sourceId, trackId } = parsed;
 
-      const show = await getShow(slug, year, date);
+      const found = await lookupTrack(slug, year, date, sourceId, trackId);
 
-      if (!show || !show.sources) {
-        winston.error('no SONG json tracks found', {
-          slug,
-          year,
-          date,
-          sourceId,
-        });
-        return { getMediaURIResult: '' };
-      }
+      if (!found) return { getMediaURIResult: '' };
 
-      const source = findSource(show, sourceId);
-
-      if (!source || !source.sets) {
-        winston.error('no SONG source found', { slug, year, date, sourceId });
-        return { getMediaURIResult: '' };
-      }
-
-      const track = findTrack(source, trackId);
-
-      if (!track) return { getMediaURIResult: '' };
+      const { track } = found;
 
       const trackUrl = streamUrlForTrack(track, ctx.format, slug);
 
