@@ -1,4 +1,13 @@
-import type { Artist, SearchResults, Show, Year } from './types.js';
+import type {
+  Artist,
+  SearchResults,
+  Show,
+  Song,
+  SongWithShows,
+  Venue,
+  VenueWithShows,
+  Year,
+} from './types.js';
 
 const apiBaseUrl = (
   process.env.RELISTEN_API_BASE_URL ||
@@ -42,6 +51,10 @@ export const getYearShows = async (slug: string, year: string): Promise<Show[] |
   return Array.isArray(json) ? json : json.shows;
 };
 
+// Ranked server-side (by weighted rating), unlike sorting raw averages here.
+export const getTopShows = (slug: string) =>
+  getJson<Show[]>(`${API_V2_ROOT}/artists/${slug}/shows/top`);
+
 export const getShow = (slug: string, year: string, date: string) =>
   getJson<Show>(`${API_V2_ROOT}/artists/${slug}/years/${year}/${date}`);
 
@@ -52,8 +65,22 @@ export const reportPlay = (trackId: number | string) =>
     method: 'POST',
   }).then(() => null);
 
-export const searchArtists = async (term: string | undefined): Promise<Artist[]> => {
-  const json = await getJson<SearchResults>(`${API_V2_ROOT}/search?q=${term}`);
+export const search = async (term: string | undefined): Promise<SearchResults> =>
+  getJson<SearchResults>(`${API_V2_ROOT}/search?q=${encodeURIComponent(term ?? '')}`);
 
+export const searchArtists = async (term: string | undefined): Promise<Artist[]> => {
+  const json = await search(term);
   return json.Artists;
 };
+
+export const getArtistVenues = (slug: string) =>
+  getJson<Venue[]>(`${API_V2_ROOT}/artists/${slug}/venues`);
+
+export const getVenueShows = (slug: string, venueUuid: string) =>
+  getJson<VenueWithShows>(`${API_V3_ROOT}/artists/${slug}/venues/${venueUuid}`);
+
+export const getArtistSongs = (slug: string) =>
+  getJson<Song[]>(`${API_V2_ROOT}/artists/${slug}/songs`);
+
+export const getSongShows = (slug: string, songSlug: string) =>
+  getJson<SongWithShows>(`${API_V3_ROOT}/artists/${slug}/songs/${songSlug}`);

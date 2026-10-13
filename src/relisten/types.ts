@@ -3,11 +3,16 @@
 export interface Artist {
   slug: string;
   name: string;
+  // Featured artists are listed first, ahead of the alphabetical rest.
+  featured?: number;
 }
 
 export interface Venue {
   name: string;
   location: string;
+  slug?: string;
+  uuid?: string;
+  shows_at_venue?: number;
 }
 
 export interface Track {
@@ -34,12 +39,18 @@ export interface Source {
   description?: string;
   upstream_identifier?: string;
   avg_rating_weighted?: number;
+  avg_rating?: number;
+  // num_ratings is always null upstream; num_reviews carries the count.
+  num_reviews?: number;
   sets?: SetList[];
   venue?: Venue;
+  slim_artist?: SlimArtist;
+  display_date?: string;
 }
 
 export interface Year {
   year: string;
+  show_count?: number;
 }
 
 export interface Show {
@@ -51,9 +62,33 @@ export interface Show {
   year?: Year;
   venue?: Venue;
   sources?: Source[];
+  avg_rating?: number;
+}
+
+export interface SlimArtist {
+  slug: string;
+  name: string;
+}
+
+export interface Song {
+  name: string;
+  slug: string;
+  shows_played_at: number;
+  slim_artist?: SlimArtist;
+}
+
+export interface VenueWithShows extends Venue {
+  shows?: Show[];
+}
+
+export interface SongWithShows extends Song {
+  shows?: Show[];
 }
 
 export interface SearchResults {
-  // The v2 search envelope uses PascalCase keys.
   Artists: Artist[];
+  Shows: Show[];
+  Songs: Song[];
+  Sources: Source[];
+  Venues: Venue[];
 }
