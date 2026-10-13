@@ -14,17 +14,19 @@ export default smapiHandler<ScrollArgs>('getScrollIndices', async (args) => {
 
   if (parsed.kind === 'root') {
     const artists = await refreshArtists();
-    // +1 offset for "Latest Tapes" at position 0
-    const names = artists.map((a) => artistWrapper(a.name));
     const pairs: string[] = [];
     let lastLetter = '';
-    for (let i = 0; i < names.length; i++) {
-      const first = (names[i][0] ?? '').toUpperCase();
-      if (first !== lastLetter && /[A-Z]/.test(first)) {
+    artists.forEach((artist, i) => {
+      // Featured artists sit ahead of the alphabetical list, and a few
+      // lowercase names sort after Z; Sonos needs letters in ascending order.
+      if (artist.featured) return;
+      const first = (artistWrapper(artist.name)[0] ?? '').toUpperCase();
+      if (/[A-Z]/.test(first) && first > lastLetter) {
+        // +1 offset for "Latest Tapes" at position 0
         pairs.push(first, String(i + 1));
         lastLetter = first;
       }
-    }
+    });
     return { getScrollIndicesResult: pairs.join(',') };
   }
 

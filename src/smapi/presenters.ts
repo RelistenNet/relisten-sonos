@@ -108,11 +108,9 @@ export const yearToItem = (slug: string, year: Year) => ({
   canEnumerate: true,
 });
 
-const ratingStars = (rating: number | undefined) => {
-  if (!rating || rating <= 0) return '';
-  const rounded = Math.round(rating * 10) / 10;
-  return ` ${rounded.toFixed(1)}★`;
-};
+// Relisten ratings are out of 10, so say so rather than imply five stars.
+const formatRating = (rating: number | null | undefined) =>
+  rating && rating > 0 ? `★ ${rating.toFixed(1)}/10` : '';
 
 export const showToItem = (slug: string, year: string, show: Show) => ({
   id: formatId({ kind: 'show', slug, year, date: show.display_date }),
@@ -126,11 +124,7 @@ export const showToItem = (slug: string, year: string, show: Show) => ({
     ]
       .filter((x) => x)
       .join(' - ') + ` [${show.source_count}]`,
-  summary: [
-    show.display_date,
-    show.venue?.name,
-    show.avg_rating ? `${show.avg_rating.toFixed(1)}★` : '',
-  ]
+  summary: [show.display_date, show.venue?.name, formatRating(show.avg_rating)]
     .filter((x) => x)
     .join(' • '),
   canPlay: true,
@@ -166,7 +160,7 @@ export const sourceToItem = ({
     title: [
       `${soundboardPrefix(source.is_soundboard)} ${sourceTitle}`,
       person ? `by ${person}` : null,
-      ratingStars(source.avg_rating_weighted),
+      formatRating(source.avg_rating_weighted),
       format === 'flac' &&
         source.flac_type === 'Flac16Bit' &&
         show.has_streamable_flac_source &&
@@ -176,9 +170,11 @@ export const sourceToItem = ({
       .join(' '),
     summary: [
       source.description || sourceTitle,
-      source.avg_rating_weighted
-        ? `${source.avg_rating_weighted.toFixed(1)}★ (${source.num_ratings ?? 0} ratings)`
-        : '',
+      source.avg_rating_weighted && source.num_reviews
+        ? `${formatRating(source.avg_rating_weighted)} (${source.num_reviews} review${
+            source.num_reviews === 1 ? '' : 's'
+          })`
+        : formatRating(source.avg_rating_weighted),
     ]
       .filter((x) => x)
       .join(' • '),
@@ -263,13 +259,14 @@ export const topShowsContainerItem = (slug: string) => ({
   itemType: 'container',
   displayType: 'list',
   title: 'Top Shows',
-  summary: 'Most popular shows',
+  summary: 'Highest rated shows',
   canPlay: false,
   canEnumerate: true,
 });
 
-export const venueToItem = (slug: string, venue: Venue) => ({
-  id: formatId({ kind: 'venue', slug, venueSlug: venue.slug ?? '' }),
+// Callers must drop venues without a uuid; there is no id to hand back for them.
+export const venueToItem = (slug: string, venue: Venue & { uuid: string }) => ({
+  id: formatId({ kind: 'venue', slug, venueUuid: venue.uuid }),
   itemType: 'container',
   displayType: 'list-sans-thumbs',
   title: `${venue.name} (${venue.shows_at_venue ?? 0})`,

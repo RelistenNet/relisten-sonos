@@ -8,10 +8,10 @@ import {
   getRecentShows,
   getShow,
   getSongShows,
+  getTopShows,
   getVenueShows,
   getYearShows,
 } from '../../relisten/api.js';
-import type { Show } from '../../relisten/types.js';
 import { getArtistName, refreshArtists } from '../../relisten/artists.js';
 import { findSource } from '../../relisten/tracks.js';
 import {
@@ -34,12 +34,7 @@ import { paginate, smapiHandler } from '../respond.js';
 type MetadataArgs = { id?: string; index?: number; count?: number; recursive?: boolean };
 
 // Resolve a show into its best source's tracks (for recursive playback).
-const getTracksForShow = async (
-  format: string,
-  slug: string,
-  year: string,
-  date: string
-) => {
+const getTracksForShow = async (format: string, slug: string, year: string, date: string) => {
   const show = await getShow(slug, year, date);
   if (!show?.sources?.length) return [];
 
@@ -222,13 +217,20 @@ const getTracks = async (args: MetadataArgs, format: string) => {
 const getVenues = async (args: MetadataArgs, slug: string) => {
   const venues = await getArtistVenues(slug);
 
-  const sorted = [...venues].sort((a, b) => (b.shows_at_venue ?? 0) - (a.shows_at_venue ?? 0));
+  const sorted = venues
+    .filter((v): v is typeof v & { uuid: string } => !!v.uuid)
+    .sort((a, b) => (b.shows_at_venue ?? 0) - (a.shows_at_venue ?? 0));
 
-  return { getMetadataResult: paginate(sorted.map((v) => venueToItem(slug, v)), args) };
+  return {
+    getMetadataResult: paginate(
+      sorted.map((v) => venueToItem(slug, v)),
+      args
+    ),
+  };
 };
 
-const getVenueShowList = async (args: MetadataArgs, slug: string, venueSlug: string) => {
-  const venue = await getVenueShows(slug, venueSlug);
+const getVenueShowList = async (args: MetadataArgs, slug: string, venueUuid: string) => {
+  const venue = await getVenueShows(slug, venueUuid);
 
   if (!venue?.shows) return {};
 
@@ -245,7 +247,12 @@ const getSongs = async (args: MetadataArgs, slug: string) => {
 
   const sorted = [...songs].sort((a, b) => b.shows_played_at - a.shows_played_at);
 
-  return { getMetadataResult: paginate(sorted.map((s) => songToItem(slug, s)), args) };
+  return {
+    getMetadataResult: paginate(
+      sorted.map((s) => songToItem(slug, s)),
+      args
+    ),
+  };
 };
 
 const getSongShowList = async (args: MetadataArgs, slug: string, songSlug: string) => {
@@ -261,47 +268,10 @@ const getSongShowList = async (args: MetadataArgs, slug: string, songSlug: strin
   return { getMetadataResult: paginate(shows, args) };
 };
 
-const TOP_SHOWS_CACHE_MAX = 50;
-const TOP_SHOWS_TTL = 10 * 60 * 1000;
-const MAX_YEAR_FANOUT = 50;
-const topShowsCache = new Map<string, { shows: Show[]; ts: number }>();
+const getTopShowList = async (args: MetadataArgs, slug: string) => {
+  const shows = await getTopShows(slug);
 
-const evictTopShowsCache = () => {
-  if (topShowsCache.size <= TOP_SHOWS_CACHE_MAX) return;
-  let oldest = '';
-  let oldestTs = Infinity;
-  for (const [key, entry] of topShowsCache) {
-    if (entry.ts < oldestTs) {
-      oldest = key;
-      oldestTs = entry.ts;
-    }
-  }
-  if (oldest) topShowsCache.delete(oldest);
-};
-
-const getTopShows = async (args: MetadataArgs, slug: string) => {
-  const cached = topShowsCache.get(slug);
-  let allShows: Show[];
-
-  if (cached && Date.now() - cached.ts < TOP_SHOWS_TTL) {
-    allShows = cached.shows;
-  } else {
-    const years = await getArtistYears(slug);
-    const bounded = years.slice(0, MAX_YEAR_FANOUT);
-    allShows = (
-      await Promise.all(bounded.map((year) => getYearShows(slug, year.year)))
-    ).flatMap((shows) => shows ?? []);
-    topShowsCache.set(slug, { shows: allShows, ts: Date.now() });
-    evictTopShowsCache();
-  }
-
-  const sorted = [...allShows].sort(
-    (a, b) => (b.avg_rating ?? 0) - (a.avg_rating ?? 0)
-  );
-
-  const top = sorted.slice(0, 100);
-
-  const items = top.map((show) => {
+  const items = shows.map((show) => {
     const year = show.year?.year ?? show.display_date.split('-')[0];
     return showToItem(slug, year, show);
   });
@@ -344,7 +314,7 @@ export default (ctx: { format: string }) =>
           return getVenues(args, parsed.slug);
         case 'venue':
           winston.I.increment('sonos.wsdl.getMetadata.Venue');
-          return getVenueShowList(args, parsed.slug, parsed.venueSlug);
+          return getVenueShowList(args, parsed.slug, parsed.venueUuid);
         case 'songs':
           winston.I.increment('sonos.wsdl.getMetadata.Songs');
           return getSongs(args, parsed.slug);
@@ -353,7 +323,7 @@ export default (ctx: { format: string }) =>
           return getSongShowList(args, parsed.slug, parsed.songSlug);
         case 'topShows':
           winston.I.increment('sonos.wsdl.getMetadata.TopShows');
-          return getTopShows(args, parsed.slug);
+          return getTopShowList(args, parsed.slug);
         default:
           return {};
       }

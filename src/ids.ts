@@ -22,7 +22,7 @@ export type SonosId =
       trackId: string;
     }
   | { kind: 'venues'; slug: string }
-  | { kind: 'venue'; slug: string; venueSlug: string }
+  | { kind: 'venue'; slug: string; venueUuid: string }
   | { kind: 'songs'; slug: string }
   | { kind: 'song'; slug: string; songSlug: string }
   | { kind: 'topShows'; slug: string };
@@ -30,14 +30,17 @@ export type SonosId =
 // Slugs arrive from the SOAP wire and end up in upstream API URLs.
 // Reject anything that could cause path traversal or URL manipulation.
 const SAFE_SLUG = /^[a-z0-9]([a-z0-9._-]*[a-z0-9])?$/i;
-const SAFE_DATE = /^\d{4}-\d{2}-\d{2}$/;
+// Undated shows keep placeholder digits, e.g. 1966-XX-XX or 1970-07-XX.
+const SAFE_DATE = /^\d{4}-[\dX]{2}-[\dX]{2}$/;
 const SAFE_YEAR = /^(\d{4}|latest)$/;
 const SAFE_ID = /^\d+$/;
+const SAFE_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const validSlug = (s: string) => SAFE_SLUG.test(s);
 const validDate = (s: string) => SAFE_DATE.test(s);
 const validYear = (s: string) => SAFE_YEAR.test(s);
 const validId = (s: string) => SAFE_ID.test(s);
+const validUuid = (s: string) => SAFE_UUID.test(s);
 
 // Ids arrive straight off the SOAP wire, so they may well be missing entirely.
 export const parseId = (raw: string | undefined): SonosId | null => {
@@ -96,9 +99,10 @@ export const parseId = (raw: string | undefined): SonosId | null => {
       return { kind: 'venues', slug };
     }
     case 'Venue': {
-      const [slug, venueSlug] = rest;
-      if (rest.length !== 2 || !validSlug(slug) || !validSlug(venueSlug)) return null;
-      return { kind: 'venue', slug, venueSlug };
+      // Venue slugs are not unique per artist, so venues are addressed by uuid.
+      const [slug, venueUuid] = rest;
+      if (rest.length !== 2 || !validSlug(slug) || !validUuid(venueUuid)) return null;
+      return { kind: 'venue', slug, venueUuid };
     }
     case 'ArtistSongs': {
       const [slug] = rest;
@@ -139,7 +143,7 @@ export const formatId = (id: SonosId): string => {
     case 'venues':
       return `Venues:${id.slug}`;
     case 'venue':
-      return `Venue:${id.slug}:${id.venueSlug}`;
+      return `Venue:${id.slug}:${id.venueUuid}`;
     case 'songs':
       return `ArtistSongs:${id.slug}`;
     case 'song':

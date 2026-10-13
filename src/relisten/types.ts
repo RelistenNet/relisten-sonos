@@ -3,12 +3,15 @@
 export interface Artist {
   slug: string;
   name: string;
+  // Featured artists are listed first, ahead of the alphabetical rest.
+  featured?: number;
 }
 
 export interface Venue {
   name: string;
   location: string;
   slug?: string;
+  uuid?: string;
   shows_at_venue?: number;
 }
 
@@ -37,7 +40,8 @@ export interface Source {
   upstream_identifier?: string;
   avg_rating_weighted?: number;
   avg_rating?: number;
-  num_ratings?: number;
+  // num_ratings is always null upstream; num_reviews carries the count.
+  num_reviews?: number;
   sets?: SetList[];
   venue?: Venue;
   slim_artist?: SlimArtist;
