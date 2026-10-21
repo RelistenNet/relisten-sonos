@@ -1,7 +1,7 @@
 # =============================================================================
 # BUILD STAGE
 # =============================================================================
-FROM public.ecr.aws/docker/library/node:22-alpine AS builder
+FROM public.ecr.aws/docker/library/node:26-alpine AS builder
 
 # Install canvas build dependencies
 RUN apk add --no-cache \
@@ -38,7 +38,7 @@ RUN pnpm prune --prod
 # =============================================================================
 # PRODUCTION STAGE
 # =============================================================================
-FROM public.ecr.aws/docker/library/node:22-alpine AS production
+FROM public.ecr.aws/docker/library/node:26-alpine AS production
 
 # OCI labels
 LABEL org.opencontainers.image.source="https://github.com/switz/relisten-sonos"

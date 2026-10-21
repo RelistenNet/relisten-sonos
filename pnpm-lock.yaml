@@ -57,6 +57,9 @@ importers:
       '@types/express':
         specifier: ^5.0.6
         version: 5.0.6
+      '@types/node':
+        specifier: ^26.2.0
+        version: 26.2.0
       oxfmt:
         specifier: ^0.63.0
         version: 0.63.0
