@@ -13,7 +13,7 @@ const buildServices = (ctx: ServiceContext) => {
     Sonos: {
       SonosSoap: {
         getMetadata: getMetadata(ctx),
-        getExtendedMetadata,
+        getExtendedMetadata: getExtendedMetadata(ctx),
         getExtendedMetadataText,
         getLastUpdate,
         getMediaMetadata: getMediaMetadata(ctx),
