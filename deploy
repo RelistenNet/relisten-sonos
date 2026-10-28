@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+IMAGE="ghcr.io/relistennet/relisten-sonos:latest"
+
+echo "Building and pushing..."
+docker buildx build \
+  -t "$IMAGE" \
+  --platform linux/amd64 \
+  --push \
+  .
+
+echo "Restarting pods..."
+kubectl --context relisten3 -n default rollout restart deployment/relisten-sonos
+
+echo "Waiting for rollout..."
+kubectl --context relisten3 -n default rollout status deployment/relisten-sonos --timeout=180s
+
+echo "Done."
