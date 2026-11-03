@@ -1,8 +1,7 @@
 import { parseId } from '../../ids.js';
 import winston from '../../logger.js';
-import { getShow } from '../../relisten/api.js';
 import { getArtistName } from '../../relisten/artists.js';
-import { findSource, findTrack } from '../../relisten/tracks.js';
+import { lookupTrack } from '../../relisten/tracks.js';
 import { trackMetadata } from '../presenters.js';
 import { smapiHandler } from '../respond.js';
 import type { SmapiCallback } from '../types.js';
@@ -25,23 +24,13 @@ const handle = (ctx: { format: string }) =>
       const { slug, year, date, sourceId, trackId } = parsed;
 
       const artistName = await getArtistName(slug);
-      const show = await getShow(slug, year, date);
+      const found = await lookupTrack(slug, year, date, sourceId, trackId);
 
-      if (!show || !show.sources) {
-        winston.error('no SONG json tracks found', { slug, year, date, sourceId });
-        return { getMediaMetadataResult: {} };
-      }
+      if (!found) return { getMediaMetadataResult: {} };
 
-      const source = findSource(show, sourceId);
-
-      if (!source || !source.sets) {
-        winston.error('no SONG source found', { slug, year, date, sourceId });
-        return { getMediaMetadataResult: {} };
-      }
-
-      const track = findTrack(source, trackId);
-
-      if (!track) return { getMediaMetadataResult: {} };
+      const { show, track } = found;
+      // May differ from the id's source when the track was found elsewhere.
+      const liveSourceId = `${found.source.id}`;
 
       return {
         getMediaMetadataResult: trackMetadata({
@@ -49,7 +38,7 @@ const handle = (ctx: { format: string }) =>
           slug,
           year,
           date,
-          sourceId,
+          sourceId: liveSourceId,
           artistName,
           show,
           track,
