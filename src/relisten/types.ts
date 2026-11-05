@@ -54,6 +54,7 @@ export interface Year {
 }
 
 export interface Show {
+  uuid?: string;
   display_date: string;
   source_count?: number;
   has_soundboard_source?: boolean;

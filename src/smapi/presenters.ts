@@ -4,6 +4,8 @@ import type { Artist, Show, Song, Source, Track, Venue, Year } from '../relisten
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const ALBUM_ART_CDN = IS_PRODUCTION ? 'https://relisten.net' : 'http://192.168.0.19:3000';
+// Only relisten-web serves the uuid art route, so it is used in every environment.
+const UUID_ALBUM_ART_HOST = 'https://relisten.net';
 
 const LATEST_TAPES = 'Latest Tapes';
 
@@ -13,10 +15,23 @@ export const artistWrapper = (name: string) => {
   return name;
 };
 
-export const albumArtURI = (slug: string, year: string, date: string, sourceId?: string | number) =>
+const legacyAlbumArtURI = (slug: string, year: string, date: string, sourceId?: string | number) =>
   `${ALBUM_ART_CDN}/album-art/${slug}/years/${year}/${date}${
     sourceId === undefined ? '' : `/${sourceId}`
   }/600.png`;
+
+// Album art is keyed by show uuid; fall back to the date-based route for the
+// rare show payload that comes back without one.
+export const albumArtURI = (
+  show: Show,
+  slug: string,
+  year: string,
+  date: string,
+  sourceId?: string | number
+) =>
+  show.uuid
+    ? `${UUID_ALBUM_ART_HOST}/album-art/${show.uuid}.png`
+    : legacyAlbumArtURI(slug, year, date, sourceId);
 
 const soundboardPrefix = (isSoundboard: boolean | undefined) => (isSoundboard ? '[SBD]' : '[AUD]');
 
@@ -129,7 +144,7 @@ export const showToItem = (slug: string, year: string, show: Show) => ({
     .join(' • '),
   canPlay: true,
   canEnumerate: true,
-  albumArtURI: albumArtURI(slug, year, show.display_date),
+  albumArtURI: albumArtURI(show, slug, year, show.display_date),
 });
 
 export const sourceToItem = ({
@@ -179,7 +194,7 @@ export const sourceToItem = ({
       .filter((x) => x)
       .join(' • '),
     canPlay: true,
-    albumArtURI: albumArtURI(slug, year, date, artSourceId),
+    albumArtURI: albumArtURI(show, slug, year, date, artSourceId),
   };
 };
 
@@ -221,7 +236,7 @@ export const trackToItem = ({
       duration: track.duration,
       artistId: formatId({ kind: 'artist', slug }),
       artist: artistName,
-      albumArtURI: albumArtURI(slug, year, date, sourceId),
+      albumArtURI: albumArtURI(show, slug, year, date, sourceId),
       trackNumber,
       album: [
         `${Number(month)}/${Number(day)}/${year.slice(2)}`,
