@@ -4,6 +4,8 @@ import type { Artist, Show, Song, Source, Track, Venue, Year } from '../relisten
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const ALBUM_ART_CDN = IS_PRODUCTION ? 'https://relisten.net' : 'http://192.168.0.19:3000';
+// Only relisten-web serves the uuid art route, so it is used in every environment.
+const UUID_ALBUM_ART_HOST = 'https://relisten.net';
 
 const LATEST_TAPES = 'Latest Tapes';
 
@@ -28,7 +30,7 @@ export const albumArtURI = (
   sourceId?: string | number
 ) =>
   show.uuid
-    ? `${ALBUM_ART_CDN}/album-art/${show.uuid}.png`
+    ? `${UUID_ALBUM_ART_HOST}/album-art/${show.uuid}.png`
     : legacyAlbumArtURI(slug, year, date, sourceId);
 
 const soundboardPrefix = (isSoundboard: boolean | undefined) => (isSoundboard ? '[SBD]' : '[AUD]');
