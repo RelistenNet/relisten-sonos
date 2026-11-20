@@ -30,19 +30,13 @@ export const findLegacyTrack = async ({
   return track ? { show, track } : undefined;
 };
 
-// Sonos streams straight from these hosts, so a few of them get pointed at our
-// own bare-metal audio proxy.
-export const streamUrlForTrack = (
+export const audioUrlForTrack = (
   track: Pick<Track, 'flac_url' | 'mp3_url'>,
-  format: string,
-  slug: string
-): string | undefined => {
-  // flac is the only alternate format a track ever carries; everything else
-  // (including plain mp3) falls back to the mp3 url.
-  let trackUrl = (format === 'flac' ? track.flac_url : track.mp3_url) || track.mp3_url;
+  format: string
+): string | undefined => (format === 'flac' && track.flac_url) || track.mp3_url || undefined;
 
-  if (!trackUrl) return undefined;
-
+// Sonos fetches the stream directly. Route these providers through our audio proxy.
+export const proxyStreamUrl = (trackUrl: string, slug: string): string => {
   if (/\/archive\.org/.test(trackUrl)) {
     trackUrl = trackUrl.replace('://archive.org/', '://audio-bare.relisten.net/archive.org/');
   }

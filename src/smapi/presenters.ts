@@ -325,14 +325,14 @@ export const trackMetadata = ({
   id,
   itemType: 'track',
   title: track.title,
-  genre: '',
   mimeType: trackMimeType(track, format),
+  // node-soap serializes in object order, so follow the WSDL's sequence.
   trackMetadata: {
-    ...(albumId === undefined ? {} : { albumId }),
-    duration: track.duration ?? undefined,
     artistId: formatId({ kind: 'artist', slug }),
     artist: artistName,
+    ...(albumId === undefined ? {} : { albumId }),
     album,
+    duration: track.duration ?? undefined,
     canPlay,
     canSkip: true,
     canAddToFavorites: false,

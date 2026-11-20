@@ -45,6 +45,9 @@ const validYear = (s: string) => SAFE_YEAR.test(s);
 const validId = (s: string) => SAFE_ID.test(s);
 const validUuid = (s: string) => SAFE_UUID.test(s);
 
+export const isUuidTrackRequest = (id: string | undefined): id is 'TrackU' | `TrackU:${string}` =>
+  id === 'TrackU' || id?.startsWith('TrackU:') === true;
+
 // Ids arrive straight off the SOAP wire, so they may well be missing entirely.
 export const parseId = (raw: string | undefined): SonosId | null => {
   if (!raw) return null;

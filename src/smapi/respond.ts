@@ -1,6 +1,16 @@
 import winston from '../logger.js';
 import type { SmapiArgs, SmapiCallback } from './types.js';
 
+export class SmapiFault extends Error {
+  constructor(
+    readonly faultcode: 'Client.ItemNotFound' | 'Server.ServiceUnavailable',
+    message: string,
+    options?: ErrorOptions
+  ) {
+    super(message, options);
+  }
+}
+
 type HandlerOptions = {
   // What to hand back when the handler throws. Every verb has its own shape.
   errorResult?: unknown;
@@ -26,6 +36,14 @@ export const smapiHandler =
     fn(args).then(
       (result) => callback?.(result),
       (err) => {
+        if (err instanceof SmapiFault) {
+          if (err.cause instanceof Error) winston.error(name, { error: err.cause.message });
+          // node-soap recognizes Fault even with its one-argument callback.
+          callback?.({
+            Fault: { faultcode: err.faultcode, faultstring: err.message, statusCode: 500 },
+          });
+          return;
+        }
         winston.error(name, { err });
         callback?.(errorResult);
       }

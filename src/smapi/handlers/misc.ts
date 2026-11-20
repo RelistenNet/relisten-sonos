@@ -1,11 +1,11 @@
-import { formatId, parseId } from '../../ids.js';
+import { formatId, isUuidTrackRequest, parseId } from '../../ids.js';
 import winston from '../../logger.js';
 import { getShow } from '../../relisten/api.js';
 import { getArtistName } from '../../relisten/artists.js';
 import { findSource } from '../../relisten/tracks.js';
 import { artistWrapper } from '../presenters.js';
 import { smapiHandler } from '../respond.js';
-import { loadUuidTrackMetadata } from './getMediaMetadata.js';
+import { uuidTrackMetadata } from '../uuidTrack.js';
 
 export const getLastUpdate = () => {
   winston.I.increment('sonos.wsdl.getLastUpdate');
@@ -29,16 +29,15 @@ export const getExtendedMetadata = (ctx: { format: string }) =>
   smapiHandler<{ id?: string }>(
     'getExtendedMetadata',
     async (args) => {
+      if (isUuidTrackRequest(args.id)) {
+        const mediaMetadata = await uuidTrackMetadata(args.id, ctx.format);
+        return { getExtendedMetadataResult: { mediaMetadata } };
+      }
+
       const parsed = parseId(args.id);
       if (!parsed) return containerResult(args.id);
 
       switch (parsed.kind) {
-        case 'uuidTrack': {
-          const mediaMetadata = await loadUuidTrackMetadata(parsed, ctx.format);
-          if (!mediaMetadata) return containerResult(args.id);
-          return { getExtendedMetadataResult: { mediaMetadata } };
-        }
-
         case 'artist': {
           return {
             getExtendedMetadataResult: {
