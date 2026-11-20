@@ -1,10 +1,18 @@
-import { parseId } from '../../ids.js';
+import { isUuidTrackRequest, parseId } from '../../ids.js';
 import winston from '../../logger.js';
-import { getShow } from '../../relisten/api.js';
-import { findSource, findTrack, streamUrlForTrack } from '../../relisten/tracks.js';
+import { audioUrlForTrack, findLegacyTrack, proxyStreamUrl } from '../../relisten/tracks.js';
 import { smapiHandler } from '../respond.js';
+import { uuidTrackStream } from '../uuidTrack.js';
 
 type MediaURIArgs = { id?: string };
+
+const legacyTrackStream = async (id: string | undefined, format: string) => {
+  const parsed = parseId(id);
+  if (parsed?.kind !== 'track') return undefined;
+  const found = await findLegacyTrack(parsed);
+  const url = found && audioUrlForTrack(found.track, format);
+  return url && encodeURI(proxyStreamUrl(url, parsed.slug));
+};
 
 export default (ctx: { format: string }) =>
   smapiHandler<MediaURIArgs>(
@@ -12,51 +20,20 @@ export default (ctx: { format: string }) =>
     async ({ id }) => {
       winston.info('getMediaURI', { type: ctx.format, id });
 
-      const parsed = parseId(id);
-
-      if (!parsed || parsed.kind !== 'track') {
-        winston.error('unparseable getMediaURI id', { id });
-        return { getMediaURIResult: '' };
-      }
-
-      const { slug, year, date, sourceId, trackId } = parsed;
-
-      const show = await getShow(slug, year, date);
-
-      if (!show || !show.sources) {
-        winston.error('no SONG json tracks found', {
-          slug,
-          year,
-          date,
-          sourceId,
-        });
-        return { getMediaURIResult: '' };
-      }
-
-      const source = findSource(show, sourceId);
-
-      if (!source || !source.sets) {
-        winston.error('no SONG source found', { slug, year, date, sourceId });
-        return { getMediaURIResult: '' };
-      }
-
-      const track = findTrack(source, trackId);
-
-      if (!track) return { getMediaURIResult: '' };
-
-      const trackUrl = streamUrlForTrack(track, ctx.format, slug);
-
-      if (trackUrl === undefined) {
-        winston.error('no stream url on track', { slug, year, date, sourceId, trackId });
+      const trackUrl = isUuidTrackRequest(id)
+        ? await uuidTrackStream(id, ctx.format)
+        : await legacyTrackStream(id, ctx.format);
+      if (!trackUrl) {
+        winston.info('no stream url for getMediaURI', { id });
         return { getMediaURIResult: '' };
       }
 
       const result = {
-        getMediaURIResult: encodeURI(trackUrl), // 'http://192.168.0.101:3001/foo.mp3', //trackUrl,
+        getMediaURIResult: trackUrl,
         httpHeaders: [],
       };
 
-      winston.info('MP3 prepped', result);
+      winston.info('stream URI resolved', { id, format: ctx.format });
 
       return result;
     },

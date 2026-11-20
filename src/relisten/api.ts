@@ -4,6 +4,8 @@ import type {
   Show,
   Song,
   SongWithShows,
+  V4Source,
+  V4Track,
   Venue,
   VenueWithShows,
   Year,
@@ -17,16 +19,30 @@ const apiBaseUrl = (
 
 const API_V2_ROOT = `${apiBaseUrl}/api/v2`;
 const API_V3_ROOT = `${apiBaseUrl}/api/v3`;
+const API_V4_ROOT = `${apiBaseUrl}/api/v4`;
 
-const getJson = async <T>(url: string): Promise<T> => {
-  const res = await fetch(url);
-
+const readJson = <T>(res: Response, url: string): Promise<T> => {
   if (!res.ok) {
     throw new Error(`relisten api request failed with status ${res.status}: ${url}`);
   }
 
   return res.json() as Promise<T>;
 };
+
+const getJson = async <T>(url: string): Promise<T> => readJson<T>(await fetch(url), url);
+
+export const getV4Track = async (trackId: string): Promise<V4Track | undefined> => {
+  const url = `${API_V4_ROOT}/source-tracks/${trackId}`;
+  const res = await fetch(url);
+  if (res.status === 404) return undefined;
+  return readJson<V4Track>(res, url);
+};
+
+export const getV4Artist = (artistId: string) =>
+  getJson<Artist>(`${API_V4_ROOT}/artists/${artistId}`);
+
+export const getV4Source = (sourceId: string) =>
+  getJson<V4Source>(`${API_V4_ROOT}/sources/${sourceId}`);
 
 export const getArtists = () => getJson<Artist[]>(`${API_V2_ROOT}/artists`);
 

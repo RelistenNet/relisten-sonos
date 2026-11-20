@@ -1,11 +1,11 @@
-import { parseId } from '../../ids.js';
+import { formatId, isUuidTrackRequest, parseId } from '../../ids.js';
 import winston from '../../logger.js';
-import { getShow } from '../../relisten/api.js';
 import { getArtistName } from '../../relisten/artists.js';
-import { findSource, findTrack } from '../../relisten/tracks.js';
+import { findLegacyTrack } from '../../relisten/tracks.js';
 import { trackMetadata } from '../presenters.js';
 import { smapiHandler } from '../respond.js';
 import type { SmapiCallback } from '../types.js';
+import { uuidTrackMetadata } from '../uuidTrack.js';
 
 type MediaMetadataArgs = { id?: string };
 
@@ -15,43 +15,29 @@ const handle = (ctx: { format: string }) =>
   smapiHandler<MediaMetadataArgs & { id: string }>(
     'getMediaMetadata',
     async ({ id }) => {
-      const parsed = parseId(id);
+      if (isUuidTrackRequest(id)) {
+        return { getMediaMetadataResult: await uuidTrackMetadata(id, ctx.format) };
+      }
 
-      if (!parsed || parsed.kind !== 'track') {
+      const parsed = parseId(id);
+      if (parsed?.kind !== 'track') {
         winston.error('unparseable getMediaMetadata id', { id });
         return { getMediaMetadataResult: {} };
       }
 
-      const { slug, year, date, sourceId, trackId } = parsed;
-
+      const { slug, year, date, sourceId } = parsed;
       const artistName = await getArtistName(slug);
-      const show = await getShow(slug, year, date);
-
-      if (!show || !show.sources) {
-        winston.error('no SONG json tracks found', { slug, year, date, sourceId });
-        return { getMediaMetadataResult: {} };
-      }
-
-      const source = findSource(show, sourceId);
-
-      if (!source || !source.sets) {
-        winston.error('no SONG source found', { slug, year, date, sourceId });
-        return { getMediaMetadataResult: {} };
-      }
-
-      const track = findTrack(source, trackId);
-
-      if (!track) return { getMediaMetadataResult: {} };
+      const found = await findLegacyTrack(parsed);
+      if (!found) return { getMediaMetadataResult: {} };
+      const { show, track } = found;
 
       return {
         getMediaMetadataResult: trackMetadata({
           id,
           slug,
-          year,
-          date,
-          sourceId,
+          albumId: formatId({ kind: 'source', slug, year, date, sourceId }),
+          album: [show.display_date, show.venue?.name].filter(Boolean).join(' '),
           artistName,
-          show,
           track,
           format: ctx.format,
         }),
