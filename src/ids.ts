@@ -21,6 +21,7 @@ export type SonosId =
       sourceId: string;
       trackId: string;
     }
+  | { kind: 'uuidTrack'; trackId: string }
   | { kind: 'venues'; slug: string }
   | { kind: 'venue'; slug: string; venueUuid: string }
   | { kind: 'songs'; slug: string }
@@ -35,6 +36,8 @@ const SAFE_DATE = /^\d{4}-[\dX]{2}-[\dX]{2}$/;
 const SAFE_YEAR = /^(\d{4}|latest)$/;
 const SAFE_ID = /^\d+$/;
 const SAFE_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+// A UUID TypeID has 26 lowercase base32 digits and at most 128 bits.
+const TRACK_TYPE_ID = /^track_[0-7][0-9a-hjkmnp-tv-z]{25}$/;
 
 const validSlug = (s: string) => SAFE_SLUG.test(s);
 const validDate = (s: string) => SAFE_DATE.test(s);
@@ -93,6 +96,11 @@ export const parseId = (raw: string | undefined): SonosId | null => {
         return null;
       return { kind: 'track', slug, year, date, sourceId, trackId };
     }
+    case 'TrackU': {
+      const [trackId] = rest;
+      if (rest.length !== 1 || !TRACK_TYPE_ID.test(trackId)) return null;
+      return { kind: 'uuidTrack', trackId };
+    }
     case 'Venues': {
       const [slug] = rest;
       if (rest.length !== 1 || !validSlug(slug)) return null;
@@ -140,6 +148,8 @@ export const formatId = (id: SonosId): string => {
       return `Show:${id.slug}:${id.year}:${id.date}:${id.sourceId}`;
     case 'track':
       return `Track:${id.slug}:${id.year}:${id.date}:${id.sourceId}:${id.trackId}`;
+    case 'uuidTrack':
+      return `TrackU:${id.trackId}`;
     case 'venues':
       return `Venues:${id.slug}`;
     case 'venue':

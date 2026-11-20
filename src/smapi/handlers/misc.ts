@@ -5,6 +5,7 @@ import { getArtistName } from '../../relisten/artists.js';
 import { findSource } from '../../relisten/tracks.js';
 import { artistWrapper } from '../presenters.js';
 import { smapiHandler } from '../respond.js';
+import { loadUuidTrackMetadata } from './getMediaMetadata.js';
 
 export const getLastUpdate = () => {
   winston.I.increment('sonos.wsdl.getLastUpdate');
@@ -24,57 +25,64 @@ const containerResult = (id: string | undefined) => ({
   },
 });
 
-export const getExtendedMetadata = smapiHandler<{ id?: string }>(
-  'getExtendedMetadata',
-  async (args) => {
-    const parsed = parseId(args.id);
-    if (!parsed) return containerResult(args.id);
+export const getExtendedMetadata = (ctx: { format: string }) =>
+  smapiHandler<{ id?: string }>(
+    'getExtendedMetadata',
+    async (args) => {
+      const parsed = parseId(args.id);
+      if (!parsed) return containerResult(args.id);
 
-    switch (parsed.kind) {
-      case 'artist': {
-        return {
-          getExtendedMetadataResult: {
-            mediaCollection: {
-              id: args.id,
-              itemType: 'artist',
-              title: artistWrapper(await getArtistName(parsed.slug)),
-              canEnumerate: true,
+      switch (parsed.kind) {
+        case 'uuidTrack': {
+          const mediaMetadata = await loadUuidTrackMetadata(parsed, ctx.format);
+          if (!mediaMetadata) return containerResult(args.id);
+          return { getExtendedMetadataResult: { mediaMetadata } };
+        }
+
+        case 'artist': {
+          return {
+            getExtendedMetadataResult: {
+              mediaCollection: {
+                id: args.id,
+                itemType: 'artist',
+                title: artistWrapper(await getArtistName(parsed.slug)),
+                canEnumerate: true,
+              },
+              relatedBrowse: [
+                { id: formatId({ kind: 'topShows', slug: parsed.slug }), type: 'TOP_SHOWS' },
+                { id: formatId({ kind: 'venues', slug: parsed.slug }), type: 'VENUES' },
+                { id: formatId({ kind: 'songs', slug: parsed.slug }), type: 'SONGS' },
+              ],
             },
-            relatedBrowse: [
-              { id: formatId({ kind: 'topShows', slug: parsed.slug }), type: 'TOP_SHOWS' },
-              { id: formatId({ kind: 'venues', slug: parsed.slug }), type: 'VENUES' },
-              { id: formatId({ kind: 'songs', slug: parsed.slug }), type: 'SONGS' },
-            ],
-          },
-        };
-      }
+          };
+        }
 
-      case 'source': {
-        const { slug, year, date } = parsed;
-        const artistName = await getArtistName(slug);
-        return {
-          getExtendedMetadataResult: {
-            mediaCollection: {
-              id: args.id,
-              itemType: 'album',
-              title: [artistWrapper(artistName), date].filter((x) => x).join(' - '),
-              canEnumerate: true,
-              canPlay: true,
+        case 'source': {
+          const { slug, year, date } = parsed;
+          const artistName = await getArtistName(slug);
+          return {
+            getExtendedMetadataResult: {
+              mediaCollection: {
+                id: args.id,
+                itemType: 'album',
+                title: [artistWrapper(artistName), date].filter((x) => x).join(' - '),
+                canEnumerate: true,
+                canPlay: true,
+              },
+              relatedBrowse: [
+                { id: formatId({ kind: 'show', slug, year, date }), type: 'ALL_SOURCES' },
+              ],
+              relatedText: [{ id: args.id, type: 'ALBUM_NOTES' }],
             },
-            relatedBrowse: [
-              { id: formatId({ kind: 'show', slug, year, date }), type: 'ALL_SOURCES' },
-            ],
-            relatedText: [{ id: args.id, type: 'ALBUM_NOTES' }],
-          },
-        };
-      }
+          };
+        }
 
-      default:
-        return containerResult(args.id);
-    }
-  },
-  { errorResult: containerResult(undefined) }
-);
+        default:
+          return containerResult(args.id);
+      }
+    },
+    { errorResult: containerResult(undefined) }
+  );
 
 type ExtendedTextArgs = { id?: string; type?: string };
 

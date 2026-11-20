@@ -1,13 +1,37 @@
-import { parseId } from '../../ids.js';
+import { formatId, parseId } from '../../ids.js';
+import type { SonosId } from '../../ids.js';
 import winston from '../../logger.js';
-import { getShow } from '../../relisten/api.js';
+import { getV4Artist, getV4Source, getV4Track } from '../../relisten/api.js';
 import { getArtistName } from '../../relisten/artists.js';
-import { findSource, findTrack } from '../../relisten/tracks.js';
+import { findLegacyTrack, streamUrlForTrack } from '../../relisten/tracks.js';
 import { trackMetadata } from '../presenters.js';
 import { smapiHandler } from '../respond.js';
 import type { SmapiCallback } from '../types.js';
 
 type MediaMetadataArgs = { id?: string };
+
+export const loadUuidTrackMetadata = async (
+  parsed: Extract<SonosId, { kind: 'uuidTrack' }>,
+  format: string
+) => {
+  const track = await getV4Track(parsed.trackId);
+  if (!track) return undefined;
+
+  const [artist, source] = await Promise.all([
+    getV4Artist(track.artist_id),
+    getV4Source(track.source_id),
+  ]);
+
+  return trackMetadata({
+    id: formatId(parsed),
+    slug: artist.slug,
+    artistName: artist.name,
+    album: [source.display_date, source.imported_venue?.name].filter(Boolean).join(' '),
+    track,
+    format,
+    canPlay: streamUrlForTrack(track, format, artist.slug) !== undefined,
+  });
+};
 
 // The exported wrapper below refuses to answer without an id, so the handler
 // itself always sees one.
@@ -17,41 +41,28 @@ const handle = (ctx: { format: string }) =>
     async ({ id }) => {
       const parsed = parseId(id);
 
-      if (!parsed || parsed.kind !== 'track') {
+      if (parsed?.kind === 'uuidTrack') {
+        return { getMediaMetadataResult: (await loadUuidTrackMetadata(parsed, ctx.format)) ?? {} };
+      }
+
+      if (parsed?.kind !== 'track') {
         winston.error('unparseable getMediaMetadata id', { id });
         return { getMediaMetadataResult: {} };
       }
 
-      const { slug, year, date, sourceId, trackId } = parsed;
-
+      const { slug, year, date, sourceId } = parsed;
       const artistName = await getArtistName(slug);
-      const show = await getShow(slug, year, date);
-
-      if (!show || !show.sources) {
-        winston.error('no SONG json tracks found', { slug, year, date, sourceId });
-        return { getMediaMetadataResult: {} };
-      }
-
-      const source = findSource(show, sourceId);
-
-      if (!source || !source.sets) {
-        winston.error('no SONG source found', { slug, year, date, sourceId });
-        return { getMediaMetadataResult: {} };
-      }
-
-      const track = findTrack(source, trackId);
-
-      if (!track) return { getMediaMetadataResult: {} };
+      const found = await findLegacyTrack(parsed);
+      if (!found) return { getMediaMetadataResult: {} };
+      const { show, track } = found;
 
       return {
         getMediaMetadataResult: trackMetadata({
           id,
           slug,
-          year,
-          date,
-          sourceId,
+          albumId: formatId({ kind: 'source', slug, year, date, sourceId }),
+          album: [show.display_date, show.venue?.name].filter(Boolean).join(' '),
           artistName,
-          show,
           track,
           format: ctx.format,
         }),

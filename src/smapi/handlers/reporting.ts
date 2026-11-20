@@ -31,6 +31,9 @@ export const reportPlaySeconds = smapiHandler<ReportArgs>(
 
     const parsed = parseId(id);
 
+    // The V2 play counter accepts numeric IDs only.
+    if (parsed?.kind === 'uuidTrack') return { reportPlaySecondsResult: '' };
+
     if (!parsed || parsed.kind !== 'track') {
       winston.error('unparseable reportPlaySeconds id', { id });
       return { reportPlaySecondsResult: '' };

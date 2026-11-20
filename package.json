@@ -11,7 +11,7 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "test": "",
+    "test": "tsx --test test/*.test.ts",
     "start": "node build/server.js",
     "dev": "tsx watch src/server.ts",
     "build": "tsc",

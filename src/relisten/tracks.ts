@@ -1,3 +1,5 @@
+import type { SonosId } from '../ids.js';
+import { getShow } from './api.js';
 import type { Show, Source, Track } from './types.js';
 
 export const findSource = (show: Show, sourceId: string): Source | undefined =>
@@ -15,10 +17,23 @@ export const findTrack = (source: Source, trackId: string): Track | undefined =>
   return track;
 };
 
+export const findLegacyTrack = async ({
+  slug,
+  year,
+  date,
+  sourceId,
+  trackId,
+}: Extract<SonosId, { kind: 'track' }>) => {
+  const show = await getShow(slug, year, date);
+  const source = show && findSource(show, sourceId);
+  const track = source && findTrack(source, trackId);
+  return track ? { show, track } : undefined;
+};
+
 // Sonos streams straight from these hosts, so a few of them get pointed at our
 // own bare-metal audio proxy.
 export const streamUrlForTrack = (
-  track: Track,
+  track: Pick<Track, 'flac_url' | 'mp3_url'>,
   format: string,
   slug: string
 ): string | undefined => {
@@ -26,7 +41,7 @@ export const streamUrlForTrack = (
   // (including plain mp3) falls back to the mp3 url.
   let trackUrl = (format === 'flac' ? track.flac_url : track.mp3_url) || track.mp3_url;
 
-  if (trackUrl === undefined) return undefined;
+  if (!trackUrl) return undefined;
 
   if (/\/archive\.org/.test(trackUrl)) {
     trackUrl = trackUrl.replace('://archive.org/', '://audio-bare.relisten.net/archive.org/');

@@ -19,8 +19,19 @@ export interface Track {
   id: number | string;
   title: string;
   duration: number;
-  mp3_url?: string;
-  flac_url?: string;
+  mp3_url?: string | null;
+  flac_url?: string | null;
+}
+
+export interface V4Track extends Pick<Track, 'title' | 'mp3_url' | 'flac_url'> {
+  source_id: string;
+  artist_id: string;
+  duration: number | null;
+}
+
+export interface V4Source {
+  display_date: string;
+  imported_venue: { name: string | null } | null;
 }
 
 export interface SetList {

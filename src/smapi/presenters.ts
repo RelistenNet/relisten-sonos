@@ -1,6 +1,6 @@
 import { formatId } from '../ids.js';
 import { durationToHHMMSS } from '../lib/utils.js';
-import type { Artist, Show, Song, Source, Track, Venue, Year } from '../relisten/types.js';
+import type { Artist, Show, Song, Source, Track, V4Track, Venue, Year } from '../relisten/types.js';
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const ALBUM_ART_CDN = IS_PRODUCTION ? 'https://relisten.net' : 'http://192.168.0.19:3000';
@@ -300,29 +300,27 @@ export const songToItem = (slug: string, song: Song) => ({
   canEnumerate: true,
 });
 
-export const trackMimeType = (track: Track, format: string) =>
+export const trackMimeType = (track: Pick<Track, 'flac_url'>, format: string) =>
   format === 'flac' && track.flac_url ? 'audio/flac' : 'audio/mp3';
 
 export const trackMetadata = ({
   id,
   slug,
-  year,
-  date,
-  sourceId,
+  albumId,
+  album,
   artistName,
-  show,
   track,
   format,
+  canPlay = true,
 }: {
   id: string;
   slug: string;
-  year: string;
-  date: string;
-  sourceId: string;
+  albumId?: string;
+  album: string;
   artistName: string;
-  show: Show;
-  track: Track;
+  track: Track | V4Track;
   format: string;
+  canPlay?: boolean;
 }) => ({
   id,
   itemType: 'track',
@@ -330,13 +328,12 @@ export const trackMetadata = ({
   genre: '',
   mimeType: trackMimeType(track, format),
   trackMetadata: {
-    albumId: formatId({ kind: 'source', slug, year, date, sourceId }),
-    duration: track.duration,
+    ...(albumId === undefined ? {} : { albumId }),
+    duration: track.duration ?? undefined,
     artistId: formatId({ kind: 'artist', slug }),
     artist: artistName,
-    album: [`${show.display_date}`, show.venue ? show.venue.name : ''].filter((x) => x).join(' '),
-    // albumArtURI: '',
-    canPlay: true,
+    album,
+    canPlay,
     canSkip: true,
     canAddToFavorites: false,
   },
